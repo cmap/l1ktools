@@ -9,6 +9,7 @@ from __future__ import print_function
 import csv
 import os
 import sqlite3
+import sys
 import warnings
 
 import re
@@ -17,6 +18,15 @@ import pandas as pd
 import tables
 
 from . import plategrp as grp
+
+if sys.version_info[0] < 3:
+    def unicode2str(s):
+        if isinstance(s, unicode):
+            return s.encode('utf-8')
+        return s
+else:
+    def unicode2str(s):
+        return s
 
 class GCT(object):
     '''
@@ -576,7 +586,6 @@ class GCT(object):
         # assign the matrix
         self.matrix = matrix
         # assign the annotations; convert to unicode from string if required
-        unicode2str = lambda x: str(x) if type(x) is unicode else x
         rdesc['id'] = list(map(unicode2str, rid))
         rdesc['ind'] = list(range(nrows))
         cdesc['id'] = list(map(unicode2str, cid))
