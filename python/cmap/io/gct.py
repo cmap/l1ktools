@@ -137,7 +137,7 @@ class GCT(object):
 
         #read the gct file header information and build the empty self.matrix
         #array for later use
-        self.version = reader.next()[0]
+        self.version = next(reader)[0]
         dims = next(reader)
         self.matrix = numpy.ndarray([int(dims[0]), int(dims[1])])
 
@@ -925,7 +925,7 @@ def parse_gct_dict(file_path):
     f = open(file_path,'rb')
     reader = csv.reader(f, delimiter='\t')
     #read the gct file header information
-    version = reader.next()[0]
+    version = next(reader)[0]
     dims = next(reader)
 
     #set up the column names
