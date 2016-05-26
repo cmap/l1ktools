@@ -131,7 +131,7 @@ class GCT(object):
         #     progress_bar = update.DeterminateProgressBar('GCT_READER')
 
         #open the file
-        f = open(src,'rb')
+        f = open(src, 'r')
         reader = csv.reader(f, delimiter='\t')
         self.src = src
 
