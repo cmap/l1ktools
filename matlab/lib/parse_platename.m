@@ -51,8 +51,7 @@ end
 nplate = length(p);
 
 res(1:nplate, 1) = struct('plate', p,...
-    'raw_path', '',...    
-    'csv_path', '',...
+    'raw_path', '',... %'csv_path', '',...
     'sample_map', '',...
     'local_map', '',...
     'invset', '',...
@@ -75,8 +74,7 @@ end
 function res = parse_one_plate(p, args)
 
 res = struct('plate', p,...
-    'raw_path', '',...    
-    'csv_path', '',...
+    'raw_path', '',... %'csv_path', '',...
     'sample_map', '',...
     'local_map', '',...
     'invset', '',...
@@ -112,25 +110,25 @@ if args.verify && ~isfileexist(res.raw_path, 'dir')
 end
 
 %csv path
-if args.verify
-    if args.use_jcsv
-        d = dir(fullfile(res.raw_path,'*.jcsv'));
-    else
-        d = dir(fullfile(res.raw_path,'*.csv'));
-    end
-    if isempty(d)
-        error('No CSV file found at: %s', res.raw_path);
-    else
-        if length(d)>1
-            disp({d.name}')
-            error('Multiple CSV files found at: %s', res.raw_path);
-        else
-            res.csv_path = fullfile(res.raw_path, d(1).name);
-        end
-    end
-else
-    res.csv_path = fullfile(res.raw_path, sprintf('%s.csv', p));
-end
+% if args.verify
+%     if args.use_jcsv
+%         d = dir(fullfile(res.raw_path,'*.jcsv'));
+%     else
+%         d = dir(fullfile(res.raw_path,'*.csv'));
+%     end
+%     if isempty(d)
+%         error('No CSV file found at: %s', res.raw_path);
+%     else
+%         if length(d)>1
+%             disp({d.name}')
+%             error('Multiple CSV files found at: %s', res.raw_path);
+%         else
+%             res.csv_path = fullfile(res.raw_path, d(1).name);
+%         end
+%     end
+% else
+%     res.csv_path = fullfile(res.raw_path, sprintf('%s.csv', p));
+% end
 
 % plate path
 % res.plate_path = fullfile(arg.plate_path, p);

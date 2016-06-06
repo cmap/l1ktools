@@ -1,10 +1,11 @@
-# L1000 Analysis Tools v1.0
+# L1000 Analysis Tools v1.1
 
 
 Copyright 2011-2015 Broad Institute of MIT and Harvard.
 
 A collection of software tools to read and analyze data produced from
-the L1000 project ([lincscloud.org](http://www.lincscloud.org)).
+the LINCS project. For more information on the project,
+including licensing, please visit ([lincsproject.org](http://lincsproject.org)).
 
 ## Analysis Tools
 
@@ -22,7 +23,7 @@ for changes.
 2. Statistics Toolbox
 3. Parallel Processing Toolbox [Optional]
 
-#### Setting the MATLAB path:
+#### Setting the MATLAB path
 Run `cd l1ktools/matlab; l1kt_setup` or enter the `pathtool` command, click "Add with Subfolders...", and select the directory `l1ktools/matlab`.
 
 ### Running the standard CMap data processing pipeline
@@ -60,7 +61,7 @@ gex_ds = level1_to_level2('plate', plate_name, 'raw_path', raw_path, 'map_path',
 zs_ds = level3_to_level4(qnorm_ds, 'plate', plate_name, 'plate_path', plate_path)
 
 ```
-**Note:** Because the peak detection algorithm is non-deterministic, it's possible that data in levels 2 through 4 could differ slightly for two instances of processing the same plate. The code allows reproducing a previous run by passing a random seed file to the `process_plate` script. We provide such a file at `resources/rndseed.mat`. Reproducing the results provided in matlab/data_pipeline/results can be done as follows:
+**Note:** Because the peak detection algorithm is non-deterministic, it's possible that data in levels 2 through 4 could differ slightly for two instances of processing the same plate. The code allows reproducing a previous run by passing a random seed file to the `process_plate` script. We provide such a file at `resources/rndseed.mat`. Reproducing the results provided in `matlab/data_pipeline/results can` be done as follows:
 
 ```matlab
 % reproduce provided results
@@ -135,8 +136,7 @@ R tools are found under R/cmap
 * **LXBUtil.java**: Class to read and store .lxb files.
 
 #### Demo
-* **ReadGctxExample.java**: To run the demo, change to the java/examples folder, then compile by running sh compileExamples.sh, then run by running the runExample*.sh file that alligns with your OS. 
-* 
+* **ReadGctxExample.java**: To run the demo, change to the java/examples folder, then compile by running `sh compileExamples.sh`, then run by running the `runExample*.sh` file that alligns with your OS. 
 
 ---
 ### Python Tools: python/
@@ -155,10 +155,9 @@ To run, append l1ktools/python to the `PYTHONPATH` environment variable.
 
 #### Tools
 * **cmap/io/gct.py**: Classes to interact with .gct and .gctx files.
-* **cmap/util/api_utils.py**: Classes to make calls to the LINCS annotation API and return results as Python data structures.
 
 #### Demo
-* **example_methods.py**: To run the demo, change to the folder containing example_methods.py and run the script. It will read in a .gctx file, display its contents, and write to disc.
+* **example_methods.py**: To run the demo, change to the folder containing `example_methods.py` and run the script. It will read in a .gctx file, display its contents, and write to disc.
 
 ---
 ## Common data analysis tasks
@@ -182,26 +181,3 @@ To run, append l1ktools/python to the `PYTHONPATH` environment variable.
 * **MATLAB**: To read an .lxb into the MATLAB workspace, use the `l1kt_parse_lxb` function.
 * **R**: To convert an .lxb file to text, use the `R/cmap/lxb2txt.sh` script.
 
----
-
-## The LINCS API
-
-The CMAP Cloud API offers programmatic access to annotations and perturbational signatures in [the LINCS L1000 dataset](http://lincscloud.org/) via a collection of HTTP-based RESTful web services. These services support complex queries via simple HTTP GET requests that can be executed in a web browser or any programming language. The results are returned as standard JSON objects. Click on the links on the left for usage instructions and examples.
-
-### Interacting with the API
-
-In order to make the API call, an API key must be provided. If you do not have a key, contact [lincs@broadinstitute.org](mailto:lincscloud@broadinstitute.org).
-
-* **Lincscloud website**: To view the available services and live examples, visit [api.lincscloud.org/](http://api.lincscloud.org/).
-* **Programmatic access via Python**: Import the module `cmap.util.api_utils`. The classes `CMapAPI` and `APIContainer` handle calls to the API; see their documentation for more details. See `example_methods.py` for an example API call.
-
-#### Python demo:
-* **api_examples.py**: To run the demo, change to the folder containing `api_examples.py` and run the script. It will make calls to the API and store their results as Python data structures.
-
----
-
-## Software License
-
-This software is restricted to research use only within academic, not-for-profit institutions.
-
-For licensing information see [lincscloud.org/license/](http://lincscloud.org/license/).

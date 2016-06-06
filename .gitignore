@@ -1,3 +1,7 @@
 java/*.class
 java/**/*.class
 java/out/**
+python/*.pyc
+python/**/*.pyc
+
+data/python_example.gctx

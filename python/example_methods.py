@@ -6,7 +6,7 @@ import cmap.io.gct as gct
 import cmap.io.plategrp as grp
 
 # give input file
-path_to_gctx_file = '/cmap/tools/l1ktools/data/modzs_n272x978.gctx'
+path_to_gctx_file = '../data/modzs_n272x978.gctx'
 
 # read the full data file
 GCTObject = gct.GCT(path_to_gctx_file)
@@ -20,7 +20,7 @@ print(GCTObject.matrix)
 
 # read the first 10 columns of the data, identified by their
 # column ids, stored in a grp file given below
-path_to_column_ids = '/cmap/tools/l1ktools/data/cids_n10.grp'
+path_to_column_ids = '../data/cids_n10.grp'
 # read the column ids as a list
 column_ids = grp.read_grp(path_to_column_ids)
 GCTObject = gct.GCT(path_to_gctx_file)
@@ -38,4 +38,4 @@ inames = GCTObject.get_column_meta('pert_iname')
 # get the gene symbol meta data field from the row data
 symbols = GCTObject.get_row_meta('pr_gene_symbol')
 
-GCTObject.write('/cmap/tools/l1ktools/data/python_example.gctx')
+GCTObject.write('../data/python_example.gctx')
