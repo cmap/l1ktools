@@ -406,12 +406,15 @@ class GCT(object):
                 num_rows = len(row_inds)
                 p_mod = numpy.round(p_max/50.0)
                 for i,row in enumerate(self.matrix_node.iterrows(start=col_ind_min,stop=col_ind_max+1)):
-                    if i in col_ind_set:
+                    if i+col_ind_min in col_ind_set:
                         self.matrix[p_iter,:] = numpy.take(row,row_inds)
                         p_iter += 1
                         # if p_iter%p_mod == 0:
                             # if verbose:
                             #     progress_bar.update("reading matrix data ({0},{1})".format(num_rows,p_max),p_iter,p_max)
+
+                # make sure the data is in the right order since columns were sorted
+                self.matrix = self.matrix[numpy.argsort(numpy.argsort(col_inds)),:]
 
             else:
                 if n_bycol <= n_byrow:
@@ -420,9 +423,7 @@ class GCT(object):
                 else:
                     self.matrix = self.matrix_node[:,row_inds]
                     self.matrix = self.matrix[col_inds,:]
-        # make sure the data is in the right order given the col_inds and row_inds
-        self.matrix = self.matrix[[i[0] for i in sorted(enumerate(col_inds), key=lambda x:x[1])],:]
-        self.matrix = self.matrix[:,[i[0] for i in sorted(enumerate(row_inds), key=lambda x:x[1])]]
+
         self.matrix =  numpy.reshape(self.matrix,(len(col_inds),len(row_inds)))
         self.matrix = self.matrix.transpose()
         # convert data to double precision of called for
