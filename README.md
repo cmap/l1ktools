@@ -173,6 +173,12 @@ To run, append l1ktools/python to the `PYTHONPATH` environment variable.
 * **MATLAB**: Use the `mkgct` and `mkgctx` functions.
 * **R** Source the script `l1ktools/R/cmap/io.R`. Then use the `write.gctx` or `write.gct` functions.
 * **Python**: Import `cmap.io.gct` and instantiate a GCT object. Then call the `build` method or `build_from_DataFrame` method to assmble a GCT object from a data matrix and optionally row and column annotations. Finally, call the `write` method to write to file as a .gctx.
+  * Please note that a major update for gct/x related parsing and writing is planned for the near future. Key changes include:
+
+    * Underlying data stored in pandas dataframe objects instead of SQLite. This will also enable users to take advantage of pandas’ pre-existing tools for data analysis, including slicing, multi-indexing, plotting, and more.
+    * Object oriented class representation of parsed gct/x data, containing data and metadata fields (both separately and as a multi-indexed pandas data frame)
+    * Easy to use methods for parsing, writing, and merging both gct and gctx files 
+    * Extensive testing (meant to also be contributed to) for more robust documentation of and fixes to edge cases as we/users encounter them
 
 ### Z-Scoring a data set
 * **MATLAB**: Use the `robust_zscore` function. Also see the `example_methods.m` script.
