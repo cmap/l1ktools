@@ -295,7 +295,7 @@ append.dim <- function(ofile, mat, extension="gct") {
   nr <- nrow(mat)
   outFile <- basename(ofile)
   filename <- strsplit(outFile,'.',fixed=T)[[1]][1]
-  ofile <- path.join(dirname(ofile),
+  ofile <- file.path(dirname(ofile),
                     sprintf('%s_n%dx%d.%s',filename,
                             nc, nr, extension))
   return(ofile)

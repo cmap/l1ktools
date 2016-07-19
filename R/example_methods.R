@@ -6,5 +6,26 @@
 source("cmap/io.R")
 
 
-# initialize a GCT object with a single signature
-ds <- parse.gctx("/cmap/data/build/a2y13q1/modzs.gctx", cid="CPC005_A375_6H:BRD-A85280935-003-01-7:10")
+# read the gctx file
+ds <- parse.gctx("../data/modzs_n272x978.gctx")
+
+# inspect the matrix
+print(ds@mat[1:10,1:10])
+
+# inspect the row annotations
+print(ds@rdesc[1:10,])
+
+# inspect the column annotations
+print(ds@cdesc[1:10,])
+
+
+# example of slicing a file
+# read the same gct file but just a single column (the first)
+ds_sliced <- parse.gctx("../data/modzs_n272x978.gctx", cid=1)
+
+# example of slicing a file
+# similar example, but using the column ID instead of index
+ds_sliced <- parse.gctx("../data/modzs_n272x978.gctx", cid="CPC006_A549_6H:BRD-U88459701-000-01-8:10")
+
+# write this file
+write.gctx(ds_sliced, "my_slice")
