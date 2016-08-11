@@ -1,0 +1,1001 @@
+idt_id	idt_name	pr_type	pr_analyte_id	pr_analyte_num	pr_bset_id	pr_lua_id	pr_id	pr_pool_id	pr_gene_symbol	pr_gene_id	pr_gene_title
+-666	-666	INV	Analyte 1	1	dp44	-666	CAL01	deltap	-666	-666	-666
+-666	-666	INV	Analyte 2	2	dp44	-666	CAL02	deltap	-666	-666	-666
+-666	-666	INV	Analyte 3	3	dp44	-666	CAL03	deltap	-666	-666	-666
+-666	-666	INV	Analyte 4	4	dp44	-666	CAL04	deltap	-666	-666	-666
+-666	-666	INV	Analyte 5	5	dp44	-666	CAL05	deltap	-666	-666	-666
+-666	-666	INV	Analyte 6	6	dp44	-666	CAL06	deltap	-666	-666	-666
+-666	-666	INV	Analyte 7	7	dp44	-666	CAL07	deltap	-666	-666	-666
+-666	-666	INV	Analyte 8	8	dp44	-666	CAL08	deltap	-666	-666	-666
+-666	-666	INV	Analyte 9	9	dp44	-666	CAL09	deltap	-666	-666	-666
+-666	-666	INV	Analyte 10	10	dp44	-666	CAL10	deltap	-666	-666	-666
+AAAA6B6	COQ3(LUA-3436)	LM	Analyte 11	11	dp44	LUA-3436	221227_x_at	deltap	COQ3	51805	coenzyme Q3 homolog, methyltransferase (S. cerevisiae)
+AAAE5F5	CISD1(LUA-3431)	LM	Analyte 12	12	dp44	LUA-3431	218597_s_at	deltap	CISD1	55847	CDGSH iron sulfur domain 1
+AAC2D2	SPDEF(LUA-1326)	LM	Analyte 13	13	dp44	LUA-1326	214404_x_at	deltap	SPDEF	25803	SAM pointed domain containing ets transcription factor
+AAE5F5	SRRM1(LUA-1339)	LM	Analyte 14	14	dp44	LUA-1339	201225_s_at	deltap	SRRM1	10250	serine/arginine repetitive matrix 1
+AC11D11	FADD(LUA-232)	LM	Analyte 15	15	dp44	cLUA-232	202535_at	deltap	FADD	8772	Fas (TNFRSF6)-associated via death domain
+BBBC12D12	IGF1R(LUA-3564)	LM	Analyte 16	16	dp44	LUA-3564	203627_at	deltap	IGF1R	3480	insulin-like growth factor 1 receptor
+BBBE12F12	IL1RAP(LUA-3566)	LM	Analyte 17	17	dp44	LUA-3566	205227_at	deltap	IL1RAP	3556	interleukin 1 receptor accessory protein
+BBBE8F8	GSTM2(LUA-3542)	LM	Analyte 18	18	dp44	LUA-3542	204418_x_at	deltap	GSTM2	2946	glutathione S-transferase mu 2 (muscle)
+BBE6F6	BXDC5(LUA-224)	LM	Analyte 19	19	dp44	cLUA-224	218462_at	deltap	RPF1	80135	ribosome production factor 1 homolog (S. cerevisiae)
+BC8D8	CKAP1(LUA-273)	LM	Analyte 20	20	dp44	cLUA-273	201804_x_at	deltap	TBCB	1155	tubulin folding cofactor B
+CC5D5	LASP1(LUA-475)	LM	Analyte 21	21	dp44	cLUA-475	200618_at	deltap	LASP1	3927	LIM and SH3 protein 1
+CG4H4	PARL(LUA-593)	LM	Analyte 22	22	dp44	cLUA-593	218271_s_at	deltap	PARL	55486	presenilin associated, rhomboid-like
+DDA9B9	MAPKSP1(LUA-357)	LM	Analyte 23	23	dp44	cLUA-357	217971_at	deltap	LAMTOR3	8649	late endosomal/lysosomal adaptor, MAPK and MTOR activator 3
+DDC2D2	HADHB(LUA-316)	LM	Analyte 24	24	dp44	cLUA-316	201007_at	deltap	HADHB	3032	hydroxyacyl-CoA dehydrogenase/3-ketoacyl-CoA thiolase/enoyl-CoA hydratase (trifunctional protein), beta subunit
+EEA10B10	RAB1B(LUA-424)	LM	Analyte 25	25	dp44	cLUA-424	220964_s_at	deltap	RAB1B	81876	RAB1B, member RAS oncogene family
+EEE10F10	RAP1A(LUA-426)	LM	Analyte 26	26	dp44	cLUA-426	202362_at	deltap	RAP1A	5906	RAP1A, member of RAS oncogene family
+EEEE12F12	TLE3(LUA-3822)	LM	Analyte 27	27	dp44	LUA-3822	212770_at	deltap	TLE3	7090	transducin-like enhancer of split 3 (E(sp1) homolog, Drosophila)
+EEEE7F7	SPTLC2(LUA-3795)	LM	Analyte 28	28	dp44	LUA-3795	203127_s_at	deltap	SPTLC2	9517	serine palmitoyltransferase, long chain base subunit 2
+FFA8B8	SRPRB(LUA-465)	LM	Analyte 29	29	dp44	cLUA-465	218140_x_at	deltap	SRPRB	58477	signal recognition particle receptor, B subunit
+FFFA3B3	TSKU(LUA-3835)	LM	Analyte 30	30	dp44	LUA-3835	218245_at	deltap	TSKU	25987	tsukushi small leucine rich proteoglycan homolog (Xenopus laevis)
+FFFC1D1	TMEM2(LUA-3826)	LM	Analyte 31	31	dp44	LUA-3826	218113_at	deltap	TMEM2	23670	transmembrane protein 2
+FFFC6D6	WWOX(LUA-3866)	LM	Analyte 32	32	dp44	LUA-3866	210695_s_at	deltap	WWOX	51741	WW domain containing oxidoreductase
+FFFC8D8	ZNF672(LUA-3879)	LM	Analyte 33	33	dp44	LUA-3879	218068_s_at	deltap	ZNF672	79894	zinc finger protein 672
+FFFG8H8	ZNF768(LUA-3881)	LM	Analyte 34	34	dp44	LUA-3881	218916_at	deltap	ZNF768	79724	zinc finger protein 768
+FFG4H4	SFRS2B(LUA-452)	LM	Analyte 35	35	dp44	cLUA-452	213152_s_at	deltap	SRSF8	10929	serine/arginine-rich splicing factor 8
+GGGA6B6	DDX41(LUA-3921)	LM	Analyte 36	36	dp44	LUA-3921	220091_at	deltap	SLC2A6	11182	solute carrier family 2 (facilitated glucose transporter), member 6
+GGGE2F2	PTPN13(LUA-3896)	LM	Analyte 37	37	dp44	LUA-3896	203358_s_at	deltap	EZH2	2146	enhancer of zeste homolog 2 (Drosophila)
+GGGE7F7	AP1G2(LUA-3929)	LM	Analyte 38	38	dp44	LUA-3929	204949_at	deltap	ICAM3	3385	intercellular adhesion molecule 3
+HHA5B5	GGA2(LUA-479)	LM	Analyte 39	39	dp44	LUA-479	213772_s_at	deltap	GGA2	23062	golgi-associated, gamma adaptin ear containing, ARF binding protein 2
+HHA6B6	SENP5(LUA-252)	LM	Analyte 40	40	dp44	LUA-252	57703_at	deltap	SENP5	205564	SUMO1/sentrin specific peptidase 5
+HHA8B8	PHKG2(LUA-63)	LM	Analyte 41	41	dp44	LUA-63	203709_at	deltap	PHKG2	5261	phosphorylase kinase, gamma 2 (testis)
+HHA9B9	TNFAIP1(LUA-220)	LM	Analyte 42	42	dp44	LUA-220	201207_at	deltap	TNFAIP1	7126	tumor necrosis factor, alpha-induced protein 1 (endothelial)
+HHC2D2	KDM5B(LUA-457)	LM	Analyte 43	43	dp44	LUA-457	201548_s_at	deltap	KDM5B	10765	lysine (K)-specific demethylase 5B
+HHC9D9	COG4(LUA-346)	LM	Analyte 44	44	dp44	LUA-346	212189_s_at	deltap	COG4	25839	component of oligomeric golgi complex 4
+HHE7F7	MCM3(LUA-218)	LM	Analyte 45	45	dp44	LUA-218	201555_at	deltap	MCM3	4172	minichromosome maintenance complex component 3
+HHG12H12	CMPK1(LUA-260)	LM	Analyte 46	46	dp44	LUA-260	217870_s_at	deltap	CMPK1	51727	cytidine monophosphate (UMP-CMP) kinase 1, cytosolic
+HHG4H4	SNX13(LUA-540)	LM	Analyte 47	47	dp44	LUA-540	213292_s_at	deltap	SNX13	23161	sorting nexin 13
+HHG5H5	PAK4(LUA-481)	LM	Analyte 48	48	dp44	LUA-481	203154_s_at	deltap	PAK4	10298	p21 protein (Cdc42/Rac)-activated kinase 4
+HHHA10B10	DPH2(LUA-4030)	LM	Analyte 49	49	dp44	LUA-4030	204514_at	deltap	DPH2	1802	DPH2 homolog (S. cerevisiae)
+HHHA5B5	SNX6(LUA-3993)	LM	Analyte 50	50	dp44	LUA-3993	217789_at	deltap	SNX6	58533	sorting nexin 6
+IIG9H9	EIF1B(LUA-516)	LM	Analyte 51	51	dp44	LUA-516	201738_at	deltap	EIF1B	10289	eukaryotic translation initiation factor 1B
+ZG2H2	WIPF2(LUA-1280)	LM	Analyte 52	52	dp44	LUA-1280	212051_at	deltap	WIPF2	147179	WAS/WASL interacting protein family, member 2
+HHHA11B11	NENF(LUA-4035)	LM	Analyte 53	53	dp44	LUA-4035	218407_x_at	deltap	NENF	29937	neudesin neurotrophic factor
+KKA8B8	RPN1(LUA-582)	LM	Analyte 54	54	dp44	LUA-582	201011_at	deltap	RPN1	6184	ribophorin I
+TTC4D4	C2CD2L(LUA-610)	LM	Analyte 55	55	dp44	LUA-610	204757_s_at	deltap	C2CD2L	9854	C2CD2-like
+LLA9B9	GABPB1(LUA-192)	LM	Analyte 56	56	dp44	LUA-192	206173_x_at	deltap	GABPB1	2553	GA binding protein transcription factor, beta subunit 1
+JJJA2B2	POLR2K(LUA-4150)	LM	Analyte 57	57	dp44	LUA-4150	202635_s_at	deltap	POLR2K	5440	polymerase (RNA) II (DNA directed) polypeptide K, 7.0kDa
+JJG9H9	ZFP161(LUA-390)	LM	Analyte 58	58	dp44	LUA-390	209724_s_at	deltap	ZFP161	7541	zinc finger protein 161 homolog (mouse)
+JJE3F3	PAF1(LUA-429)	LM	Analyte 59	59	dp44	LUA-429	202093_s_at	deltap	PAF1	54623	Paf1, RNA polymerase II associated factor, homolog (S. cerevisiae)
+KKG12H12	POLR1C(LUA-188)	LM	Analyte 60	60	dp44	LUA-188	207515_s_at	deltap	POLR1C	9533	polymerase (RNA) I polypeptide C, 30kDa
+XC8D8	RUVBL1(LUA-1206)	LM	Analyte 61	61	dp44	LUA-1206	201614_s_at	deltap	RUVBL1	8607	RuvB-like 1 (E. coli)
+IIA5B5	AKT1(LUA-243)	LM	Analyte 62	62	dp44	LUA-243	207163_s_at	deltap	AKT1	207	v-akt murine thymoma viral oncogene homolog 1
+QC9D9	SENP6(LUA-874)	LM	Analyte 63	63	dp44	LUA-874	202318_s_at	deltap	SENP6	26054	SUMO1/sentrin specific peptidase 6
+SSG11H11	PSMD5(LUA-1168)	LM	Analyte 64	64	dp44	LUA-1168	203447_at	deltap	PSMD5	5711	proteasome (prosome, macropain) 26S subunit, non-ATPase, 5
+JJJE9F9	EBP(LUA-4194)	LM	Analyte 65	65	dp44	LUA-4194	202735_at	deltap	EBP	10682	emopamil binding protein (sterol isomerase)
+IIIE12F12	CASK(LUA-4137)	LM	Analyte 66	66	dp44	LUA-4137	207620_s_at	deltap	CASK	8573	calcium/calmodulin-dependent serine protein kinase (MAGUK family)
+HHA3B3	RRP8(LUA-453)	LM	Analyte 67	67	dp44	LUA-453	203171_s_at	deltap	RRP8	23378	ribosomal RNA processing 8, methyltransferase, homolog (yeast)
+LLG6H6	MEGF9(LUA-568)	LM	Analyte 68	68	dp44	LUA-568	212830_at	deltap	MEGF9	1955	multiple EGF-like-domains 9
+ZZA12B12	BHLHE40(LUA-3380)	LM	Analyte 69	69	dp44	LUA-3380	201170_s_at	deltap	BHLHE40	8553	basic helix-loop-helix family, member e40
+ZZE11F11	BDH1(LUA-3376)	LM	Analyte 70	70	dp44	LUA-3376	211715_s_at	deltap	BDH1	622	3-hydroxybutyrate dehydrogenase, type 1
+ZZG4H4	SH3BP5(LUA-3338)	LM	Analyte 71	71	dp44	LUA-3338	201811_x_at	deltap	SH3BP5	9467	SH3-domain binding protein 5 (BTK-associated)
+LLC12D12	PPP2R5A(LUA-378)	LM	Analyte 72	72	dp44	LUA-378	202187_s_at	deltap	PPP2R5A	5525	protein phosphatase 2, regulatory subunit B', alpha
+YYA9B9	EML3(LUA-3269)	LM	Analyte 73	73	dp44	LUA-3269	203442_x_at	deltap	EML3	256364	echinoderm microtubule associated protein like 3
+JJJA9B9	BIRC5(LUA-4189)	LM	Analyte 74	74	dp44	LUA-4189	202095_s_at	deltap	BIRC5	332	baculoviral IAP repeat containing 5
+MME1F1	EPRS(LUA-659)	LM	Analyte 75	75	dp44	LUA-659	200843_s_at	deltap	EPRS	2058	glutamyl-prolyl-tRNA synthetase
+HHA2B2	PAX8(LUA-545)	LM	Analyte 76	76	dp44	LUA-545	121_at	deltap	PAX8	7849	paired box 8
+ZZC6D6	ADCY9(LUA-3348)	LM	Analyte 77	77	dp44	LUA-3348	204497_at	deltap	ADCY9	115	adenylate cyclase 9
+MME4F4	PDS5A(LUA-886)	LM	Analyte 78	78	dp44	LUA-886	212140_at	deltap	PDS5A	23244	PDS5, regulator of cohesion maintenance, homolog A (S. cerevisiae)
+SE7F7	TTF1(LUA-963)	LM	Analyte 79	79	dp44	LUA-963	204772_s_at	deltap	TTF1	7270	transcription termination factor, RNA polymerase I
+PPE2F2	SEC24C(LUA-1259)	LM	Analyte 80	80	dp44	LUA-1259	202361_at	deltap	SEC24C	9632	SEC24 family, member C (S. cerevisiae)
+OOE7F7	XBP1(LUA-1129)	LM	Analyte 81	81	dp44	LUA-1129	200670_at	deltap	XBP1	7494	X-box binding protein 1
+OOC8D8	NMT1(LUA-53)	LM	Analyte 82	82	dp44	LUA-53	201158_at	deltap	NMT1	4836	N-myristoyltransferase 1
+PE7F7	ARFIP2(LUA-819)	LM	Analyte 83	83	dp44	LUA-819	202109_at	deltap	ARFIP2	23647	ADP-ribosylation factor interacting protein 2
+MMC11D11	STAMBP(LUA-858)	LM	Analyte 84	84	dp44	LUA-858	202811_at	deltap	STAMBP	10617	STAM binding protein
+LLLA6B6	HMGCL(LUA-4339)	LM	Analyte 85	85	dp44	LUA-4339	202772_at	deltap	HMGCL	3155	3-hydroxymethyl-3-methylglutaryl-CoA lyase
+LLLC12D12	FAH(LUA-4373)	LM	Analyte 86	86	dp44	LUA-4373	202862_at	deltap	FAH	2184	fumarylacetoacetate hydrolase (fumarylacetoacetase)
+LLLE8F8	PLP2(LUA-4351)	LM	Analyte 87	87	dp44	LUA-4351	201136_at	deltap	PLP2	5355	proteolipid protein 2 (colonic epithelium-enriched)
+UUG7H7	SOX4(LUA-680)	LM	Analyte 88	88	dp44	LUA-680	201416_at	deltap	SOX4	6659	SRY (sex determining region Y)-box 4
+OOE2F2	TESK1(LUA-92)	LM	Analyte 89	89	dp44	LUA-92	204106_at	deltap	TESK1	7016	testis-specific kinase 1
+BBBE10F10	HN1L(LUA-3555)	LM	Analyte 90	90	dp44	LUA-3555	212115_at	deltap	HN1L	90861	hematological and neurological expressed 1-like
+ZA1B1	RRAGA(LUA-1273)	LM	Analyte 91	91	dp44	LUA-1273	201628_s_at	deltap	RRAGA	10670	Ras-related GTP binding A
+BBBA1B1	ELOVL6(LUA-3480)	LM	Analyte 92	92	dp44	LUA-3480	204256_at	deltap	ELOVL6	79071	ELOVL fatty acid elongase 6
+HHE2F2	ACBD3(LUA-132)	LM	Analyte 93	93	dp44	LUA-132	202324_s_at	deltap	ACBD3	64746	acyl-CoA binding domain containing 3
+IIE6F6	PMAIP1(LUA-136)	LM	Analyte 94	94	dp44	LUA-136	204285_s_at	deltap	PMAIP1	5366	phorbol-12-myristate-13-acetate-induced protein 1
+SSE1F1	TWF2(LUA-551)	LM	Analyte 95	95	dp44	LUA-551	202009_at	deltap	TWF2	11344	twinfilin, actin-binding protein, homolog 2 (Drosophila)
+PC12D12	HDAC6(LUA-838)	LM	Analyte 96	96	dp44	LUA-838	206846_s_at	deltap	HDAC6	10013	histone deacetylase 6
+JJJC5D5	IMPA2(LUA-4169)	LM	Analyte 97	97	dp44	LUA-4169	203126_at	deltap	IMPA2	3613	inositol(myo)-1(or 4)-monophosphatase 2
+NNE8F8	PXN(LUA-94)	LM	Analyte 98	98	dp44	LUA-94	201087_at	deltap	PXN	5829	paxillin
+UUE4F4	PHKB(LUA-677)	LM	Analyte 99	99	dp44	LUA-677	202738_s_at	deltap	PHKB	5257	phosphorylase kinase, beta
+PPA2B2	PKD1(LUA-1023)	LM	Analyte 100	100	dp44	LUA-1023	202328_s_at	deltap	PKD1	5310	polycystic kidney disease 1 (autosomal dominant)
+QE4F4	CASC3(LUA-855)	LM	Analyte 101	101	dp44	LUA-855	207842_s_at	deltap	CASC3	22794	cancer susceptibility candidate 3
+XC12D12	MLEC(LUA-1222)	LM	Analyte 102	102	dp44	LUA-1222	200617_at	deltap	MLEC	9761	malectin
+RRA12B12	HDAC4(LUA-183)	LM	Analyte 103	103	dp44	LUA-183	204225_at	deltap	HDAC4	9759	histone deacetylase 4
+VE9F9	USP22(LUA-1115)	LM	Analyte 104	104	dp44	LUA-1115	200083_at	deltap	USP22	23326	ubiquitin specific peptidase 22
+NNNA9B9	TMED10(LUA-4516)	LM	Analyte 105	105	dp44	LUA-4516	200929_at	deltap	TMED10	10972	transmembrane emp24-like trafficking protein 10 (yeast)
+PPC1D1	CHERP(LUA-14)	LM	Analyte 106	106	dp44	LUA-14	202230_s_at	deltap	CHERP	10523	calcium homeostasis endoplasmic reticulum protein
+AAAE10F10	DTNA(LUA-3461)	LM	Analyte 107	107	dp44	LUA-3461	205741_s_at	deltap	DTNA	1837	dystrobrevin, alpha
+HHHA6B6	TRAPPC6A(LUA-4005)	LM	Analyte 108	108	dp44	LUA-4005	204985_s_at	deltap	TRAPPC6A	79090	trafficking protein particle complex 6A
+MC7D7	ATP2C1(LUA-674)	LM	Analyte 109	109	dp44	LUA-674	212255_s_at	deltap	ATP2C1	27032	ATPase, Ca++ transporting, type 2C, member 1
+UE5F5	USP14(LUA-1051)	LM	Analyte 110	110	dp44	LUA-1051	201671_x_at	deltap	USP14	9097	ubiquitin specific peptidase 14 (tRNA-guanine transglycosylase)
+SG7H7	APPBP2(LUA-964)	LM	Analyte 111	111	dp44	LUA-964	202630_at	deltap	APPBP2	10513	amyloid beta precursor protein (cytoplasmic tail) binding protein 2
+LA10B10	NAT13(LUA-637)	LM	Analyte 112	112	dp44	LUA-637	217745_s_at	deltap	NAA50	80218	N(alpha)-acetyltransferase 50, NatE catalytic subunit
+AAAA12B12	ECH1(LUA-3474)	LM	Analyte 113	113	dp44	LUA-3474	200789_at	deltap	ECH1	1891	enoyl CoA hydratase 1, peroxisomal
+SSG9H9	HDAC2(LUA-997)	LM	Analyte 114	114	dp44	LUA-997	201833_at	deltap	HDAC2	3066	histone deacetylase 2
+YYA1B1	UGP2(LUA-3221)	LM	Analyte 115	115	dp44	LUA-3221	205480_s_at	deltap	UGP2	7360	UDP-glucose pyrophosphorylase 2
+MA9B9	MRPL19(LUA-681)	LM	Analyte 116	116	dp44	LUA-681	203465_at	deltap	MRPL19	9801	mitochondrial ribosomal protein L19
+KKC8D8	TSN(LUA-567)	LM	Analyte 117	117	dp44	LUA-567	201513_at	deltap	TSN	7247	translin
+XA10B10	CSNK2A2(LUA-1213)	LM	Analyte 118	118	dp44	LUA-1213	203575_at	deltap	CSNK2A2	1459	casein kinase 2, alpha prime polypeptide
+AAAG6H6	CTNS(LUA-3439)	LM	Analyte 119	119	dp44	LUA-3439	204925_at	deltap	CTNS	1497	cystinosin, lysosomal cystine transporter
+SSG3H3	KIAA0100(LUA-334)	LM	Analyte 120	120	dp44	LUA-334	201729_s_at	deltap	KIAA0100	9703	KIAA0100
+JJJA7B7	PAICS(LUA-4179)	LM	Analyte 121	121	dp44	LUA-4179	201014_s_at	deltap	PAICS	10606	phosphoribosylaminoimidazole carboxylase, phosphoribosylaminoimidazole succinocarboxamide synthetase
+JJG2H2	CDK2(LUA-391)	LM	Analyte 122	122	dp44	LUA-391	204252_at	deltap	CDK2	1017	cyclin-dependent kinase 2
+EEEG10H10	TCIRG1(LUA-3811)	LM	Analyte 123	123	dp44	LUA-3811	204158_s_at	deltap	TCIRG1	10312	T-cell, immune regulator 1, ATPase, H+ transporting, lysosomal V0 subunit A3
+IIE10F10	KIAA0494(LUA-474)	LM	Analyte 124	124	dp44	LUA-474	201778_s_at	deltap	KIAA0494	9813	KIAA0494
+NA4B4	SGK1(LUA-709)	LM	Analyte 125	125	dp44	LUA-709	201739_at	deltap	SGK1	6446	serum/glucocorticoid regulated kinase 1
+KKE2F2	SNX2(LUA-531)	LM	Analyte 126	126	dp44	LUA-531	202114_at	deltap	SNX2	6643	sorting nexin 2
+SC12D12	WRB(LUA-982)	LM	Analyte 127	127	dp44	LUA-982	202749_at	deltap	WRB	7485	tryptophan rich basic protein
+BBBG2H2	ETFB(LUA-3496)	LM	Analyte 128	128	dp44	LUA-3496	202942_at	deltap	ETFB	2109	electron-transfer-flavoprotein, beta polypeptide
+QQE9F9	CAMSAP1L1(LUA-3)	LM	Analyte 129	129	dp44	LUA-3	212765_at	deltap	CAMSAP2	23271	calmodulin regulated spectrin-associated protein family, member 2
+IIE12F12	ARNT2(LUA-339)	LM	Analyte 130	130	dp44	LUA-339	202986_at	deltap	ARNT2	9915	aryl-hydrocarbon receptor nuclear translocator 2
+IIG5H5	SPAG7(LUA-407)	LM	Analyte 131	131	dp44	LUA-407	200053_at	deltap	SPAG7	9552	sperm associated antigen 7
+SSC5D5	MAPK1IP1L(LUA-856)	LM	Analyte 132	132	dp44	LUA-856	212644_s_at	deltap	MAPK1IP1L	93487	mitogen-activated protein kinase 1 interacting protein 1-like
+OOC1D1	MSH6(LUA-1330)	LM	Analyte 133	133	dp44	LUA-1330	202911_at	deltap	MSH6	2956	mutS homolog 6 (E. coli)
+WG12H12	UBE2C(LUA-1176)	LM	Analyte 134	134	dp44	LUA-1176	202954_at	deltap	UBE2C	11065	ubiquitin-conjugating enzyme E2C
+PPG8H8	HS2ST1(LUA-1302)	LM	Analyte 135	135	dp44	LUA-1302	203285_s_at	deltap	HS2ST1	9653	heparan sulfate 2-O-sulfotransferase 1
+HHE3F3	TXLNA(LUA-486)	LM	Analyte 136	136	dp44	LUA-486	212300_at	deltap	TXLNA	200081	taxilin alpha
+QC6D6	DNAJB1(LUA-862)	LM	Analyte 137	137	dp44	LUA-862	200666_s_at	deltap	DNAJB1	3337	DnaJ (Hsp40) homolog, subfamily B, member 1
+OE11F11	TOPBP1(LUA-787)	LM	Analyte 138	138	dp44	LUA-787	202633_at	deltap	TOPBP1	11073	topoisomerase (DNA) II binding protein 1
+IIC12D12	ABCF1(LUA-523)	LM	Analyte 139	139	dp44	LUA-523	200045_at	deltap	ABCF1	23	ATP-binding cassette, sub-family F (GCN20), member 1
+CCCE4F4	LGMN(LUA-3590)	LM	Analyte 140	140	dp44	LUA-3590	201212_at	deltap	LGMN	5641	legumain
+QQC6D6	F12(LUA-29)	LM	Analyte 141	141	dp44	LUA-29	205774_at	deltap	F12	2161	coagulation factor XII (Hageman factor)
+PE9F9	BCKDHA(LUA-827)	LM	Analyte 142	142	dp44	LUA-827	202331_at	deltap	BCKDHA	593	branched chain keto acid dehydrogenase E1, alpha polypeptide
+QQA11B11	SLC36A1(LUA-1325)	LM	Analyte 143	143	dp44	LUA-1325	213119_at	deltap	SLC36A1	206358	solute carrier family 36 (proton/amino acid symporter), member 1
+HHC6D6	MBTPS1(LUA-383)	LM	Analyte 144	144	dp44	LUA-383	201620_at	deltap	MBTPS1	8720	membrane-bound transcription factor peptidase, site 1
+JJE4F4	ZNF274(LUA-586)	LM	Analyte 145	145	dp44	LUA-586	204937_s_at	deltap	ZNF274	10782	zinc finger protein 274
+MMME10F10	CLIC4(LUA-4440)	LM	Analyte 146	146	dp44	LUA-4440	201560_at	deltap	CLIC4	25932	chloride intracellular channel 4
+RE8F8	DLGAP5(LUA-919)	LM	Analyte 147	147	dp44	LUA-919	203764_at	deltap	DLGAP5	9787	discs, large (Drosophila) homolog-associated protein 5
+LLLG11H11	SEC14L1(LUA-4370)	LM	Analyte 148	148	dp44	LUA-4370	202083_s_at	deltap	SEC14L1	6397	SEC14-like 1 (S. cerevisiae)
+LLLG3H3	PTPLA(LUA-4327)	LM	Analyte 149	149	dp44	LUA-4327	219654_at	deltap	PTPLA	9200	protein tyrosine phosphatase-like (proline instead of catalytic arginine), member A
+AAE7F7	VPS26A(LUA-1347)	LM	Analyte 150	150	dp44	LUA-1347	201807_at	deltap	VPS26A	9559	vacuolar protein sorting 26 homolog A (S. pombe)
+HHE11F11	AKAP1(LUA-398)	LM	Analyte 151	151	dp44	LUA-398	201675_at	deltap	AKAP1	8165	A kinase (PRKA) anchor protein 1
+MA4B4	HSD17B10(LUA-661)	LM	Analyte 152	152	dp44	LUA-661	202282_at	deltap	HSD17B10	3028	hydroxysteroid (17-beta) dehydrogenase 10
+NNE2F2	STX1A(LUA-766)	LM	Analyte 153	153	dp44	LUA-766	204729_s_at	deltap	STX1A	6804	syntaxin 1A (brain)
+TE2F2	SRF(LUA-991)	LM	Analyte 154	154	dp44	LUA-991	202401_s_at	deltap	SRF	6722	serum response factor (c-fos serum response element-binding transcription factor)
+IIE11F11	CABIN1(LUA-315)	LM	Analyte 155	155	dp44	LUA-315	202624_s_at	deltap	CABIN1	23523	calcineurin binding protein 1
+IIIA2B2	CCNA2(LUA-4055)	LM	Analyte 156	156	dp44	LUA-4055	203418_at	deltap	CCNA2	890	cyclin A2
+SSC11D11	SDHB(LUA-1105)	LM	Analyte 157	157	dp44	LUA-1105	202675_at	deltap	SDHB	6390	succinate dehydrogenase complex, subunit B, iron sulfur (Ip)
+ME4F4	SPA17(LUA-663)	LM	Analyte 158	158	dp44	LUA-663	205406_s_at	deltap	SPA17	53340	sperm autoantigenic protein 17
+IIC2D2	FOXO4(LUA-320)	LM	Analyte 159	159	dp44	LUA-320	205451_at	deltap	FOXO4	4303	forkhead box O4
+LLG11H11	TOMM34(LUA-564)	LM	Analyte 160	160	dp44	LUA-564	201870_at	deltap	TOMM34	10953	translocase of outer mitochondrial membrane 34
+MMA9B9	KIAA0907(LUA-839)	LM	Analyte 161	161	dp44	LUA-839	202220_at	deltap	KIAA0907	22889	KIAA0907
+BBBE9F9	HK1(LUA-3548)	LM	Analyte 162	162	dp44	LUA-3548	200697_at	deltap	HK1	3098	hexokinase 1
+LLE12F12	POLS(LUA-51)	LM	Analyte 163	163	dp44	LUA-51	202466_at	deltap	PAPD7	11044	PAP associated domain containing 7
+HHHE7F7	PLOD3(LUA-4015)	LM	Analyte 164	164	dp44	LUA-4015	202185_at	deltap	PLOD3	8985	procollagen-lysine, 2-oxoglutarate 5-dioxygenase 3
+VC9D9	TRAK2(LUA-1114)	LM	Analyte 165	165	dp44	LUA-1114	202125_s_at	deltap	TRAK2	66008	trafficking protein, kinesin binding 2
+RRA11B11	VAPB(LUA-573)	LM	Analyte 166	166	dp44	LUA-573	202550_s_at	deltap	VAPB	9217	VAMP (vesicle-associated membrane protein)-associated protein B and C
+TTC11D11	HIST1H2BD(LUA-2018)	LM	Analyte 167	167	dp44	LUA-2018	209911_x_at	deltap	HIST1H2BD	3017	histone cluster 1, H2bd
+PPG10H10	BUB1B(LUA-1013)	LM	Analyte 168	168	dp44	LUA-1013	203755_at	deltap	BUB1B	701	budding uninhibited by benzimidazoles 1 homolog beta (yeast)
+OOC2D2	MRPL12(LUA-37)	LM	Analyte 169	169	dp44	LUA-37	203931_s_at	deltap	MRPL12	6182	mitochondrial ribosomal protein L12
+OOG11H11	NP(LUA-1166)	LM	Analyte 170	170	dp44	LUA-1166	201695_s_at	deltap	PNP	4860	purine nucleoside phosphorylase
+MA11B11	NSFL1C(LUA-689)	LM	Analyte 171	171	dp44	LUA-689	217830_s_at	deltap	NSFL1C	55968	NSFL1 (p97) cofactor (p47)
+VG8H8	RAD23B(LUA-1112)	LM	Analyte 172	172	dp44	LUA-1112	201223_s_at	deltap	RAD23B	5887	RAD23 homolog B (S. cerevisiae)
+PPA3B3	USP1(LUA-1156)	LM	Analyte 173	173	dp44	LUA-1156	202413_s_at	deltap	USP1	7398	ubiquitin specific peptidase 1
+PC2D2	RPA1(LUA-798)	LM	Analyte 174	174	dp44	LUA-798	201528_at	deltap	RPA1	6117	replication protein A1, 70kDa
+RRA1B1	KLHDC2(LUA-1015)	LM	Analyte 175	175	dp44	LUA-1015	217906_at	deltap	KLHDC2	23588	kelch domain containing 2
+RRG12H12	SCARB1(LUA-167)	LM	Analyte 176	176	dp44	LUA-167	201819_at	deltap	SCARB1	949	scavenger receptor class B, member 1
+FFFC2D2	TPM1(LUA-3832)	LM	Analyte 177	177	dp44	LUA-3832	210986_s_at	deltap	TPM1	7168	tropomyosin 1 (alpha)
+PG4H4	TM9SF2(LUA-808)	LM	Analyte 178	178	dp44	LUA-808	201078_at	deltap	TM9SF2	9375	transmembrane 9 superfamily member 2
+TTA11B11	PANK2(LUA-2002)	LM	Analyte 179	179	dp44	LUA-2002	218809_at	deltap	PANK2	80025	pantothenate kinase 2
+LLLA3B3	NUP88(LUA-4321)	LM	Analyte 180	180	dp44	LUA-4321	202900_s_at	deltap	NUP88	4927	nucleoporin 88kDa
+OOA3B3	FUT1(LUA-1127)	LM	Analyte 181	181	dp44	LUA-1127	206109_at	deltap	FUT1	2523	fucosyltransferase 1 (galactoside 2-alpha-L-fucosyltransferase, H blood group)
+SC11D11	PRUNE(LUA-978)	LM	Analyte 182	182	dp44	LUA-978	209586_s_at	deltap	PRUNE	58497	prune homolog (Drosophila)
+YA7B7	SYPL1(LUA-1249)	LM	Analyte 183	183	dp44	LUA-1249	201260_s_at	deltap	SYPL1	6856	synaptophysin-like 1
+OOG4H4	ZNF451(LUA-74)	LM	Analyte 184	184	dp44	LUA-74	212557_at	deltap	ZNF451	26036	zinc finger protein 451
+ME7F7	LRRC40(LUA-675)	LM	Analyte 185	185	dp44	LUA-675	218577_at	deltap	LRRC40	55631	leucine rich repeat containing 40
+PE5F5	TRIM13(LUA-811)	LM	Analyte 186	186	dp44	LUA-811	203659_s_at	deltap	TRIM13	10206	tripartite motif containing 13
+NNA9B9	FBXO7(LUA-1098)	LM	Analyte 187	187	dp44	LUA-1098	201178_at	deltap	FBXO7	25793	F-box protein 7
+MMA10B10	TRIP10(LUA-983)	LM	Analyte 188	188	dp44	LUA-983	202734_at	deltap	TRIP10	9322	thyroid hormone receptor interactor 10
+YYC9D9	ENOSF1(LUA-3273)	LM	Analyte 189	189	dp44	LUA-3273	204143_s_at	deltap	ENOSF1	55556	enolase superfamily member 1
+IIA11B11	ERLIN1(LUA-456)	LM	Analyte 190	190	dp44	LUA-456	202441_at	deltap	ERLIN1	10613	ER lipid raft associated 1
+PPC5D5	LIG1(LUA-1279)	LM	Analyte 191	191	dp44	LUA-1279	202726_at	deltap	LIG1	3978	ligase I, DNA, ATP-dependent
+ZC5D5	GNB5(LUA-1290)	LM	Analyte 192	192	dp44	LUA-1290	204000_at	deltap	GNB5	10681	guanine nucleotide binding protein (G protein), beta 5
+AAE4F4	INSIG1(LUA-1335)	LM	Analyte 193	193	dp44	LUA-1335	201626_at	deltap	INSIG1	3638	insulin induced gene 1
+BBBA9B9	HBE1(LUA-3544)	LM	Analyte 194	194	dp44	LUA-3544	205919_at	deltap	HBE1	3046	hemoglobin, epsilon 1
+HHA10B10	HIST2H2BE(LUA-258)	LM	Analyte 195	195	dp44	LUA-258	202708_s_at	deltap	HIST2H2BE	8349	histone cluster 2, H2be
+JJJA10B10	S100A4(LUA-4199)	LM	Analyte 196	196	dp44	LUA-4199	203186_s_at	deltap	S100A4	6275	S100 calcium binding protein A4
+ZA2B2	KTN1(LUA-1277)	LM	Analyte 197	197	dp44	LUA-1277	200915_x_at	deltap	KTN1	3895	kinectin 1 (kinesin receptor)
+UC6D6	ARHGAP1(LUA-1054)	LM	Analyte 198	198	dp44	LUA-1054	202117_at	deltap	ARHGAP1	392	Rho GTPase activating protein 1
+CCCC5D5	LPAR2(LUA-3597)	LM	Analyte 199	199	dp44	LUA-3597	206723_s_at	deltap	LPAR2	9170	lysophosphatidic acid receptor 2
+VVG7H7	COASY(LUA-3036)	LM	Analyte 200	200	dp44	LUA-3036	201913_s_at	deltap	COASY	80347	CoA synthase
+NG1H1	UBE4A(LUA-700)	LM	Analyte 201	201	dp44	LUA-700	202038_at	deltap	UBE4A	9354	ubiquitination factor E4A
+HHHC9D9	ATMIN(LUA-4023)	LM	Analyte 202	202	dp44	LUA-4023	201855_s_at	deltap	ATMIN	23300	ATM interactor
+PPE5F5	CASP3(LUA-1001)	LM	Analyte 203	203	dp44	LUA-1001	202763_at	deltap	CASP3	836	caspase 3, apoptosis-related cysteine peptidase
+TC10D10	FTSJ1(LUA-1022)	LM	Analyte 204	204	dp44	LUA-1022	205324_s_at	deltap	FTSJ1	24140	FtsJ homolog 1 (E. coli)
+AAG10H10	NISCH(LUA-1360)	LM	Analyte 205	205	dp44	LUA-1360	201591_s_at	deltap	NISCH	11188	nischarin
+QG7H7	CPSF4(LUA-868)	LM	Analyte 206	206	dp44	LUA-868	206688_s_at	deltap	CPSF4	10898	cleavage and polyadenylation specific factor 4, 30kDa
+NG11H11	COPB2(LUA-740)	LM	Analyte 207	207	dp44	LUA-740	201098_at	deltap	COPB2	9276	coatomer protein complex, subunit beta 2 (beta prime)
+HHC11D11	GADD45A(LUA-196)	LM	Analyte 208	208	dp44	LUA-196	203725_at	deltap	GADD45A	1647	growth arrest and DNA-damage-inducible, alpha
+UC4D4	SMNDC1(LUA-1046)	LM	Analyte 209	209	dp44	LUA-1046	200071_at	deltap	SMNDC1	10285	survival motor neuron domain containing 1
+VG1H1	NUDCD3(LUA-1084)	LM	Analyte 210	210	dp44	LUA-1084	201270_x_at	deltap	NUDCD3	23386	NudC domain containing 3
+PPC8D8	BAZ2B(LUA-13)	LM	Analyte 211	211	dp44	LUA-13	203080_s_at	deltap	BAZ2B	29994	bromodomain adjacent to zinc finger domain, 2B
+WWC5D5	HMGCR(LUA-3094)	LM	Analyte 212	212	dp44	LUA-3094	202540_s_at	deltap	HMGCR	3156	3-hydroxy-3-methylglutaryl-CoA reductase
+TE3F3	SLC35B1(LUA-995)	LM	Analyte 213	213	dp44	LUA-995	202433_at	deltap	SLC35B1	10237	solute carrier family 35, member B1
+JJJG3H3	TIMP2(LUA-4161)	LM	Analyte 214	214	dp44	LUA-4161	203167_at	deltap	TIMP2	7077	TIMP metallopeptidase inhibitor 2
+HHHG4H4	LSM6(LUA-3987)	LM	Analyte 215	215	dp44	LUA-3987	205036_at	deltap	LSM6	11157	LSM6 homolog, U6 small nuclear RNA associated (S. cerevisiae)
+VE2F2	CTCF(LUA-1087)	LM	Analyte 216	216	dp44	LUA-1087	202521_at	deltap	CTCF	10664	CCCTC-binding factor (zinc finger protein)
+PPA6B6	SACM1L(LUA-1316)	LM	Analyte 217	217	dp44	LUA-1316	202797_at	deltap	SACM1L	22908	SAC1 suppressor of actin mutations 1-like (yeast)
+WA2B2	TCERG1(LUA-1133)	LM	Analyte 218	218	dp44	LUA-1133	202396_at	deltap	TCERG1	10915	transcription elongation regulator 1
+YA5B5	KIAA0196(LUA-1241)	LM	Analyte 219	219	dp44	LUA-1241	201985_at	deltap	KIAA0196	9897	KIAA0196
+LLLG7H7	DNM1(LUA-4347)	LM	Analyte 220	220	dp44	LUA-4347	215116_s_at	deltap	DNM1	1759	dynamin 1
+PPE7F7	DDIT4(LUA-1248)	LM	Analyte 221	221	dp44	LUA-1248	202887_s_at	deltap	DDIT4	54541	DNA-damage-inducible transcript 4
+QQE5F5	ALAS1(LUA-1204)	LM	Analyte 222	222	dp44	LUA-1204	205633_s_at	deltap	ALAS1	211	aminolevulinate, delta-, synthase 1
+HHG8H8	PAFAH1B1(LUA-394)	LM	Analyte 223	223	dp44	LUA-394	200816_s_at	deltap	PAFAH1B1	5048	platelet-activating factor acetylhydrolase 1b, regulatory subunit 1 (45kDa)
+NA8B8	PSRC1(LUA-725)	LM	Analyte 224	224	dp44	LUA-725	201896_s_at	deltap	PSRC1	84722	proline/serine-rich coiled-coil 1
+ZZG8H8	ARHGEF5(LUA-3362)	LM	Analyte 225	225	dp44	LUA-3362	204765_at	deltap	ARHGEF5	7984	Rho guanine nucleotide exchange factor (GEF) 5
+LE7F7	ENTPD6(LUA-627)	LM	Analyte 226	226	dp44	LUA-627	201704_at	deltap	ENTPD6	955	ectonucleoside triphosphate diphosphohydrolase 6 (putative)
+XG6H6	RBM15B(LUA-1200)	LM	Analyte 227	227	dp44	LUA-1200	202689_at	deltap	RBM15B	29890	RNA binding motif protein 15B
+OOE10F10	TOMM70A(LUA-34)	LM	Analyte 228	228	dp44	LUA-34	201519_at	deltap	TOMM70A	9868	translocase of outer mitochondrial membrane 70 homolog A (S. cerevisiae)
+AAAG1H1	CBR1(LUA-3398)	LM	Analyte 229	229	dp44	LUA-3398	209213_at	deltap	CBR1	873	carbonyl reductase 1
+NNG12H12	PRKCD(LUA-1321)	LM	Analyte 230	230	dp44	LUA-1321	202545_at	deltap	PRKCD	5580	protein kinase C, delta
+IIA10B10	CD14(LUA-504)	LM	Analyte 231	231	dp44	LUA-504	201743_at	deltap	CD14	929	CD14 molecule
+WE1F1	DHX8(LUA-1131)	LM	Analyte 232	232	dp44	LUA-1131	203334_at	deltap	DHX8	1659	DEAH (Asp-Glu-Ala-His) box polypeptide 8
+ZA3B3	JUN(LUA-1281)	LM	Analyte 233	233	dp44	LUA-1281	201466_s_at	deltap	JUN	3725	jun proto-oncogene
+XXG10H10	TMEM50A(LUA-3209)	LM	Analyte 234	234	dp44	LUA-3209	217766_s_at	deltap	TMEM50A	23585	transmembrane protein 50A
+SSE9F9	SCCPDH(LUA-1138)	LM	Analyte 235	235	dp44	LUA-1138	201825_s_at	deltap	SCCPDH	51097	saccharopine dehydrogenase (putative)
+FFFG2H2	TSC22D3(LUA-3834)	LM	Analyte 236	236	dp44	LUA-3834	208763_s_at	deltap	TSC22D3	1831	TSC22 domain family, member 3
+EEEE11F11	TFAP2A(LUA-3814)	LM	Analyte 237	237	dp44	LUA-3814	204654_s_at	deltap	TFAP2A	7020	transcription factor AP-2 alpha (activating enhancer binding protein 2 alpha)
+ZC3D3	ZNF395(LUA-1282)	LM	Analyte 238	238	dp44	LUA-1282	218149_s_at	deltap	ZNF395	55893	zinc finger protein 395
+SSG1H1	VPS72(LUA-550)	LM	Analyte 239	239	dp44	LUA-550	202261_at	deltap	VPS72	6944	vacuolar protein sorting 72 homolog (S. cerevisiae)
+IIIA5B5	CLSTN1(LUA-4073)	LM	Analyte 240	240	dp44	LUA-4073	201561_s_at	deltap	CLSTN1	22883	calsyntenin 1
+VA8B8	MAPK9(LUA-1109)	LM	Analyte 241	241	dp44	LUA-1109	203218_at	deltap	MAPK9	5601	mitogen-activated protein kinase 9
+LA6B6	TARS(LUA-621)	LM	Analyte 242	242	dp44	LUA-621	201263_at	deltap	TARS	6897	threonyl-tRNA synthetase
+UG3H3	POP4(LUA-1044)	LM	Analyte 243	243	dp44	LUA-1044	202868_s_at	deltap	POP4	10775	processing of precursor 4, ribonuclease P/MRP subunit (S. cerevisiae)
+TG3H3	NFE2L2(LUA-996)	LM	Analyte 244	244	dp44	LUA-996	201146_at	deltap	NFE2L2	4780	nuclear factor (erythroid-derived 2)-like 2
+YE1F1	BLCAP(LUA-1227)	LM	Analyte 245	245	dp44	LUA-1227	201032_at	deltap	BLCAP	10904	bladder cancer associated protein
+KKE10F10	FAM20B(LUA-565)	LM	Analyte 246	246	dp44	LUA-565	202916_s_at	deltap	FAM20B	9917	family with sequence similarity 20, member B
+MMG11H11	BTBD3(LUA-832)	LM	Analyte 247	247	dp44	LUA-832	202946_s_at	deltap	BTBD3	22903	BTB (POZ) domain containing 3
+SSE2F2	CRKL(LUA-109)	LM	Analyte 248	248	dp44	LUA-109	212180_at	deltap	CRKL	1399	v-crk sarcoma virus CT10 oncogene homolog (avian)-like
+TG5H5	ZNF318(LUA-1004)	LM	Analyte 249	249	dp44	LUA-1004	203521_s_at	deltap	ZNF318	24149	zinc finger protein 318
+TA6B6	FDFT1(LUA-1005)	LM	Analyte 250	250	dp44	LUA-1005	208647_at	deltap	FDFT1	2222	farnesyl-diphosphate farnesyltransferase 1
+XC4D4	TRAP1(LUA-1190)	LM	Analyte 251	251	dp44	LUA-1190	201391_at	deltap	TRAP1	10131	TNF receptor-associated protein 1
+OA2B2	GTF2A2(LUA-749)	LM	Analyte 252	252	dp44	LUA-749	202678_at	deltap	GTF2A2	2958	general transcription factor IIA, 2, 12kDa
+MMA4B4	TGDS(LUA-750)	LM	Analyte 253	253	dp44	LUA-750	208249_s_at	deltap	TGDS	23483	TDP-glucose 4,6-dehydratase
+SG6H6	MTFR1(LUA-960)	LM	Analyte 254	254	dp44	LUA-960	203208_s_at	deltap	MTFR1	9650	mitochondrial fission regulator 1
+RC8D8	UBE2A(LUA-918)	LM	Analyte 255	255	dp44	LUA-918	201899_s_at	deltap	UBE2A	7319	ubiquitin-conjugating enzyme E2A
+VE3F3	NIT1(LUA-1091)	LM	Analyte 256	256	dp44	LUA-1091	202891_at	deltap	NIT1	4817	nitrilase 1
+NNC3D3	SYNGR3(LUA-745)	LM	Analyte 257	257	dp44	LUA-745	205691_at	deltap	SYNGR3	9143	synaptogyrin 3
+AAA9B9	RABGGTA(LUA-1353)	LM	Analyte 258	258	dp44	LUA-1353	203573_s_at	deltap	RABGGTA	5875	Rab geranylgeranyltransferase, alpha subunit
+YG2H2	STK25(LUA-1232)	LM	Analyte 259	259	dp44	LUA-1232	201314_at	deltap	STK25	10494	serine/threonine kinase 25
+MMA3B3	ABCF3(LUA-752)	LM	Analyte 260	260	dp44	LUA-752	202394_s_at	deltap	ABCF3	55324	ATP-binding cassette, sub-family F (GCN20), member 3
+IIIG8H8	FCHO1(LUA-4095)	LM	Analyte 261	261	dp44	LUA-4095	213669_at	deltap	FCHO1	23149	FCH domain only 1
+PPE4F4	OXSR1(LUA-1317)	LM	Analyte 262	262	dp44	LUA-1317	202696_at	deltap	OXSR1	9943	oxidative-stress responsive 1
+MMA8B8	SMARCC1(LUA-717)	LM	Analyte 263	263	dp44	LUA-717	201074_at	deltap	SMARCC1	6599	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily c, member 1
+LLE7F7	FEZ1(LUA-148)	LM	Analyte 264	264	dp44	LUA-148	203562_at	deltap	FEZ1	9638	fasciculation and elongation protein zeta 1 (zygin I)
+LC11D11	CA12(LUA-642)	LM	Analyte 265	265	dp44	LUA-642	203963_at	deltap	CA12	771	carbonic anhydrase XII
+VA3B3	GLOD4(LUA-1089)	LM	Analyte 266	266	dp44	LUA-1089	209092_s_at	deltap	GLOD4	51031	glyoxalase domain containing 4
+XC11D11	ETFA(LUA-1218)	LM	Analyte 267	267	dp44	LUA-1218	201931_at	deltap	ETFA	2108	electron-transfer-flavoprotein, alpha polypeptide
+PPE8F8	IL4R(LUA-1042)	LM	Analyte 268	268	dp44	LUA-1042	203233_at	deltap	IL4R	3566	interleukin 4 receptor
+NA2B2	GYS1(LUA-701)	LM	Analyte 269	269	dp44	LUA-701	201673_s_at	deltap	GYS1	2997	glycogen synthase 1 (muscle)
+VG9H9	KIT(LUA-1116)	LM	Analyte 270	270	dp44	LUA-1116	205051_s_at	deltap	KIT	3815	v-kit Hardy-Zuckerman 4 feline sarcoma viral oncogene homolog
+TG11H11	PPP4R1(LUA-1028)	LM	Analyte 271	271	dp44	LUA-1028	201594_s_at	deltap	PPP4R1	9989	protein phosphatase 4, regulatory subunit 1
+PPG9H9	PSMG1(LUA-1153)	LM	Analyte 272	272	dp44	LUA-1153	203405_at	deltap	PSMG1	8624	proteasome (prosome, macropain) assembly chaperone 1
+FFFE1F1	TMEM97(LUA-3827)	LM	Analyte 273	273	dp44	LUA-3827	212281_s_at	deltap	TMEM97	27346	transmembrane protein 97
+TC8D8	LRRC41(LUA-1014)	LM	Analyte 274	274	dp44	LUA-1014	201932_at	deltap	LRRC41	10489	leucine rich repeat containing 41
+LLC7D7	KIAA1279(LUA-190)	LM	Analyte 275	275	dp44	LUA-190	212453_at	deltap	KIAA1279	26128	KIAA1279
+YE2F2	TCEAL4(LUA-1231)	LM	Analyte 276	276	dp44	LUA-1231	202371_at	deltap	TCEAL4	79921	transcription elongation factor A (SII)-like 4
+YG8H8	NUP133(LUA-1256)	LM	Analyte 277	277	dp44	LUA-1256	202184_s_at	deltap	NUP133	55746	nucleoporin 133kDa
+PPA1B1	NUP62(LUA-72)	LM	Analyte 278	278	dp44	LUA-72	202153_s_at	deltap	NUP62	23636	nucleoporin 62kDa
+YC5D5	MALT1(LUA-1242)	LM	Analyte 279	279	dp44	LUA-1242	208309_s_at	deltap	MALT1	10892	mucosa associated lymphoid tissue lymphoma translocation gene 1
+LLLC6D6	YKT6(LUA-4340)	LM	Analyte 280	280	dp44	LUA-4340	217784_at	deltap	YKT6	10652	YKT6 v-SNARE homolog (S. cerevisiae)
+XA11B11	KIF2C(LUA-1217)	LM	Analyte 281	281	dp44	LUA-1217	209408_at	deltap	KIF2C	11004	kinesin family member 2C
+WWA8B8	MAD2L1BP(LUA-3112)	LM	Analyte 282	282	dp44	LUA-3112	203094_at	deltap	MAD2L1BP	9587	MAD2L1 binding protein
+LE10F10	NNT(LUA-639)	LM	Analyte 283	283	dp44	LUA-639	202784_s_at	deltap	NNT	23530	nicotinamide nucleotide transhydrogenase
+MMG9H9	ERCC5(LUA-871)	LM	Analyte 284	284	dp44	LUA-871	202414_at	deltap	ERCC5	2073	excision repair cross-complementing rodent repair deficiency, complementation group 5
+RRC8D8	PEX19(LUA-1159)	LM	Analyte 285	285	dp44	LUA-1159	201707_at	deltap	PEX19	5824	peroxisomal biogenesis factor 19
+MMA7B7	FUZ(LUA-883)	LM	Analyte 286	286	dp44	LUA-883	221187_s_at	deltap	FUZ	80199	fuzzy homolog (Drosophila)
+IIC8D8	IQGAP1(LUA-345)	LM	Analyte 287	287	dp44	LUA-345	200791_s_at	deltap	IQGAP1	8826	IQ motif containing GTPase activating protein 1
+XG2H2	KIAA0317(LUA-1184)	LM	Analyte 288	288	dp44	LUA-1184	202128_at	deltap	KIAA0317	9870	KIAA0317
+YYC10D10	ETS2(LUA-3279)	LM	Analyte 289	289	dp44	LUA-3279	201328_at	deltap	ETS2	2114	v-ets erythroblastosis virus E26 oncogene homolog 2 (avian)
+PPC4D4	SNRPD1(LUA-1160)	LM	Analyte 290	290	dp44	LUA-1160	202691_at	deltap	SNRPD1	6632	small nuclear ribonucleoprotein D1 polypeptide 16kDa
+TTA2B2	HSPA4(LUA-80)	LM	Analyte 291	291	dp44	LUA-80	211015_s_at	deltap	HSPA4	3308	heat shock 70kDa protein 4
+OOE9F9	TOP2A(LUA-77)	LM	Analyte 292	292	dp44	LUA-77	201292_at	deltap	TOP2A	7153	topoisomerase (DNA) II alpha 170kDa
+KKA9B9	CLCN3(LUA-597)	LM	Analyte 293	293	dp44	LUA-597	201735_s_at	deltap	CLCN3	1182	chloride channel 3
+LG11H11	PPIF(LUA-644)	LM	Analyte 294	294	dp44	LUA-644	201489_at	deltap	PPIF	10105	peptidylprolyl isomerase F
+MMC12D12	B3GNT1(LUA-881)	LM	Analyte 295	295	dp44	LUA-881	203188_at	deltap	B3GNT1	11041	UDP-GlcNAc:betaGal beta-1,3-N-acetylglucosaminyltransferase 1
+ZZA4B4	PPP2R3A(LUA-3332)	LM	Analyte 296	296	dp44	LUA-3332	207749_s_at	deltap	PPP2R3A	5523	protein phosphatase 2, regulatory subunit B'', alpha
+NNNG3H3	SCP2(LUA-4479)	LM	Analyte 297	297	dp44	LUA-4479	201339_s_at	deltap	SCP2	6342	sterol carrier protein 2
+JJA4B4	RAD9A(LUA-541)	LM	Analyte 298	298	dp44	LUA-541	204828_at	deltap	RAD9A	5883	RAD9 homolog A (S. pombe)
+OE1F1	DRAP1(LUA-747)	LM	Analyte 299	299	dp44	LUA-747	203258_at	deltap	DRAP1	10589	DR1-associated protein 1 (negative cofactor 2 alpha)
+RA5B5	PCMT1(LUA-905)	LM	Analyte 300	300	dp44	LUA-905	205202_at	deltap	PCMT1	5110	protein-L-isoaspartate (D-aspartate) O-methyltransferase
+QQE7F7	BAZ1B(LUA-38)	LM	Analyte 301	301	dp44	LUA-38	208445_s_at	deltap	BAZ1B	9031	bromodomain adjacent to zinc finger domain, 1B
+PPE3F3	MYC(LUA-100)	LM	Analyte 302	302	dp44	LUA-100	202431_s_at	deltap	MYC	4609	v-myc myelocytomatosis viral oncogene homolog (avian)
+OOG1H1	POLB(LUA-60)	LM	Analyte 303	303	dp44	LUA-60	203616_at	deltap	POLB	5423	polymerase (DNA directed), beta
+MMC4D4	CETN3(LUA-956)	LM	Analyte 304	304	dp44	LUA-956	209662_at	deltap	CETN3	1070	centrin, EF-hand protein, 3
+KKE8F8	SMC4(LUA-585)	LM	Analyte 305	305	dp44	LUA-585	201664_at	deltap	SMC4	10051	structural maintenance of chromosomes 4
+OE3F3	SMARCD2(LUA-755)	LM	Analyte 306	306	dp44	LUA-755	201827_at	deltap	SMARCD2	6603	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily d, member 2
+XG10H10	MPZL1(LUA-1216)	LM	Analyte 307	307	dp44	LUA-1216	201875_s_at	deltap	MPZL1	9019	myelin protein zero-like 1
+YYC11D11	GRHPR(LUA-3285)	LM	Analyte 308	308	dp44	LUA-3285	201347_x_at	deltap	GRHPR	9380	glyoxylate reductase/hydroxypyruvate reductase
+NNA10B10	EBNA1BP2(LUA-1348)	LM	Analyte 309	309	dp44	LUA-1348	201323_at	deltap	EBNA1BP2	10969	EBNA1 binding protein 2
+IIIE3F3	TATDN2(LUA-4065)	LM	Analyte 310	310	dp44	LUA-4065	203648_at	deltap	TATDN2	9797	TatD DNase domain containing 2
+NE12F12	LRPAP1(LUA-743)	LM	Analyte 311	311	dp44	LUA-743	201186_at	deltap	LRPAP1	4043	low density lipoprotein receptor-related protein associated protein 1
+SE4F4	RTCD1(LUA-951)	LM	Analyte 312	312	dp44	LUA-951	203594_at	deltap	RTCD1	8634	RNA terminal phosphate cyclase domain 1
+PC8D8	TBPL1(LUA-822)	LM	Analyte 313	313	dp44	LUA-822	208398_s_at	deltap	TBPL1	9519	TBP-like 1
+OG9H9	RAE1(LUA-780)	LM	Analyte 314	314	dp44	LUA-780	211318_s_at	deltap	RAE1	8480	RAE1 RNA export 1 homolog (S. pombe)
+AAAE3F3	CDC2(LUA-3420)	LM	Analyte 315	315	dp44	LUA-3420	203213_at	deltap	CDK1	983	cyclin-dependent kinase 1
+MMG12H12	SLC35A1(LUA-915)	LM	Analyte 316	316	dp44	LUA-915	203306_s_at	deltap	SLC35A1	10559	solute carrier family 35 (CMP-sialic acid transporter), member A1
+OG12H12	NIPSNAP1(LUA-792)	LM	Analyte 317	317	dp44	LUA-792	201709_s_at	deltap	NIPSNAP1	8508	nipsnap homolog 1 (C. elegans)
+OG4H4	BCL7B(LUA-760)	LM	Analyte 318	318	dp44	LUA-760	202518_at	deltap	BCL7B	9275	B-cell CLL/lymphoma 7B
+PPA8B8	TIMELESS(LUA-79)	LM	Analyte 319	319	dp44	LUA-79	203046_s_at	deltap	TIMELESS	8914	timeless homolog (Drosophila)
+MMC5D5	DHX29(LUA-759)	LM	Analyte 320	320	dp44	LUA-759	212648_at	deltap	DHX29	54505	DEAH (Asp-Glu-Ala-His) box polypeptide 29
+AAG6H6	PPAP2A(LUA-1344)	LM	Analyte 321	321	dp44	LUA-1344	209147_s_at	deltap	PPAP2A	8611	phosphatidic acid phosphatase type 2A
+PPG11H11	TCEA2(LUA-39)	LM	Analyte 322	322	dp44	LUA-39	203919_at	deltap	TCEA2	6919	transcription elongation factor A (SII), 2
+IIA4B4	FHL2(LUA-222)	LM	Analyte 323	323	dp44	LUA-222	202949_s_at	deltap	FHL2	2274	four and a half LIM domains 2
+RRG10H10	FKBP4(LUA-321)	LM	Analyte 324	324	dp44	LUA-321	200895_s_at	deltap	FKBP4	2288	FK506 binding protein 4, 59kDa
+TG2H2	MYST3(LUA-992)	LM	Analyte 325	325	dp44	LUA-992	202423_at	deltap	KAT6A	7994	K(lysine) acetyltransferase 6A
+XA2B2	CSDA(LUA-1181)	LM	Analyte 326	326	dp44	LUA-1181	201161_s_at	deltap	CSDA	8531	cold shock domain protein A
+TTE1F1	MAP3K4(LUA-638)	LM	Analyte 327	327	dp44	LUA-638	204089_x_at	deltap	MAP3K4	4216	mitogen-activated protein kinase kinase kinase 4
+OOG10H10	ZFP36(LUA-1257)	LM	Analyte 328	328	dp44	LUA-1257	201531_at	deltap	ZFP36	7538	zinc finger protein 36, C3H type, homolog (mouse)
+PPG5H5	INPP1(LUA-1296)	LM	Analyte 329	329	dp44	LUA-1296	202794_at	deltap	INPP1	3628	inositol polyphosphate-1-phosphatase
+NNC5D5	ZNF629(LUA-795)	LM	Analyte 330	330	dp44	LUA-795	213196_at	deltap	ZNF629	23361	zinc finger protein 629
+MMA11B11	SEC24B(LUA-930)	LM	Analyte 331	331	dp44	LUA-930	202798_at	deltap	SEC24B	10427	SEC24 family, member B (S. cerevisiae)
+TE12F12	FAM3C(LUA-1031)	LM	Analyte 332	332	dp44	LUA-1031	201889_at	deltap	FAM3C	10447	family with sequence similarity 3, member C
+IIE9F9	EPB41L2(LUA-558)	LM	Analyte 333	333	dp44	LUA-558	201719_s_at	deltap	EPB41L2	2037	erythrocyte membrane protein band 4.1-like 2
+NNC8D8	GNAI2(LUA-1329)	LM	Analyte 334	334	dp44	LUA-1329	201040_at	deltap	GNAI2	2771	guanine nucleotide binding protein (G protein), alpha inhibiting activity polypeptide 2
+YG11H11	TSTA3(LUA-1268)	LM	Analyte 335	335	dp44	LUA-1268	36936_at	deltap	TSTA3	7264	tissue specific transplantation antigen P35B
+PA12B12	DNMT1(LUA-837)	LM	Analyte 336	336	dp44	LUA-837	201697_s_at	deltap	DNMT1	1786	DNA (cytosine-5-)-methyltransferase 1
+NG5H5	RAB27A(LUA-716)	LM	Analyte 337	337	dp44	LUA-716	209515_s_at	deltap	RAB27A	5873	RAB27A, member RAS oncogene family
+SSC8D8	DDR1(LUA-47)	LM	Analyte 338	338	dp44	LUA-47	1007_s_at	deltap	DDR1	780	discoidin domain receptor tyrosine kinase 1
+TE9F9	LPGAT1(LUA-1019)	LM	Analyte 339	339	dp44	LUA-1019	202651_at	deltap	LPGAT1	9926	lysophosphatidylglycerol acyltransferase 1
+PPG4H4	DUSP11(LUA-1221)	LM	Analyte 340	340	dp44	LUA-1221	202703_at	deltap	DUSP11	8446	dual specificity phosphatase 11 (RNA/RNP complex 1-interacting)
+MC5D5	TP53BP2(LUA-666)	LM	Analyte 341	341	dp44	LUA-666	203120_at	deltap	TP53BP2	7159	tumor protein p53 binding protein, 2
+PPG1H1	CDKN1A(LUA-10)	LM	Analyte 342	342	dp44	LUA-10	202284_s_at	deltap	CDKN1A	1026	cyclin-dependent kinase inhibitor 1A (p21, Cip1)
+EEEC12D12	TJP1(LUA-3821)	LM	Analyte 343	343	dp44	LUA-3821	202011_at	deltap	TJP1	7082	tight junction protein 1 (zona occludens 1)
+AAE9F9	ABCB6(LUA-1355)	LM	Analyte 344	344	dp44	LUA-1355	203192_at	deltap	ABCB6	10058	ATP-binding cassette, sub-family B (MDR/TAP), member 6
+VG7H7	MTHFD2(LUA-1108)	LM	Analyte 345	345	dp44	LUA-1108	201761_at	deltap	MTHFD2	10797	methylenetetrahydrofolate dehydrogenase (NADP+ dependent) 2, methenyltetrahydrofolate cyclohydrolase
+PPA10B10	PRAF2(LUA-70)	LM	Analyte 346	346	dp44	LUA-70	203456_at	deltap	PRAF2	11230	PRA1 domain family, member 2
+RC7D7	DNTTIP2(LUA-914)	LM	Analyte 347	347	dp44	LUA-914	202776_at	deltap	DNTTIP2	30836	deoxynucleotidyltransferase, terminal, interacting protein 2
+UC1D1	HTATSF1(LUA-1034)	LM	Analyte 348	348	dp44	LUA-1034	202602_s_at	deltap	HTATSF1	27336	HIV-1 Tat specific factor 1
+RC2D2	NCAPD2(LUA-894)	LM	Analyte 349	349	dp44	LUA-894	201774_s_at	deltap	NCAPD2	9918	non-SMC condensin I complex, subunit D2
+RRE11F11	TMEM109(LUA-696)	LM	Analyte 350	350	dp44	LUA-696	201361_at	deltap	TMEM109	79073	transmembrane protein 109
+YG10H10	BTG3(LUA-1264)	LM	Analyte 351	351	dp44	LUA-1264	205548_s_at	deltap	BTG3	10950	BTG family, member 3
+KKC6D6	NUP93(LUA-170)	LM	Analyte 352	352	dp44	LUA-170	202188_at	deltap	NUP93	9688	nucleoporin 93kDa
+UG11H11	PLA2G15(LUA-1076)	LM	Analyte 353	353	dp44	LUA-1076	204458_at	deltap	PLA2G15	23659	phospholipase A2, group XV
+UUA12B12	PIP4K2B(LUA-272)	LM	Analyte 354	354	dp44	LUA-272	201080_at	deltap	PIP4K2B	8396	phosphatidylinositol-5-phosphate 4-kinase, type II, beta
+UA6B6	MYCBP2(LUA-1053)	LM	Analyte 355	355	dp44	LUA-1053	201959_s_at	deltap	MYCBP2	23077	MYC binding protein 2
+KKC10D10	PGRMC1(LUA-162)	LM	Analyte 356	356	dp44	LUA-162	201121_s_at	deltap	PGRMC1	10857	progesterone receptor membrane component 1
+YC4D4	AARS(LUA-1238)	LM	Analyte 357	357	dp44	LUA-1238	201000_at	deltap	AARS	16	alanyl-tRNA synthetase
+MMC10D10	GPC1(LUA-729)	LM	Analyte 358	358	dp44	LUA-729	202756_s_at	deltap	GPC1	2817	glypican 1
+IIC10D10	ELAC2(LUA-515)	LM	Analyte 359	359	dp44	LUA-515	201767_s_at	deltap	ELAC2	60528	elaC homolog 2 (E. coli)
+ZG7H7	PLSCR1(LUA-1300)	LM	Analyte 360	360	dp44	LUA-1300	202446_s_at	deltap	PLSCR1	5359	phospholipid scramblase 1
+LLLG4H4	CTSL1(LUA-4331)	LM	Analyte 361	361	dp44	LUA-4331	202087_s_at	deltap	CTSL1	1514	cathepsin L1
+KKA2B2	CTSD(LUA-501)	LM	Analyte 362	362	dp44	LUA-501	200766_at	deltap	CTSD	1509	cathepsin D
+OOG3H3	ARHGEF2(LUA-1125)	LM	Analyte 363	363	dp44	LUA-1125	209435_s_at	deltap	ARHGEF2	9181	Rho/Rac guanine nucleotide exchange factor (GEF) 2
+XC6D6	ILK(LUA-1198)	LM	Analyte 364	364	dp44	LUA-1198	201234_at	deltap	ILK	3611	integrin-linked kinase
+QG10H10	NFIL3(LUA-880)	LM	Analyte 365	365	dp44	LUA-880	203574_at	deltap	NFIL3	4783	nuclear factor, interleukin 3 regulated
+ZZC9D9	ARL4C(LUA-3364)	LM	Analyte 366	366	dp44	LUA-3364	202208_s_at	deltap	ARL4C	10123	ADP-ribosylation factor-like 4C
+TC7D7	CPNE3(LUA-1010)	LM	Analyte 367	367	dp44	LUA-1010	202119_s_at	deltap	CPNE3	8895	copine III
+SC7D7	GOLIM4(LUA-962)	LM	Analyte 368	368	dp44	LUA-962	204324_s_at	deltap	GOLIM4	27333	golgi integral membrane protein 4
+IIC9D9	SCRN1(LUA-405)	LM	Analyte 369	369	dp44	LUA-405	201462_at	deltap	SCRN1	9805	secernin 1
+HHE10F10	MAN2B1(LUA-468)	LM	Analyte 370	370	dp44	LUA-468	209166_s_at	deltap	MAN2B1	4125	mannosidase, alpha, class 2B, member 1
+MA3B3	RBM16(LUA-657)	LM	Analyte 371	371	dp44	LUA-657	203250_at	deltap	SCAF8	22828	SR-related CTD-associated factor 8
+OOA11B11	DCTD(LUA-1362)	LM	Analyte 372	372	dp44	LUA-1362	201572_x_at	deltap	DCTD	1635	dCMP deaminase
+OOA8B8	MBNL1(LUA-91)	LM	Analyte 373	373	dp44	LUA-91	201152_s_at	deltap	MBNL1	4154	muscleblind-like (Drosophila)
+NNNE4F4	MYCBP(LUA-4482)	LM	Analyte 374	374	dp44	LUA-4482	203360_s_at	deltap	MYCBP	26292	c-myc binding protein
+XG12H12	PTPN1(LUA-1224)	LM	Analyte 375	375	dp44	LUA-1224	202716_at	deltap	PTPN1	5770	protein tyrosine phosphatase, non-receptor type 1
+NNG11H11	BRP44(LUA-46)	LM	Analyte 376	376	dp44	LUA-46	202427_s_at	deltap	BRP44	25874	brain protein 44
+MME3F3	ECD(LUA-861)	LM	Analyte 377	377	dp44	LUA-861	203013_at	deltap	ECD	11319	ecdysoneless homolog (Drosophila)
+KKC2D2	CIRBP(LUA-509)	LM	Analyte 378	378	dp44	LUA-509	200810_s_at	deltap	CIRBP	1153	cold inducible RNA binding protein
+RG9H9	UVRAG(LUA-924)	LM	Analyte 379	379	dp44	LUA-924	203241_at	deltap	UVRAG	7405	UV radiation resistance associated gene
+MC3D3	PRSS23(LUA-658)	LM	Analyte 380	380	dp44	LUA-658	202458_at	deltap	PRSS23	11098	protease, serine, 23
+KKC11D11	VAMP7(LUA-592)	LM	Analyte 381	381	dp44	LUA-592	202829_s_at	deltap	VAMP7	6845	vesicle-associated membrane protein 7
+LE1F1	P4HA2(LUA-603)	LM	Analyte 382	382	dp44	LUA-603	202733_at	deltap	P4HA2	8974	prolyl 4-hydroxylase, alpha polypeptide II
+KKG9H9	ATP6V0B(LUA-194)	LM	Analyte 383	383	dp44	LUA-194	200078_s_at	deltap	ATP6V0B	533	ATPase, H+ transporting, lysosomal 21kDa, V0 subunit b
+YA2B2	CAPN1(LUA-1229)	LM	Analyte 384	384	dp44	LUA-1229	200752_s_at	deltap	CAPN1	823	calpain 1, (mu/I) large subunit
+SSA8B8	STXBP1(LUA-640)	LM	Analyte 385	385	dp44	LUA-640	202260_s_at	deltap	STXBP1	6812	syntaxin binding protein 1
+NNG8H8	ITGB5(LUA-1346)	LM	Analyte 386	386	dp44	LUA-1346	201125_s_at	deltap	ITGB5	3693	integrin, beta 5
+MMA12B12	SLC11A2(LUA-887)	LM	Analyte 387	387	dp44	LUA-887	203123_s_at	deltap	SLC11A2	4891	solute carrier family 11 (proton-coupled divalent metal ion transporters), member 2
+OOA2B2	PDIA5(LUA-40)	LM	Analyte 388	388	dp44	LUA-40	203857_s_at	deltap	PDIA5	10954	protein disulfide isomerase family A, member 5
+RRA9B9	RAP1GAP(LUA-1267)	LM	Analyte 389	389	dp44	LUA-1267	203911_at	deltap	RAP1GAP	5909	RAP1 GTPase activating protein
+QQE6F6	NOLC1(LUA-1265)	LM	Analyte 390	390	dp44	LUA-1265	205895_s_at	deltap	NOLC1	9221	nucleolar and coiled-body phosphoprotein 1
+OOC10D10	CAT(LUA-1202)	LM	Analyte 391	391	dp44	LUA-1202	201432_at	deltap	CAT	847	catalase
+RC3D3	DUSP14(LUA-898)	LM	Analyte 392	392	dp44	LUA-898	203367_at	deltap	DUSP14	11072	dual specificity phosphatase 14
+IIIG3H3	STAT6(LUA-4066)	LM	Analyte 393	393	dp44	LUA-4066	201331_s_at	deltap	STAT6	6778	signal transducer and activator of transcription 6, interleukin-4 induced
+TG9H9	ERCC1(LUA-1020)	LM	Analyte 394	394	dp44	LUA-1020	203720_s_at	deltap	ERCC1	2067	excision repair cross-complementing rodent repair deficiency, complementation group 1 (includes overlapping antisense sequence)
+PPE1F1	TRIB1(LUA-33)	LM	Analyte 395	395	dp44	LUA-33	202241_at	deltap	TRIB1	10221	tribbles homolog 1 (Drosophila)
+LC7D7	TP53BP1(LUA-626)	LM	Analyte 396	396	dp44	LUA-626	203050_at	deltap	TP53BP1	7158	tumor protein p53 binding protein 1
+PPA12B12	USP20(LUA-1272)	LM	Analyte 397	397	dp44	LUA-1272	203965_at	deltap	USP20	10868	ubiquitin specific peptidase 20
+XA9B9	BECN1(LUA-1209)	LM	Analyte 398	398	dp44	LUA-1209	208945_s_at	deltap	BECN1	8678	beclin 1, autophagy related
+NNNE3F3	KDELR2(LUA-4477)	LM	Analyte 399	399	dp44	LUA-4477	200698_at	deltap	KDELR2	11014	KDEL (Lys-Asp-Glu-Leu) endoplasmic reticulum protein retention receptor 2
+SSC9D9	ELAVL1(LUA-990)	LM	Analyte 400	400	dp44	LUA-990	201727_s_at	deltap	ELAVL1	1994	ELAV (embryonic lethal, abnormal vision, Drosophila)-like 1 (Hu antigen R)
+HHE6F6	ZER1(LUA-122)	LM	Analyte 401	401	dp44	LUA-122	202452_at	deltap	ZER1	10444	zer-1 homolog (C. elegans)
+IIE8F8	GAPDH(LUA-576)	LM	Analyte 402	402	dp44	LUA-576	217398_x_at	deltap	GAPDH	2597	glyceraldehyde-3-phosphate dehydrogenase
+ZG1H1	EPHA2(LUA-1276)	LM	Analyte 403	403	dp44	LUA-1276	203499_at	deltap	EPHA2	1969	EPH receptor A2
+WA11B11	PEPD(LUA-1169)	LM	Analyte 404	404	dp44	LUA-1169	202108_at	deltap	PEPD	5184	peptidase D
+IIC3D3	IGF2R(LUA-284)	LM	Analyte 405	405	dp44	LUA-284	201393_s_at	deltap	IGF2R	3482	insulin-like growth factor 2 receptor
+IIIE1F1	TIPARP(LUA-4051)	LM	Analyte 406	406	dp44	LUA-4051	212665_at	deltap	TIPARP	25976	TCDD-inducible poly(ADP-ribose) polymerase
+UUG10H10	CRTAP(LUA-556)	LM	Analyte 407	407	dp44	LUA-556	201380_at	deltap	CRTAP	10491	cartilage associated protein
+SE9F9	GMNN(LUA-971)	LM	Analyte 408	408	dp44	LUA-971	218350_s_at	deltap	GMNN	51053	geminin, DNA replication inhibitor
+OOA1B1	CYTH1(LUA-1074)	LM	Analyte 409	409	dp44	LUA-1074	202880_s_at	deltap	CYTH1	9267	cytohesin 1
+OE12F12	PRCP(LUA-791)	LM	Analyte 410	410	dp44	LUA-791	201494_at	deltap	PRCP	5547	prolylcarboxypeptidase (angiotensinase C)
+YA3B3	SMARCA4(LUA-1233)	LM	Analyte 411	411	dp44	LUA-1233	213720_s_at	deltap	SMARCA4	6597	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 4
+OA6B6	PYGL(LUA-765)	LM	Analyte 412	412	dp44	LUA-765	202990_at	deltap	PYGL	5836	phosphorylase, glycogen, liver
+ZE12F12	RPA2(LUA-1319)	LM	Analyte 413	413	dp44	LUA-1319	201756_at	deltap	RPA2	6118	replication protein A2, 32kDa
+SA1B1	ZBTB5(LUA-937)	LM	Analyte 414	414	dp44	LUA-937	203026_at	deltap	ZBTB5	9925	zinc finger and BTB domain containing 5
+SA3B3	GTF2E2(LUA-945)	LM	Analyte 415	415	dp44	LUA-945	202680_at	deltap	GTF2E2	2961	general transcription factor IIE, polypeptide 2, beta 34kDa
+OA8B8	ANXA7(LUA-773)	LM	Analyte 416	416	dp44	LUA-773	209860_s_at	deltap	ANXA7	310	annexin A7
+PG5H5	TXNRD1(LUA-812)	LM	Analyte 417	417	dp44	LUA-812	201266_at	deltap	TXNRD1	7296	thioredoxin reductase 1
+QQE3F3	EFNB3(LUA-83)	LM	Analyte 418	418	dp44	LUA-83	205031_at	deltap	EFNB3	1949	ephrin-B3
+IIC6D6	CRYZ(LUA-438)	LM	Analyte 419	419	dp44	LUA-438	202950_at	deltap	CRYZ	1429	crystallin, zeta (quinone reductase)
+PPG6H6	GAA(LUA-67)	LM	Analyte 420	420	dp44	LUA-67	202812_at	deltap	GAA	2548	glucosidase, alpha; acid
+PG11H11	SKIV2L(LUA-836)	LM	Analyte 421	421	dp44	LUA-836	203727_at	deltap	SKIV2L	6499	superkiller viralicidic activity 2-like (S. cerevisiae)
+AAE10F10	BLMH(LUA-1359)	LM	Analyte 422	422	dp44	LUA-1359	202179_at	deltap	BLMH	642	bleomycin hydrolase
+NE9F9	RRP1B(LUA-731)	LM	Analyte 423	423	dp44	LUA-731	212846_at	deltap	RRP1B	23076	ribosomal RNA processing 1 homolog B (S. cerevisiae)
+MMG1H1	TSPAN3(LUA-697)	LM	Analyte 424	424	dp44	LUA-697	200972_at	deltap	TSPAN3	10099	tetraspanin 3
+JJA1B1	SETDB1(LUA-536)	LM	Analyte 425	425	dp44	LUA-536	203155_at	deltap	SETDB1	9869	SET domain, bifurcated 1
+NG12H12	KEAP1(LUA-744)	LM	Analyte 426	426	dp44	LUA-744	202417_at	deltap	KEAP1	9817	kelch-like ECH-associated protein 1
+ZE7F7	MAN2A2(LUA-1299)	LM	Analyte 427	427	dp44	LUA-1299	202032_s_at	deltap	MAN2A2	4122	mannosidase, alpha, class 2A, member 2
+PA9B9	SMC3(LUA-825)	LM	Analyte 428	428	dp44	LUA-825	209257_s_at	deltap	SMC3	9126	structural maintenance of chromosomes 3
+NNA11B11	LBR(LUA-69)	LM	Analyte 429	429	dp44	LUA-69	201795_at	deltap	LBR	3930	lamin B receptor
+NG6H6	PPIE(LUA-720)	LM	Analyte 430	430	dp44	LUA-720	202494_at	deltap	PPIE	10450	peptidylprolyl isomerase E (cyclophilin E)
+OOE8F8	TERF2IP(LUA-1152)	LM	Analyte 431	431	dp44	LUA-1152	201174_s_at	deltap	TERF2IP	54386	telomeric repeat binding factor 2, interacting protein
+MG11H11	BNIP3(LUA-692)	LM	Analyte 432	432	dp44	LUA-692	201849_at	deltap	BNIP3	664	BCL2/adenovirus E1B 19kDa interacting protein 3
+TE7F7	BCL2(LUA-1011)	LM	Analyte 433	433	dp44	LUA-1011	203685_at	deltap	BCL2	596	B-cell CLL/lymphoma 2
+PA7B7	RBM6(LUA-817)	LM	Analyte 434	434	dp44	LUA-817	201967_at	deltap	RBM6	10180	RNA binding motif protein 6
+AAG12H12	CSK(LUA-1368)	LM	Analyte 435	435	dp44	LUA-1368	202329_at	deltap	CSK	1445	c-src tyrosine kinase
+MMG2H2	ALDOC(LUA-904)	LM	Analyte 436	436	dp44	LUA-904	202022_at	deltap	ALDOC	230	aldolase C, fructose-bisphosphate
+MME8F8	UBE2L6(LUA-936)	LM	Analyte 437	437	dp44	LUA-936	201649_at	deltap	UBE2L6	9246	ubiquitin-conjugating enzyme E2L 6
+NNC9D9	BTG2(LUA-1320)	LM	Analyte 438	438	dp44	LUA-1320	201236_s_at	deltap	BTG2	7832	BTG family, member 2
+LC4D4	PCBD1(LUA-614)	LM	Analyte 439	439	dp44	LUA-614	203557_s_at	deltap	PCBD1	5092	pterin-4 alpha-carbinolamine dehydratase/dimerization cofactor of hepatocyte nuclear factor 1 alpha
+NNE10F10	ICMT(LUA-1201)	LM	Analyte 440	440	dp44	LUA-1201	201611_s_at	deltap	ICMT	23463	isoprenylcysteine carboxyl methyltransferase
+XC3D3	CKB(LUA-1186)	LM	Analyte 441	441	dp44	LUA-1186	200884_at	deltap	CKB	1152	creatine kinase, brain
+NNE11F11	GNPDA1(LUA-1148)	LM	Analyte 442	442	dp44	LUA-1148	202382_s_at	deltap	GNPDA1	10007	glucosamine-6-phosphate deaminase 1
+OG8H8	SETD1B(LUA-776)	LM	Analyte 443	443	dp44	LUA-776	213153_at	deltap	SETD1B	23067	SET domain containing 1B
+MC12D12	NUCB2(LUA-694)	LM	Analyte 444	444	dp44	LUA-694	203675_at	deltap	NUCB2	4925	nucleobindin 2
+ZE4F4	RSU1(LUA-1287)	LM	Analyte 445	445	dp44	LUA-1287	201980_s_at	deltap	RSU1	6251	Ras suppressor protein 1
+QQG4H4	PER2(LUA-1135)	LM	Analyte 446	446	dp44	LUA-1135	205251_at	deltap	PER2	8864	period homolog 2 (Drosophila)
+OOE12F12	ACSL1(LUA-89)	LM	Analyte 447	447	dp44	LUA-89	201963_at	deltap	ACSL1	2180	acyl-CoA synthetase long-chain family member 1
+SSA5B5	PTPN12(LUA-645)	LM	Analyte 448	448	dp44	LUA-645	202006_at	deltap	PTPN12	5782	protein tyrosine phosphatase, non-receptor type 12
+OE5F5	PCK2(LUA-763)	LM	Analyte 449	449	dp44	LUA-763	202847_at	deltap	PCK2	5106	phosphoenolpyruvate carboxykinase 2 (mitochondrial)
+MME2F2	AFF1(LUA-973)	LM	Analyte 450	450	dp44	LUA-973	201924_at	deltap	AFF1	4299	AF4/FMR2 family, member 1
+SE3F3	GFPT1(LUA-947)	LM	Analyte 451	451	dp44	LUA-947	202722_s_at	deltap	GFPT1	2673	glutamine--fructose-6-phosphate transaminase 1
+YYC6D6	BLVRA(LUA-3255)	LM	Analyte 452	452	dp44	LUA-3255	211729_x_at	deltap	BLVRA	644	biliverdin reductase A
+KKA11B11	S100A13(LUA-172)	LM	Analyte 453	453	dp44	LUA-172	202598_at	deltap	S100A13	6284	S100 calcium binding protein A13
+RRC7D7	MYBL2(LUA-891)	LM	Analyte 454	454	dp44	LUA-891	201710_at	deltap	MYBL2	4605	v-myb myeloblastosis viral oncogene homolog (avian)-like 2
+SSA12B12	STX4(LUA-1056)	LM	Analyte 455	455	dp44	LUA-1056	203530_s_at	deltap	STX4	6810	syntaxin 4
+UUC11D11	TMCO1(LUA-289)	LM	Analyte 456	456	dp44	LUA-289	208716_s_at	deltap	TMCO1	54499	transmembrane and coiled-coil domains 1
+NC6D6	DHPS(LUA-718)	LM	Analyte 457	457	dp44	LUA-718	207831_x_at	deltap	DHPS	1725	deoxyhypusine synthase
+NNC2D2	CCDC85B(LUA-920)	LM	Analyte 458	458	dp44	LUA-920	204610_s_at	deltap	CCDC85B	11007	coiled-coil domain containing 85B
+AAG5H5	DDB2(LUA-1340)	LM	Analyte 459	459	dp44	LUA-1340	203409_at	deltap	DDB2	1643	damage-specific DNA binding protein 2, 48kDa
+OG7H7	BAMBI(LUA-772)	LM	Analyte 460	460	dp44	LUA-772	203304_at	deltap	BAMBI	25805	BMP and activin membrane-bound inhibitor homolog (Xenopus laevis)
+KKA10B10	HADH(LUA-569)	LM	Analyte 461	461	dp44	LUA-569	201036_s_at	deltap	HADH	3033	hydroxyacyl-CoA dehydrogenase
+YC3D3	GLRX(LUA-1234)	LM	Analyte 462	462	dp44	LUA-1234	206662_at	deltap	GLRX	2745	glutaredoxin (thioltransferase)
+SSE10F10	MVP(LUA-19)	LM	Analyte 463	463	dp44	LUA-19	202180_s_at	deltap	MVP	9961	major vault protein
+OOG7H7	STMN1(LUA-57)	LM	Analyte 464	464	dp44	LUA-57	200783_s_at	deltap	STMN1	3925	stathmin 1
+MG5H5	GALE(LUA-668)	LM	Analyte 465	465	dp44	LUA-668	202528_at	deltap	GALE	2582	UDP-galactose-4-epimerase
+UUC4D4	PTPRF(LUA-633)	LM	Analyte 466	466	dp44	LUA-633	200636_s_at	deltap	PTPRF	5792	protein tyrosine phosphatase, receptor type, F
+YG7H7	PGM1(LUA-1252)	LM	Analyte 467	467	dp44	LUA-1252	201968_s_at	deltap	PGM1	5236	phosphoglucomutase 1
+RE6F6	LOXL1(LUA-911)	LM	Analyte 468	468	dp44	LUA-911	203570_at	deltap	LOXL1	4016	lysyl oxidase-like 1
+XG5H5	MYO10(LUA-1196)	LM	Analyte 469	469	dp44	LUA-1196	201976_s_at	deltap	MYO10	4651	myosin X
+MG2H2	LIPA(LUA-656)	LM	Analyte 470	470	dp44	LUA-656	201847_at	deltap	LIPA	3988	lipase A, lysosomal acid, cholesterol esterase
+NNC10D10	PHGDH(LUA-21)	LM	Analyte 471	471	dp44	LUA-21	201397_at	deltap	PHGDH	26227	phosphoglycerate dehydrogenase
+LLC9D9	ST7(LUA-581)	LM	Analyte 472	472	dp44	LUA-581	207871_s_at	deltap	ST7	7982	suppression of tumorigenicity 7
+UC9D9	IKBKB(LUA-1066)	LM	Analyte 473	473	dp44	LUA-1066	209341_s_at	deltap	IKBKB	3551	inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase beta
+YA4B4	PCM1(LUA-1237)	LM	Analyte 474	474	dp44	LUA-1237	202174_s_at	deltap	PCM1	5108	pericentriolar material 1
+NNG10H10	IER3(LUA-1121)	LM	Analyte 475	475	dp44	LUA-1121	201631_s_at	deltap	IER3	8870	immediate early response 3
+AAE2F2	FAT1(LUA-1327)	LM	Analyte 476	476	dp44	LUA-1327	201579_at	deltap	FAT1	2195	FAT tumor suppressor homolog 1 (Drosophila)
+MC2D2	RNMT(LUA-654)	LM	Analyte 477	477	dp44	LUA-654	202683_s_at	deltap	RNMT	8731	RNA (guanine-7-) methyltransferase
+SSA10B10	EGFR(LUA-64)	LM	Analyte 478	478	dp44	LUA-64	201984_s_at	deltap	EGFR	1956	epidermal growth factor receptor
+MMG8H8	NET1(LUA-751)	LM	Analyte 479	479	dp44	LUA-751	201829_at	deltap	NET1	10276	neuroepithelial cell transforming 1
+PPG3H3	DECR1(LUA-1225)	LM	Analyte 480	480	dp44	LUA-1225	202447_at	deltap	DECR1	1666	2,4-dienoyl CoA reductase 1, mitochondrial
+NE3F3	CD19(LUA-707)	LM	Analyte 481	481	dp44	LUA-707	206398_s_at	deltap	CD19	930	CD19 molecule
+VA9B9	NPC1(LUA-1113)	LM	Analyte 482	482	dp44	LUA-1113	202679_at	deltap	NPC1	4864	Niemann-Pick disease, type C1
+LE12F12	MEST(LUA-647)	LM	Analyte 483	483	dp44	LUA-647	202016_at	deltap	MEST	4232	mesoderm specific transcript homolog (mouse)
+NG7H7	PAFAH1B3(LUA-724)	LM	Analyte 484	484	dp44	LUA-724	203228_at	deltap	PAFAH1B3	5050	platelet-activating factor acetylhydrolase 1b, catalytic subunit 3 (29kDa)
+MMC7D7	CALU(LUA-769)	LM	Analyte 485	485	dp44	LUA-769	200757_s_at	deltap	CALU	813	calumenin
+LLA4B4	LGALS8(LUA-578)	LM	Analyte 486	486	dp44	LUA-578	208936_x_at	deltap	LGALS8	3964	lectin, galactoside-binding, soluble, 8
+OOA10B10	LRP10(LUA-86)	LM	Analyte 487	487	dp44	LUA-86	201412_at	deltap	LRP10	26020	low density lipoprotein receptor-related protein 10
+WE12F12	ATP1B1(LUA-1175)	LM	Analyte 488	488	dp44	LUA-1175	201243_s_at	deltap	ATP1B1	481	ATPase, Na+/K+ transporting, beta 1 polypeptide
+PE6F6	OXCT1(LUA-815)	LM	Analyte 489	489	dp44	LUA-815	202780_at	deltap	OXCT1	5019	3-oxoacid CoA transferase 1
+SC5D5	SLC25A4(LUA-954)	LM	Analyte 490	490	dp44	LUA-954	202825_at	deltap	SLC25A4	291	solute carrier family 25 (mitochondrial carrier; adenine nucleotide translocator), member 4
+NC9D9	KIAA0922(LUA-730)	LM	Analyte 491	491	dp44	LUA-730	209760_at	deltap	KIAA0922	23240	KIAA0922
+MMMA1B1	ASCC3(LUA-4381)	LM	Analyte 492	492	dp44	LUA-4381	212815_at	deltap	ASCC3	10973	activating signal cointegrator 1 complex subunit 3
+PPG2H2	TRAM2(LUA-1025)	LM	Analyte 493	493	dp44	LUA-1025	202368_s_at	deltap	TRAM2	9697	translocation associated membrane protein 2
+SG4H4	PYCR1(LUA-952)	LM	Analyte 494	494	dp44	LUA-952	202148_s_at	deltap	PYCR1	5831	pyrroline-5-carboxylate reductase 1
+OA9B9	NCOA3(LUA-777)	LM	Analyte 495	495	dp44	LUA-777	207700_s_at	deltap	NCOA3	8202	nuclear receptor coactivator 3
+UC7D7	POLD4(LUA-1058)	LM	Analyte 496	496	dp44	LUA-1058	202996_at	deltap	POLD4	57804	polymerase (DNA-directed), delta 4
+JJJE11F11	ASL(LUA-4208)	LM	Analyte 497	497	dp44	LUA-4208	204608_at	deltap	ASL	435	argininosuccinate lyase
+PPC6D6	PRKACA(LUA-81)	LM	Analyte 498	498	dp44	LUA-81	202801_at	deltap	PRKACA	5566	protein kinase, cAMP-dependent, catalytic, alpha
+MMG3H3	SFRS16(LUA-976)	LM	Analyte 499	499	dp44	LUA-976	204978_at	deltap	CLASRP	11129	CLK4-associating serine/arginine rich protein
+LLE5F5	LYRM1(LUA-589)	LM	Analyte 500	500	dp44	LUA-589	203897_at	deltap	LYRM1	57149	LYR motif containing 1
+-666	-666	INV	Analyte 1	1	dp45	-666	CAL01	deltap	-666	-666	-666
+-666	-666	INV	Analyte 2	2	dp45	-666	CAL02	deltap	-666	-666	-666
+-666	-666	INV	Analyte 3	3	dp45	-666	CAL03	deltap	-666	-666	-666
+-666	-666	INV	Analyte 4	4	dp45	-666	CAL04	deltap	-666	-666	-666
+-666	-666	INV	Analyte 5	5	dp45	-666	CAL05	deltap	-666	-666	-666
+-666	-666	INV	Analyte 6	6	dp45	-666	CAL06	deltap	-666	-666	-666
+-666	-666	INV	Analyte 7	7	dp45	-666	CAL07	deltap	-666	-666	-666
+-666	-666	INV	Analyte 8	8	dp45	-666	CAL08	deltap	-666	-666	-666
+-666	-666	INV	Analyte 9	9	dp45	-666	CAL09	deltap	-666	-666	-666
+-666	-666	INV	Analyte 10	10	dp45	-666	CAL10	deltap	-666	-666	-666
+HHHC6D6	CREB3L2(LUA-4007)	LM	Analyte 11	11	dp45	LUA-4007	212345_s_at	deltap	CREB3L2	64764	cAMP responsive element binding protein 3-like 2
+HHHE5F5	VDAC1(LUA-4000)	LM	Analyte 12	12	dp45	LUA-4000	217140_s_at	deltap	VDAC1	7416	voltage-dependent anion channel 1
+HHHG11H11	SORBS3(LUA-4040)	LM	Analyte 13	13	dp45	LUA-4040	209253_at	deltap	SORBS3	10174	sorbin and SH3 domain containing 3
+HHHG9H9	SPAG4(LUA-4029)	LM	Analyte 14	14	dp45	LUA-4029	219888_at	deltap	SPAG4	6676	sperm associated antigen 4
+IIA8B8	SEC61A2(LUA-135)	LM	Analyte 15	15	dp45	LUA-135	219499_at	deltap	SEC61A2	55176	Sec61 alpha 2 subunit (S. cerevisiae)
+IIC4D4	SLC5A6(LUA-314)	LM	Analyte 16	16	dp45	LUA-314	204087_s_at	deltap	SLC5A6	8884	solute carrier family 5 (sodium-dependent vitamin transporter), member 6
+IIG10H10	RGS2(LUA-422)	LM	Analyte 17	17	dp45	LUA-422	202388_at	deltap	RGS2	5997	regulator of G-protein signaling 2, 24kDa
+IIG4H4	SCYL3(LUA-300)	LM	Analyte 18	18	dp45	LUA-300	205607_s_at	deltap	SCYL3	57147	SCY1-like 3 (S. cerevisiae)
+IIG7H7	TBX2(LUA-542)	LM	Analyte 19	19	dp45	LUA-542	213417_at	deltap	TBX2	6909	T-box 2
+IIIC6D6	DNAJA3(LUA-4081)	LM	Analyte 20	20	dp45	LUA-4081	205963_s_at	deltap	DNAJA3	9093	DnaJ (Hsp40) homolog, subfamily A, member 3
+IIIG5H5	DCUN1D4(LUA-4079)	LM	Analyte 21	21	dp45	LUA-4079	212851_at	deltap	DCUN1D4	23142	DCN1, defective in cullin neddylation 1, domain containing 4 (S. cerevisiae)
+JJA10B10	DYRK3(LUA-491)	LM	Analyte 22	22	dp45	LUA-491	210151_s_at	deltap	DYRK3	8444	dual-specificity tyrosine-(Y)-phosphorylation regulated kinase 3
+JJA7B7	POLG2(LUA-454)	LM	Analyte 23	23	dp45	LUA-454	205811_at	deltap	POLG2	11232	polymerase (DNA directed), gamma 2, accessory subunit
+JJC1D1	TRAPPC3(LUA-361)	LM	Analyte 24	24	dp45	LUA-361	203512_at	deltap	TRAPPC3	27095	trafficking protein particle complex 3
+JJC4D4	TCFL5(LUA-353)	LM	Analyte 25	25	dp45	LUA-353	204849_at	deltap	TCFL5	10732	transcription factor-like 5 (basic helix-loop-helix)
+JJE9F9	DOK4(LUA-561)	LM	Analyte 26	26	dp45	LUA-561	209691_s_at	deltap	DOK4	55715	docking protein 4
+JJG10H10	RBM34(LUA-506)	LM	Analyte 27	27	dp45	LUA-506	212591_at	deltap	RBM34	23029	RNA binding motif protein 34
+JJJE5F5	ITGB1BP1(LUA-4171)	LM	Analyte 28	28	dp45	LUA-4171	203336_s_at	deltap	ITGB1BP1	9270	integrin beta 1 binding protein 1
+JJJE7F7	ACLY(LUA-4182)	LM	Analyte 29	29	dp45	LUA-4182	210337_s_at	deltap	ACLY	47	ATP citrate lyase
+JJJG4H4	RAD51C(LUA-4167)	LM	Analyte 30	30	dp45	LUA-4167	206066_s_at	deltap	RAD51C	5889	RAD51 homolog C (S. cerevisiae)
+JJJG6H6	SMC1A(LUA-4177)	LM	Analyte 31	31	dp45	LUA-4177	201589_at	deltap	SMC1A	8243	structural maintenance of chromosomes 1A
+JJJG7H7	YME1L1(LUA-4183)	LM	Analyte 32	32	dp45	LUA-4183	201351_s_at	deltap	YME1L1	10730	YME1-like 1 (S. cerevisiae)
+KKA6B6	ACAA1(LUA-175)	LM	Analyte 33	33	dp45	LUA-175	214274_s_at	deltap	ACAA1	30	acetyl-CoA acyltransferase 1
+KKA3B3	SFMBT1(LUA-179)	LM	Analyte 34	34	dp45	LUA-179	213370_s_at	deltap	SFMBT1	51460	Scm-like with four mbt domains 1
+KKC3D3	PJA1(LUA-197)	LM	Analyte 35	35	dp45	LUA-197	218667_at	deltap	PJA1	64219	praja ring finger 1
+KKC7D7	WFS1(LUA-149)	LM	Analyte 36	36	dp45	LUA-149	202908_at	deltap	WFS1	7466	Wolfram syndrome 1 (wolframin)
+KKE5F5	UBE3B(LUA-393)	LM	Analyte 37	37	dp45	LUA-393	212403_at	deltap	UBE3B	89910	ubiquitin protein ligase E3B
+KKKC10D10	NPDC1(LUA-4286)	LM	Analyte 38	38	dp45	LUA-4286	218086_at	deltap	NPDC1	56654	neural proliferation, differentiation and control, 1
+KKKG3H3	ALDH7A1(LUA-4237)	LM	Analyte 39	39	dp45	LUA-4237	208950_s_at	deltap	ALDH7A1	501	aldehyde dehydrogenase 7 family, member A1
+LC6D6	SMG7(LUA-622)	LM	Analyte 40	40	dp45	LUA-622	201794_s_at	deltap	SMG7	9887	smg-7 homolog, nonsense mediated mRNA decay factor (C. elegans)
+LLA12B12	WRN(LUA-397)	LM	Analyte 41	41	dp45	LUA-397	205667_at	deltap	WRN	7486	Werner syndrome, RecQ helicase-like
+LLE10F10	POLR2I(LUA-178)	LM	Analyte 42	42	dp45	LUA-178	212955_s_at	deltap	POLR2I	5438	polymerase (RNA) II (DNA directed) polypeptide I, 14.5kDa
+LLE3F3	RHOBTB1(LUA-165)	LM	Analyte 43	43	dp45	LUA-165	212651_at	deltap	RHOBTB1	9886	Rho-related BTB domain containing 1
+LLG10H10	AKAP8L(LUA-184)	LM	Analyte 44	44	dp45	LUA-184	218064_s_at	deltap	AKAP8L	26993	A kinase (PRKA) anchor protein 8-like
+LLG4H4	PLEKHJ1(LUA-579)	LM	Analyte 45	45	dp45	LUA-579	218290_at	deltap	PLEKHJ1	55111	pleckstrin homology domain containing, family J member 1
+MMME2F2	HAT1(LUA-4394)	LM	Analyte 46	46	dp45	LUA-4394	203138_at	deltap	HAT1	8520	histone acetyltransferase 1
+MMMG4H4	G3BP1(LUA-4405)	LM	Analyte 47	47	dp45	LUA-4405	201503_at	deltap	G3BP1	10146	GTPase activating protein (SH3 domain) binding protein 1
+MMMG8H8	TPD52L2(LUA-4432)	LM	Analyte 48	48	dp45	LUA-4432	201379_s_at	deltap	TPD52L2	7165	tumor protein D52-like 2
+NNE9F9	PIH1D1(LUA-706)	LM	Analyte 49	49	dp45	LUA-706	217872_at	deltap	PIH1D1	55011	PIH1 domain containing 1
+NNG9H9	SLC2A1(LUA-1073)	LM	Analyte 50	50	dp45	LUA-1073	201250_s_at	deltap	SLC2A1	6513	solute carrier family 2 (facilitated glucose transporter), member 1
+ZZA5B5	SHB(LUA-3339)	LM	Analyte 51	51	dp45	LUA-3339	204656_at	deltap	SHB	6461	Src homology 2 domain containing adaptor protein B
+TTE10F10	UTP14A(LUA-2029)	LM	Analyte 52	52	dp45	LUA-2029	221514_at	deltap	UTP14A	10813	UTP14, U3 small nucleolar ribonucleoprotein, homolog A (yeast)
+NNA7B7	TSEN2(LUA-925)	LM	Analyte 53	53	dp45	LUA-925	219581_at	deltap	TSEN2	80746	tRNA splicing endonuclease 2 homolog (S. cerevisiae)
+TTC10D10	QRSL1(LUA-2027)	LM	Analyte 54	54	dp45	LUA-2027	218948_at	deltap	QRSL1	55278	glutaminyl-tRNA synthase (glutamine-hydrolyzing)-like 1
+MMME7F7	LYPLA1(LUA-4425)	LM	Analyte 55	55	dp45	LUA-4425	203007_x_at	deltap	LYPLA1	10434	lysophospholipase I
+QQC11D11	RAB3GAP1(LUA-90)	LM	Analyte 56	56	dp45	LUA-90	213531_s_at	deltap	RAB3GAP1	22930	RAB3 GTPase activating protein subunit 1 (catalytic)
+NNA3B3	MAP2K5(LUA-901)	LM	Analyte 57	57	dp45	LUA-901	204756_at	deltap	MAP2K5	5607	mitogen-activated protein kinase kinase 5
+LA1B1	PUF60(LUA-601)	LM	Analyte 58	58	dp45	LUA-601	209899_s_at	deltap	PUF60	22827	poly-U binding splicing factor 60KDa
+MMME12F12	DHRS7(LUA-4456)	LM	Analyte 59	59	dp45	LUA-4456	210788_s_at	deltap	DHRS7	51635	dehydrogenase/reductase (SDR family) member 7
+ZZA9B9	ARID5B(LUA-3363)	LM	Analyte 60	60	dp45	LUA-3363	212614_at	deltap	ARID5B	84159	AT rich interactive domain 5B (MRF1-like)
+FFFA2B2	TP53TG1(LUA-3829)	LM	Analyte 61	61	dp45	LUA-3829	210241_s_at	deltap	TP53TG1	11257	TP53 target 1 (non-protein coding)
+NNNA5B5	ECHDC1(LUA-4485)	LM	Analyte 62	62	dp45	LUA-4485	219974_x_at	deltap	ECHDC1	55862	enoyl CoA hydratase domain containing 1
+TTC9D9	IGHMBP2(LUA-2019)	LM	Analyte 63	63	dp45	LUA-2019	215980_s_at	deltap	IGHMBP2	3508	immunoglobulin mu binding protein 2
+QQC9D9	ADO(LUA-1018)	LM	Analyte 64	64	dp45	LUA-1018	212500_at	deltap	ADO	84890	2-aminoethanethiol (cysteamine) dioxygenase
+EEEA11B11	TCTN1(LUA-3812)	LM	Analyte 65	65	dp45	LUA-3812	218584_at	deltap	TCTN1	79600	tectonic family member 1
+HHG10H10	AKR7A2(LUA-248)	LM	Analyte 66	66	dp45	LUA-248	214259_s_at	deltap	AKR7A2	8574	aldo-keto reductase family 7, member A2 (aflatoxin aldehyde reductase)
+QC3D3	PPP2R5E(LUA-850)	LM	Analyte 67	67	dp45	LUA-850	203338_at	deltap	PPP2R5E	5529	protein phosphatase 2, regulatory subunit B', epsilon isoform
+CCCG3H3	LAMA3(LUA-3586)	LM	Analyte 68	68	dp45	LUA-3586	203726_s_at	deltap	LAMA3	3909	laminin, alpha 3
+LLG2H2	POLR3B(LUA-158)	LM	Analyte 69	69	dp45	LUA-158	219459_at	deltap	POLR3B	55703	polymerase (RNA) III (DNA directed) polypeptide B
+IIIC4D4	FEZ2(LUA-4069)	LM	Analyte 70	70	dp45	LUA-4069	215000_s_at	deltap	FEZ2	9637	fasciculation and elongation protein zeta 2 (zygin II)
+AAA11B11	IKBKAP(LUA-1361)	LM	Analyte 71	71	dp45	LUA-1361	202491_s_at	deltap	IKBKAP	8518	inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase complex-associated protein
+JJJC12D12	SGCB(LUA-4214)	LM	Analyte 72	72	dp45	LUA-4214	205120_s_at	deltap	SGCB	6443	sarcoglycan, beta (43kDa dystrophin-associated glycoprotein)
+MMMG11H11	ENOPH1(LUA-4451)	LM	Analyte 73	73	dp45	LUA-4451	217956_s_at	deltap	ENOPH1	58478	enolase-phosphatase 1
+PPA9B9	CNOT4(LUA-66)	LM	Analyte 74	74	dp45	LUA-66	203291_at	deltap	CNOT4	4850	CCR4-NOT transcription complex, subunit 4
+VE7F7	IFIT5(LUA-1107)	LM	Analyte 75	75	dp45	LUA-1107	203596_s_at	deltap	IFIT5	24138	interferon-induced protein with tetratricopeptide repeats 5
+HHC4D4	JMJD6(LUA-101)	LM	Analyte 76	76	dp45	LUA-101	212723_at	deltap	JMJD6	23210	jumonji domain containing 6
+IIIG12H12	SLC35F2(LUA-4139)	LM	Analyte 77	77	dp45	LUA-4139	218826_at	deltap	SLC35F2	54733	solute carrier family 35, member F2
+ZZC8D8	ANO10(LUA-3358)	LM	Analyte 78	78	dp45	LUA-3358	218910_at	deltap	ANO10	55129	anoctamin 10
+PA5B5	STUB1(LUA-809)	LM	Analyte 79	79	dp45	LUA-809	217934_x_at	deltap	STUB1	10273	STIP1 homology and U-box containing protein 1, E3 ubiquitin protein ligase
+QC8D8	FDX1(LUA-870)	LM	Analyte 80	80	dp45	LUA-870	203646_at	deltap	FDX1	2230	ferredoxin 1
+NE11F11	BAD(LUA-739)	LM	Analyte 81	81	dp45	LUA-739	209364_at	deltap	BAD	572	BCL2-associated agonist of cell death
+RRE5F5	PSMD10(LUA-1307)	LM	Analyte 82	82	dp45	LUA-1307	219485_s_at	deltap	PSMD10	5716	proteasome (prosome, macropain) 26S subunit, non-ATPase, 10
+PPE11F11	RAB11FIP2(LUA-1142)	LM	Analyte 83	83	dp45	LUA-1142	203884_s_at	deltap	RAB11FIP2	22841	RAB11 family interacting protein 2 (class I)
+HHG2H2	FPGS(LUA-571)	LM	Analyte 84	84	dp45	LUA-571	202945_at	deltap	FPGS	2356	folylpolyglutamate synthase
+QQG9H9	RNH1(LUA-682)	LM	Analyte 85	85	dp45	LUA-682	206050_s_at	deltap	RNH1	6050	ribonuclease/angiogenin inhibitor 1
+MMMG5H5	ATG3(LUA-4412)	LM	Analyte 86	86	dp45	LUA-4412	221492_s_at	deltap	ATG3	64422	ATG3 autophagy related 3 homolog (S. cerevisiae)
+XA4B4	HLF(LUA-1189)	LM	Analyte 87	87	dp45	LUA-1189	204755_x_at	deltap	HLF	3131	hepatic leukemia factor
+YYG6H6	CFLAR(LUA-3259)	LM	Analyte 88	88	dp45	LUA-3259	209939_x_at	deltap	CFLAR	8837	CASP8 and FADD-like apoptosis regulator
+LE9F9	HEATR1(LUA-635)	LM	Analyte 89	89	dp45	LUA-635	218595_s_at	deltap	HEATR1	55127	HEAT repeat containing 1
+QQA10B10	WDR7(LUA-1315)	LM	Analyte 90	90	dp45	LUA-1315	212880_at	deltap	WDR7	23335	WD repeat domain 7
+PPC11D11	AKAP8(LUA-24)	LM	Analyte 91	91	dp45	LUA-24	203848_at	deltap	AKAP8	10270	A kinase (PRKA) anchor protein 8
+ZZC5D5	SLC1A4(LUA-3340)	LM	Analyte 92	92	dp45	LUA-3340	212811_x_at	deltap	SLC1A4	6509	solute carrier family 1 (glutamate/neutral amino acid transporter), member 4
+KKA1B1	GRWD1(LUA-340)	LM	Analyte 93	93	dp45	LUA-340	221549_at	deltap	GRWD1	83743	glutamate-rich WD repeat containing 1
+NNNE6F6	STAT1(LUA-4495)	LM	Analyte 94	94	dp45	LUA-4495	200887_s_at	deltap	STAT1	6772	signal transducer and activator of transcription 1, 91kDa
+JJE7F7	FOXJ3(LUA-469)	LM	Analyte 95	95	dp45	LUA-469	206015_s_at	deltap	FOXJ3	22887	forkhead box J3
+UUG3H3	MTERFD1(LUA-2032)	LM	Analyte 96	96	dp45	LUA-2032	219363_s_at	deltap	MTERFD1	51001	MTERF domain containing 1
+RRG5H5	CHIC2(LUA-1029)	LM	Analyte 97	97	dp45	LUA-1029	219492_at	deltap	CHIC2	26511	cysteine-rich hydrophobic domain 2
+SSC3D3	USP7(LUA-150)	LM	Analyte 98	98	dp45	LUA-150	201498_at	deltap	USP7	7874	ubiquitin specific peptidase 7 (herpes virus-associated)
+TTE12F12	NOSIP(LUA-665)	LM	Analyte 99	99	dp45	LUA-665	217950_at	deltap	NOSIP	51070	nitric oxide synthase interacting protein
+TTA1B1	DLD(LUA-56)	LM	Analyte 100	100	dp45	LUA-56	209095_at	deltap	DLD	1738	dihydrolipoamide dehydrogenase
+NNNA7B7	IDE(LUA-4498)	LM	Analyte 101	101	dp45	LUA-4498	217496_s_at	deltap	IDE	3416	insulin-degrading enzyme
+SSG5H5	ALMS1(LUA-908)	LM	Analyte 102	102	dp45	LUA-908	214221_at	deltap	ALMS1	7840	Alstrom syndrome 1
+LE6F6	PRPF4(LUA-623)	LM	Analyte 103	103	dp45	LUA-623	209161_at	deltap	PRPF4	9128	PRP4 pre-mRNA processing factor 4 homolog (yeast)
+OE6F6	MELK(LUA-767)	LM	Analyte 104	104	dp45	LUA-767	204825_at	deltap	MELK	9833	maternal embryonic leucine zipper kinase
+JJC3D3	PDS5B(LUA-499)	LM	Analyte 105	105	dp45	LUA-499	204742_s_at	deltap	PDS5B	23047	PDS5, regulator of cohesion maintenance, homolog B (S. cerevisiae)
+EEEG5H5	SMAD3(LUA-3785)	LM	Analyte 106	106	dp45	LUA-3785	205398_s_at	deltap	SMAD3	4088	SMAD family member 3
+WWG11H11	OXA1L(LUA-3135)	LM	Analyte 107	107	dp45	LUA-3135	208717_at	deltap	OXA1L	5018	oxidase (cytochrome c) assembly 1-like
+EEEG6H6	SNX7(LUA-3790)	LM	Analyte 108	108	dp45	LUA-3790	205573_s_at	deltap	SNX7	51375	sorting nexin 7
+LLE1F1	CDCA4(LUA-595)	LM	Analyte 109	109	dp45	LUA-595	218399_s_at	deltap	CDCA4	55038	cell division cycle associated 4
+ZG4H4	TBC1D9B(LUA-1288)	LM	Analyte 110	110	dp45	LUA-1288	212054_x_at	deltap	TBC1D9B	23061	TBC1 domain family, member 9B (with GRAM domain)
+KKKA10B10	TOMM22(LUA-4285)	LM	Analyte 111	111	dp45	LUA-4285	217960_s_at	deltap	TOMM22	56993	translocase of outer mitochondrial membrane 22 homolog (yeast)
+SSE3F3	NARFL(LUA-146)	LM	Analyte 112	112	dp45	LUA-146	218742_at	deltap	NARFL	64428	nuclear prelamin A recognition factor-like
+OOA12B12	DDX42(LUA-68)	LM	Analyte 113	113	dp45	LUA-68	201788_at	deltap	DDX42	11325	DEAD (Asp-Glu-Ala-Asp) box polypeptide 42
+SSC4D4	IKBKE(LUA-775)	LM	Analyte 114	114	dp45	LUA-775	204549_at	deltap	IKBKE	9641	inhibitor of kappa light polypeptide gene enhancer in B-cells, kinase epsilon
+ZA11B11	DDX49(LUA-1313)	LM	Analyte 115	115	dp45	LUA-1313	210811_s_at	deltap	DDX49	54555	DEAD (Asp-Glu-Ala-Asp) box polypeptide 49
+TTE11F11	WDTC1(LUA-2036)	LM	Analyte 116	116	dp45	LUA-2036	40829_at	deltap	WDTC1	23038	WD and tetratricopeptide repeats 1
+IIIE8F8	PLSCR3(LUA-4094)	LM	Analyte 117	117	dp45	LUA-4094	56197_at	deltap	PLSCR3	57048	phospholipid scramblase 3
+UUG9H9	H2AFV(LUA-704)	LM	Analyte 118	118	dp45	LUA-704	212206_s_at	deltap	H2AFV	94239	H2A histone family, member V
+RG10H10	NUSAP1(LUA-928)	LM	Analyte 119	119	dp45	LUA-928	218039_at	deltap	NUSAP1	51203	nucleolar and spindle associated protein 1
+YE5F5	FAM69A(LUA-1243)	LM	Analyte 120	120	dp45	LUA-1243	213689_x_at	deltap	FAM69A	388650	family with sequence similarity 69, member A
+NA7B7	SAP18(LUA-721)	LM	Analyte 121	121	dp45	LUA-721	208741_at	deltap	SAP18	10284	Sin3A-associated protein, 18kDa
+AAA4B4	NIPBL(LUA-1333)	LM	Analyte 122	122	dp45	LUA-1333	213918_s_at	deltap	NIPBL	25836	Nipped-B homolog (Drosophila)
+MC1D1	XPO7(LUA-650)	LM	Analyte 123	123	dp45	LUA-650	212166_at	deltap	XPO7	23039	exportin 7
+MMG6H6	FAIM(LUA-805)	LM	Analyte 124	124	dp45	LUA-805	220643_s_at	deltap	FAIM	55179	Fas apoptotic inhibitory molecule
+MMMG2H2	PXMP2(LUA-4395)	LM	Analyte 125	125	dp45	LUA-4395	219076_s_at	deltap	PXMP2	5827	peroxisomal membrane protein 2, 22kDa
+QE2F2	TIMM17B(LUA-847)	LM	Analyte 126	126	dp45	LUA-847	203342_at	deltap	TIMM17B	10245	translocase of inner mitochondrial membrane 17 homolog B (yeast)
+MMMG6H6	STXBP2(LUA-4420)	LM	Analyte 127	127	dp45	LUA-4420	209367_at	deltap	STXBP2	6813	syntaxin binding protein 2
+OOA6B6	MARK4(LUA-742)	LM	Analyte 128	128	dp45	LUA-742	221560_at	deltap	MARK4	57787	MAP/microtubule affinity-regulating kinase 4
+PPC7D7	HPRT1(LUA-1097)	LM	Analyte 129	129	dp45	LUA-1097	202854_at	deltap	HPRT1	3251	hypoxanthine phosphoribosyltransferase 1
+IIIA1B1	RRS1(LUA-4049)	LM	Analyte 130	130	dp45	LUA-4049	209567_at	deltap	RRS1	23212	RRS1 ribosome biogenesis regulator homolog (S. cerevisiae)
+UUA2B2	ADAT1(LUA-2006)	LM	Analyte 131	131	dp45	LUA-2006	219384_s_at	deltap	ADAT1	23536	adenosine deaminase, tRNA-specific 1
+QA7B7	SCAND1(LUA-865)	LM	Analyte 132	132	dp45	LUA-865	218206_x_at	deltap	SCAND1	51282	SCAN domain containing 1
+MMMC2D2	MFSD10(LUA-4393)	LM	Analyte 133	133	dp45	LUA-4393	209215_at	deltap	MFSD10	10227	major facilitator superfamily domain containing 10
+QA9B9	COPS7A(LUA-873)	LM	Analyte 134	134	dp45	LUA-873	209029_at	deltap	COPS7A	50813	COP9 constitutive photomorphogenic homolog subunit 7A (Arabidopsis)
+NE2F2	FIS1(LUA-703)	LM	Analyte 135	135	dp45	LUA-703	218034_at	deltap	FIS1	51024	fission 1 (mitochondrial outer membrane) homolog (S. cerevisiae)
+RRA2B2	NUDT9(LUA-5)	LM	Analyte 136	136	dp45	LUA-5	218375_at	deltap	NUDT9	53343	nudix (nucleoside diphosphate linked moiety X)-type motif 9
+QE3F3	CSRP1(LUA-851)	LM	Analyte 137	137	dp45	LUA-851	200621_at	deltap	CSRP1	1465	cysteine and glycine-rich protein 1
+HHHG8H8	METRN(LUA-4021)	LM	Analyte 138	138	dp45	LUA-4021	219051_x_at	deltap	METRN	79006	meteorin, glial cell differentiation regulator
+QG6H6	TCTA(LUA-864)	LM	Analyte 139	139	dp45	LUA-864	203054_s_at	deltap	TCTA	6988	T-cell leukemia translocation altered gene
+SG12H12	TLK2(LUA-984)	LM	Analyte 140	140	dp45	LUA-984	212997_s_at	deltap	TLK2	11011	tousled-like kinase 2
+NNA5B5	KIAA1033(LUA-853)	LM	Analyte 141	141	dp45	LUA-853	212795_at	deltap	KIAA1033	23325	KIAA1033
+VVC12D12	DNAJB6(LUA-3067)	LM	Analyte 142	142	dp45	LUA-3067	209015_s_at	deltap	DNAJB6	10049	DnaJ (Hsp40) homolog, subfamily B, member 6
+BBBG3H3	FAM162A(LUA-3507)	LM	Analyte 143	143	dp45	LUA-3507	220942_x_at	deltap	FAM162A	26355	family with sequence similarity 162, member A
+BBBC10D10	HMGCS1(LUA-3553)	LM	Analyte 144	144	dp45	LUA-3553	221750_at	deltap	HMGCS1	3157	3-hydroxy-3-methylglutaryl-CoA synthase 1 (soluble)
+JJC10D10	SPRED2(LUA-485)	LM	Analyte 145	145	dp45	LUA-485	212458_at	deltap	SPRED2	200734	sprouty-related, EVH1 domain containing 2
+ZZA3B3	MAP7(LUA-3327)	LM	Analyte 146	146	dp45	LUA-3327	202889_x_at	deltap	MAP7	9053	microtubule-associated protein 7
+TTE8F8	CHAC1(LUA-2031)	LM	Analyte 147	147	dp45	LUA-2031	219270_at	deltap	CHAC1	79094	ChaC, cation transport regulator homolog 1 (E. coli)
+RRA6B6	GNAS(LUA-636)	LM	Analyte 148	148	dp45	LUA-636	200981_x_at	deltap	GNAS	2778	GNAS complex locus
+LLC4D4	TEX10(LUA-186)	LM	Analyte 149	149	dp45	LUA-186	218104_at	deltap	TEX10	54881	testis expressed 10
+FFFA8B8	ZNF586(LUA-3878)	LM	Analyte 150	150	dp45	LUA-3878	219711_at	deltap	ZNF586	54807	zinc finger protein 586
+IIIE11F11	DSE(LUA-4126)	LM	Analyte 151	151	dp45	LUA-4126	218854_at	deltap	DSE	29940	dermatan sulfate epimerase
+YYA6B6	APBB2(LUA-3254)	LM	Analyte 152	152	dp45	LUA-3254	213419_at	deltap	APBB2	323	amyloid beta (A4) precursor protein-binding, family B, member 2
+QQA4B4	RNF167(LUA-168)	LM	Analyte 153	153	dp45	LUA-168	212047_s_at	deltap	RNF167	26001	ring finger protein 167
+ZZC4D4	PPP3CA(LUA-3336)	LM	Analyte 154	154	dp45	LUA-3336	202429_s_at	deltap	PPP3CA	5530	protein phosphatase 3, catalytic subunit, alpha isozyme
+PA1B1	TXNDC9(LUA-793)	LM	Analyte 155	155	dp45	LUA-793	211758_x_at	deltap	TXNDC9	10190	thioredoxin domain containing 9
+YYE2F2	VGLL4(LUA-3231)	LM	Analyte 156	156	dp45	LUA-3231	212399_s_at	deltap	VGLL4	9686	vestigial like 4 (Drosophila)
+QQE8F8	ABAT(LUA-84)	LM	Analyte 157	157	dp45	LUA-84	209460_at	deltap	ABAT	18	4-aminobutyrate aminotransferase
+OOC7D7	YTHDF1(LUA-1301)	LM	Analyte 158	158	dp45	LUA-1301	221741_s_at	deltap	YTHDF1	54915	YTH domain family, member 1
+LLLE7F7	LSM5(LUA-4346)	LM	Analyte 159	159	dp45	LUA-4346	211747_s_at	deltap	LSM5	23658	LSM5 homolog, U6 small nuclear RNA associated (S. cerevisiae)
+VG6H6	ZMYM2(LUA-1104)	LM	Analyte 160	160	dp45	LUA-1104	202778_s_at	deltap	ZMYM2	7750	zinc finger, MYM-type 2
+OOG6H6	CHMP6(LUA-1311)	LM	Analyte 161	161	dp45	LUA-1311	218743_at	deltap	CHMP6	79643	charged multivesicular body protein 6
+RA7B7	GMDS(LUA-913)	LM	Analyte 162	162	dp45	LUA-913	214106_s_at	deltap	GMDS	2762	GDP-mannose 4,6-dehydratase
+QQC5D5	PIGB(LUA-88)	LM	Analyte 163	163	dp45	LUA-88	205452_at	deltap	PIGB	9488	phosphatidylinositol glycan anchor biosynthesis, class B
+VVC7D7	CHEK2(LUA-3033)	LM	Analyte 164	164	dp45	LUA-3033	210416_s_at	deltap	CHEK2	11200	CHK2 checkpoint homolog (S. pombe)
+QQE1F1	ACD(LUA-1331)	LM	Analyte 165	165	dp45	LUA-1331	204617_s_at	deltap	ACD	65057	adrenocortical dysplasia homolog (mouse)
+QQC10D10	SUPV3L1(LUA-71)	LM	Analyte 166	166	dp45	LUA-71	212894_at	deltap	SUPV3L1	6832	suppressor of var1, 3-like 1 (S. cerevisiae)
+NNG4H4	GPATCH8(LUA-758)	LM	Analyte 167	167	dp45	LUA-758	212485_at	deltap	GPATCH8	23131	G patch domain containing 8
+UUG1H1	TMEM127(LUA-2010)	LM	Analyte 168	168	dp45	LUA-2010	219460_s_at	deltap	TMEM127	55654	transmembrane protein 127
+LLG7H7	PHF2(LUA-574)	LM	Analyte 169	169	dp45	LUA-574	212726_at	deltap	PHF2	5253	PHD finger protein 2
+JJE5F5	MPDZ(LUA-530)	LM	Analyte 170	170	dp45	LUA-530	205079_s_at	deltap	MPDZ	8777	multiple PDZ domain protein
+KKKA12B12	ARPP19(LUA-4296)	LM	Analyte 171	171	dp45	LUA-4296	221482_s_at	deltap	ARPP19	10776	cAMP-regulated phosphoprotein, 19kDa
+NC10D10	RTN2(LUA-734)	LM	Analyte 172	172	dp45	LUA-734	34408_at	deltap	RTN2	6253	reticulon 2
+HHA4B4	NPEPL1(LUA-276)	LM	Analyte 173	173	dp45	LUA-276	89476_r_at	deltap	NPEPL1	79716	aminopeptidase-like 1
+SSG2H2	RARA(LUA-169)	LM	Analyte 174	174	dp45	LUA-169	211605_s_at	deltap	RARA	5914	retinoic acid receptor, alpha
+QQC1D1	UBQLN2(LUA-619)	LM	Analyte 175	175	dp45	LUA-619	215884_s_at	deltap	UBQLN2	29978	ubiquilin 2
+PPC9D9	DMTF1(LUA-1172)	LM	Analyte 176	176	dp45	LUA-1172	203301_s_at	deltap	DMTF1	9988	cyclin D binding myb-like transcription factor 1
+QQC2D2	CLPX(LUA-1173)	LM	Analyte 177	177	dp45	LUA-1173	204809_at	deltap	CLPX	10845	ClpX caseinolytic peptidase X homolog (E. coli)
+UUG6H6	TXNL4B(LUA-95)	LM	Analyte 178	178	dp45	LUA-95	218794_s_at	deltap	TXNL4B	54957	thioredoxin-like 4B
+UUA7B7	ATAD4(LUA-671)	LM	Analyte 179	179	dp45	LUA-671	219127_at	deltap	PRR15L	79170	proline rich 15-like
+RA12B12	ST6GALNAC2(LUA-933)	LM	Analyte 180	180	dp45	LUA-933	204542_at	deltap	ST6GALNAC2	10610	ST6 (alpha-N-acetyl-neuraminyl-2,3-beta-galactosyl-1,3)-N-acetylgalactosaminide alpha-2,6-sialyltransferase 2
+ZZG6H6	ADH5(LUA-3350)	LM	Analyte 181	181	dp45	LUA-3350	208847_s_at	deltap	ADH5	128	alcohol dehydrogenase 5 (class III), chi polypeptide
+NNNC6D6	GOLT1B(LUA-4494)	LM	Analyte 182	182	dp45	LUA-4494	218193_s_at	deltap	GOLT1B	51026	golgi transport 1B
+QQA2B2	PPOX(LUA-1026)	LM	Analyte 183	183	dp45	LUA-1026	204788_s_at	deltap	PPOX	5498	protoporphyrinogen oxidase
+MA12B12	CANT1(LUA-693)	LM	Analyte 184	184	dp45	LUA-693	221732_at	deltap	CANT1	124583	calcium activated nucleotidase 1
+MME5F5	HOMER2(LUA-738)	LM	Analyte 185	185	dp45	LUA-738	217080_s_at	deltap	HOMER2	9455	homer homolog 2 (Drosophila)
+NNNG7H7	CLTB(LUA-4509)	LM	Analyte 186	186	dp45	LUA-4509	205172_x_at	deltap	CLTB	1212	clathrin, light chain B
+JJE6F6	PHKA1(LUA-349)	LM	Analyte 187	187	dp45	LUA-349	205450_at	deltap	PHKA1	5255	phosphorylase kinase, alpha 1 (muscle)
+RC9D9	ZC3H4(LUA-922)	LM	Analyte 188	188	dp45	LUA-922	213390_at	deltap	ZC3H4	23211	zinc finger CCCH-type containing 4
+JJJG12H12	MAP4K4(LUA-4217)	LM	Analyte 189	189	dp45	LUA-4217	206571_s_at	deltap	MAP4K4	9448	mitogen-activated protein kinase kinase kinase kinase 4
+LLA7B7	PAN2(LUA-195)	LM	Analyte 190	190	dp45	LUA-195	203117_s_at	deltap	PAN2	9924	PAN2 poly(A) specific ribonuclease subunit homolog (S. cerevisiae)
+LLLC9D9	PPIC(LUA-4354)	LM	Analyte 191	191	dp45	LUA-4354	204517_at	deltap	PPIC	5480	peptidylprolyl isomerase C (cyclophilin C)
+YYG8H8	EIF5(LUA-3268)	LM	Analyte 192	192	dp45	LUA-3268	208708_x_at	deltap	EIF5	1983	eukaryotic translation initiation factor 5
+BBBC7D7	GPR125(LUA-3530)	LM	Analyte 193	193	dp45	LUA-3530	210473_s_at	deltap	GPR125	166647	G protein-coupled receptor 125
+PG1H1	TM9SF3(LUA-796)	LM	Analyte 194	194	dp45	LUA-796	217758_s_at	deltap	TM9SF3	56889	transmembrane 9 superfamily member 3
+AAG8H8	CCDC86(LUA-1352)	LM	Analyte 195	195	dp45	LUA-1352	203119_at	deltap	CCDC86	79080	coiled-coil domain containing 86
+NNA2B2	SLC25A14(LUA-768)	LM	Analyte 196	196	dp45	LUA-768	204587_at	deltap	SLC25A14	9016	solute carrier family 25 (mitochondrial carrier, brain), member 14
+EEEE10F10	TBXA2R(LUA-3809)	LM	Analyte 197	197	dp45	LUA-3809	336_at	deltap	TBXA2R	6915	thromboxane A2 receptor
+JJC6D6	ZBTB24(LUA-525)	LM	Analyte 198	198	dp45	LUA-525	205340_at	deltap	ZBTB24	9841	zinc finger and BTB domain containing 24
+QQG12H12	HERPUD1(LUA-1247)	LM	Analyte 199	199	dp45	LUA-1247	217168_s_at	deltap	HERPUD1	9709	homocysteine-inducible, endoplasmic reticulum stress-inducible, ubiquitin-like domain member 1
+LLLG6H6	RPL39L(LUA-4343)	LM	Analyte 200	200	dp45	LUA-4343	210115_at	deltap	RPL39L	116832	ribosomal protein L39-like
+QQG5H5	BPHL(LUA-50)	LM	Analyte 201	201	dp45	LUA-50	205750_at	deltap	BPHL	670	biphenyl hydrolase-like (serine hydrolase)
+WE7F7	MAPKAPK3(LUA-1155)	LM	Analyte 202	202	dp45	LUA-1155	202788_at	deltap	MAPKAPK3	7867	mitogen-activated protein kinase-activated protein kinase 3
+JJG8H8	MBOAT7(LUA-344)	LM	Analyte 203	203	dp45	LUA-344	209179_s_at	deltap	MBOAT7	79143	membrane bound O-acyltransferase domain containing 7
+MMA6B6	PNKP(LUA-830)	LM	Analyte 204	204	dp45	LUA-830	218961_s_at	deltap	PNKP	11284	polynucleotide kinase 3'-phosphatase
+IIIA7B7	SLC35A3(LUA-4085)	LM	Analyte 205	205	dp45	LUA-4085	206770_s_at	deltap	SLC35A3	23443	solute carrier family 35 (UDP-N-acetylglucosamine (UDP-GlcNAc) transporter), member A3
+QQC7D7	LSR(LUA-78)	LM	Analyte 206	206	dp45	LUA-78	208190_s_at	deltap	LSR	51599	lipolysis stimulated lipoprotein receptor
+RRG7H7	FANCA(LUA-1083)	LM	Analyte 207	207	dp45	LUA-1083	203806_s_at	deltap	FANCA	2175	Fanconi anemia, complementation group A
+RA2B2	JARID1A(LUA-893)	LM	Analyte 208	208	dp45	LUA-893	202040_s_at	deltap	KDM5A	5927	lysine (K)-specific demethylase 5A
+SSC6D6	FAM63A(LUA-748)	LM	Analyte 209	209	dp45	LUA-748	221856_s_at	deltap	FAM63A	55793	family with sequence similarity 63, member A
+NNNA6B6	RAB4A(LUA-4489)	LM	Analyte 210	210	dp45	LUA-4489	203582_s_at	deltap	RAB4A	5867	RAB4A, member RAS oncogene family
+MG10H10	IFRD2(LUA-688)	LM	Analyte 211	211	dp45	LUA-688	209100_at	deltap	IFRD2	7866	interferon-related developmental regulator 2
+MMMG1H1	BACE2(LUA-4391)	LM	Analyte 212	212	dp45	LUA-4391	217867_x_at	deltap	BACE2	25825	beta-site APP-cleaving enzyme 2
+RC10D10	LYN(LUA-926)	LM	Analyte 213	213	dp45	LUA-926	210754_s_at	deltap	LYN	4067	v-yes-1 Yamaguchi sarcoma viral related oncogene homolog
+LLE4F4	ISOC1(LUA-157)	LM	Analyte 214	214	dp45	LUA-157	218170_at	deltap	ISOC1	51015	isochorismatase domain containing 1
+NNG3H3	SIK1(LUA-842)	LM	Analyte 215	215	dp45	LUA-842	208078_s_at	deltap	SIK1	150094	salt-inducible kinase 1
+LLE9F9	RAGE(LUA-152)	LM	Analyte 216	216	dp45	LUA-152	205130_at	deltap	MOK	5891	MOK protein kinase
+UG2H2	LYPD3(LUA-1040)	LM	Analyte 217	217	dp45	LUA-1040	204952_at	deltap	LYPD3	27076	LY6/PLAUR domain containing 3
+ZG3H3	DNAJB2(LUA-1284)	LM	Analyte 218	218	dp45	LUA-1284	202500_at	deltap	DNAJB2	3300	DnaJ (Hsp40) homolog, subfamily B, member 2
+KKG4H4	CERK(LUA-356)	LM	Analyte 219	219	dp45	LUA-356	218421_at	deltap	CERK	64781	ceramide kinase
+PA6B6	LAP3(LUA-813)	LM	Analyte 220	220	dp45	LUA-813	217933_s_at	deltap	LAP3	51056	leucine aminopeptidase 3
+JJC11D11	MAPKAPK5(LUA-472)	LM	Analyte 221	221	dp45	LUA-472	212871_at	deltap	MAPKAPK5	8550	mitogen-activated protein kinase-activated protein kinase 5
+KKKC9D9	HDGFRP3(LUA-4282)	LM	Analyte 222	222	dp45	LUA-4282	209526_s_at	deltap	HDGFRP3	50810	hepatoma-derived growth factor, related protein 3
+AAAG5H5	CISH(LUA-3432)	LM	Analyte 223	223	dp45	LUA-3432	221223_x_at	deltap	CISH	1154	cytokine inducible SH2-containing protein
+JJE2F2	RAB21(LUA-141)	LM	Analyte 224	224	dp45	LUA-141	203885_at	deltap	RAB21	23011	RAB21, member RAS oncogene family
+MMMA11B11	PSIP1(LUA-4444)	LM	Analyte 225	225	dp45	LUA-4444	209337_at	deltap	PSIP1	11168	PC4 and SFRS1 interacting protein 1
+RRC12D12	CREB1(LUA-566)	LM	Analyte 226	226	dp45	LUA-566	204313_s_at	deltap	CREB1	1385	cAMP responsive element binding protein 1
+UA12B12	MBNL2(LUA-1077)	LM	Analyte 227	227	dp45	LUA-1077	203640_at	deltap	MBNL2	10150	muscleblind-like 2 (Drosophila)
+IIIC9D9	PACSIN3(LUA-4104)	LM	Analyte 228	228	dp45	LUA-4104	218744_s_at	deltap	PACSIN3	29763	protein kinase C and casein kinase substrate in neurons 3
+OOE4F4	MTA1(LUA-17)	LM	Analyte 229	229	dp45	LUA-17	211783_s_at	deltap	MTA1	9112	metastasis associated 1
+ZZC2D2	MACF1(LUA-3315)	LM	Analyte 230	230	dp45	LUA-3315	208634_s_at	deltap	MACF1	23499	microtubule-actin crosslinking factor 1
+EEEE6F6	SNRPF(LUA-3788)	LM	Analyte 231	231	dp45	LUA-3788	203832_at	deltap	SNRPF	6636	small nuclear ribonucleoprotein polypeptide F
+TTG9H9	HIST1H2BK(LUA-683)	LM	Analyte 232	232	dp45	LUA-683	209806_at	deltap	HIST1H2BK	85236	histone cluster 1, H2bk
+LLLE10F10	PCCB(LUA-4364)	LM	Analyte 233	233	dp45	LUA-4364	212694_s_at	deltap	PCCB	5096	propionyl CoA carboxylase, beta polypeptide
+UUA4B4	STAP2(LUA-2017)	LM	Analyte 234	234	dp45	LUA-2017	221610_s_at	deltap	STAP2	55620	signal transducing adaptor family member 2
+SSA1B1	PMM2(LUA-559)	LM	Analyte 235	235	dp45	LUA-559	203201_at	deltap	PMM2	5373	phosphomannomutase 2
+BBBE11F11	HSD17B11(LUA-3560)	LM	Analyte 236	236	dp45	LUA-3560	217989_at	deltap	HSD17B11	51170	hydroxysteroid (17-beta) dehydrogenase 11
+NNE7F7	FBXL12(LUA-942)	LM	Analyte 237	237	dp45	LUA-942	220127_s_at	deltap	FBXL12	54850	F-box and leucine-rich repeat protein 12
+MMMC11D11	WDR61(LUA-4445)	LM	Analyte 238	238	dp45	LUA-4445	221531_at	deltap	WDR61	80349	WD repeat domain 61
+MMC1D1	FAS(LUA-97)	LM	Analyte 239	239	dp45	LUA-97	204781_s_at	deltap	FAS	355	Fas (TNF receptor superfamily, member 6)
+QQA3B3	CENPE(LUA-1337)	LM	Analyte 240	240	dp45	LUA-1337	205046_at	deltap	CENPE	1062	centromere protein E, 312kDa
+IIG8H8	CREG1(LUA-414)	LM	Analyte 241	241	dp45	LUA-414	201200_at	deltap	CREG1	8804	cellular repressor of E1A-stimulated genes 1
+JJG12H12	PRR7(LUA-381)	LM	Analyte 242	242	dp45	LUA-381	219742_at	deltap	PRR7	80758	proline rich 7 (synaptic)
+IIIG4H4	TMEM110(LUA-4071)	LM	Analyte 243	243	dp45	LUA-4071	213851_at	deltap	TMEM110	375346	transmembrane protein 110
+IIG2H2	ZNF589(LUA-201)	LM	Analyte 244	244	dp45	LUA-201	219968_at	deltap	ZNF589	51385	zinc finger protein 589
+VE6F6	ASMTL(LUA-1103)	LM	Analyte 245	245	dp45	LUA-1103	209394_at	deltap	ASMTL	8623	acetylserotonin O-methyltransferase-like
+HHA11B11	CNDP2(LUA-215)	LM	Analyte 246	246	dp45	LUA-215	217752_s_at	deltap	CNDP2	55748	CNDP dipeptidase 2 (metallopeptidase M20 family)
+KKE12F12	TNIP1(LUA-182)	LM	Analyte 247	247	dp45	LUA-182	207196_s_at	deltap	TNIP1	10318	TNFAIP3 interacting protein 1
+NNNE1F1	P4HTM(LUA-4463)	LM	Analyte 248	248	dp45	LUA-4463	222125_s_at	deltap	P4HTM	54681	prolyl 4-hydroxylase, transmembrane (endoplasmic reticulum)
+KKKC3D3	REEP5(LUA-4234)	LM	Analyte 249	249	dp45	LUA-4234	208872_s_at	deltap	REEP5	7905	receptor accessory protein 5
+JJE11F11	BZW2(LUA-423)	LM	Analyte 250	250	dp45	LUA-423	217809_at	deltap	BZW2	28969	basic leucine zipper and W2 domains 2
+HHE8F8	CGRRF1(LUA-403)	LM	Analyte 251	251	dp45	LUA-403	204605_at	deltap	CGRRF1	10668	cell growth regulator with ring finger domain 1
+KKE7F7	AMDHD2(LUA-164)	LM	Analyte 252	252	dp45	LUA-164	219082_at	deltap	AMDHD2	51005	amidohydrolase domain containing 2
+JJG5H5	PEX11A(LUA-367)	LM	Analyte 253	253	dp45	LUA-367	205161_s_at	deltap	PEX11A	8800	peroxisomal biogenesis factor 11 alpha
+MMC6D6	GFOD1(LUA-728)	LM	Analyte 254	254	dp45	LUA-728	219821_s_at	deltap	GFOD1	54438	glucose-fructose oxidoreductase domain containing 1
+UUC1D1	PECR(LUA-2015)	LM	Analyte 255	255	dp45	LUA-2015	221142_s_at	deltap	PECR	55825	peroxisomal trans-2-enoyl-CoA reductase
+MC11D11	SOCS2(LUA-690)	LM	Analyte 256	256	dp45	LUA-690	203373_at	deltap	SOCS2	8835	suppressor of cytokine signaling 2
+RRG1H1	ZDHHC6(LUA-1)	LM	Analyte 257	257	dp45	LUA-1	218249_at	deltap	ZDHHC6	64429	zinc finger, DHHC-type containing 6
+IIG1H1	ITGAE(LUA-106)	LM	Analyte 258	258	dp45	LUA-106	205055_at	deltap	ITGAE	3682	integrin, alpha E (antigen CD103, human mucosal lymphocyte antigen 1; alpha polypeptide)
+RRA10B10	TMEM5(LUA-1358)	LM	Analyte 259	259	dp45	LUA-1358	204808_s_at	deltap	TMEM5	10329	transmembrane protein 5
+KKA5B5	ATP5S(LUA-250)	LM	Analyte 260	260	dp45	LUA-250	213995_at	deltap	ATP5S	27109	ATP synthase, H+ transporting, mitochondrial Fo complex, subunit s (factor B)
+YE10F10	NGRN(LUA-1263)	LM	Analyte 261	261	dp45	LUA-1263	217722_s_at	deltap	NGRN	51335	neugrin, neurite outgrowth associated
+IIIG2H2	HOXA5(LUA-4060)	LM	Analyte 262	262	dp45	LUA-4060	213844_at	deltap	HOXA5	3202	homeobox A5
+KKE1F1	GRN(LUA-328)	LM	Analyte 263	263	dp45	LUA-328	200678_x_at	deltap	GRN	2896	granulin
+HHE5F5	NUP85(LUA-332)	LM	Analyte 264	264	dp45	LUA-332	218014_at	deltap	NUP85	79902	nucleoporin 85kDa
+LG6H6	GTPBP8(LUA-624)	LM	Analyte 265	265	dp45	LUA-624	221046_s_at	deltap	GTPBP8	29083	GTP-binding protein 8 (putative)
+RC1D1	PTK2(LUA-890)	LM	Analyte 266	266	dp45	LUA-890	208820_at	deltap	PTK2	5747	PTK2 protein tyrosine kinase 2
+QG5H5	EPN2(LUA-860)	LM	Analyte 267	267	dp45	LUA-860	203464_s_at	deltap	EPN2	22905	epsin 2
+AAAC2D2	CCDC90A(LUA-3403)	LM	Analyte 268	268	dp45	LUA-3403	220094_s_at	deltap	CCDC90A	63933	coiled-coil domain containing 90A
+VE10F10	KIAA0528(LUA-1119)	LM	Analyte 269	269	dp45	LUA-1119	212943_at	deltap	KIAA0528	9847	KIAA0528
+NNNA8B8	MRPS16(LUA-4510)	LM	Analyte 270	270	dp45	LUA-4510	218046_s_at	deltap	MRPS16	51021	mitochondrial ribosomal protein S16
+LA2B2	SLC16A6(LUA-605)	LM	Analyte 271	271	dp45	LUA-605	207038_at	deltap	SLC16A6	9120	solute carrier family 16, member 6 (monocarboxylic acid transporter 7)
+TTE4F4	NOL3(LUA-1002)	LM	Analyte 272	272	dp45	LUA-1002	221567_at	deltap	NOL3	8996	nucleolar protein 3 (apoptosis repressor with CARD domain)
+JJG11H11	NR1H2(LUA-371)	LM	Analyte 273	273	dp45	LUA-371	218215_s_at	deltap	NR1H2	7376	nuclear receptor subfamily 1, group H, member 2
+QQE4F4	PLS1(LUA-1193)	LM	Analyte 274	274	dp45	LUA-1193	205190_at	deltap	PLS1	5357	plastin 1
+NNNC1D1	DUSP22(LUA-4460)	LM	Analyte 275	275	dp45	LUA-4460	218845_at	deltap	DUSP22	56940	dual specificity phosphatase 22
+JJJE10F10	RPS6KA1(LUA-4201)	LM	Analyte 276	276	dp45	LUA-4201	203379_at	deltap	RPS6KA1	6195	ribosomal protein S6 kinase, 90kDa, polypeptide 1
+RE11F11	DCK(LUA-931)	LM	Analyte 277	277	dp45	LUA-931	203302_at	deltap	DCK	1633	deoxycytidine kinase
+IIIE4F4	TRIM2(LUA-4070)	LM	Analyte 278	278	dp45	LUA-4070	215945_s_at	deltap	TRIM2	23321	tripartite motif containing 2
+NC4D4	VPS28(LUA-710)	LM	Analyte 279	279	dp45	LUA-710	218679_s_at	deltap	VPS28	51160	vacuolar protein sorting 28 homolog (S. cerevisiae)
+LLE2F2	LRRC16A(LUA-108)	LM	Analyte 280	280	dp45	LUA-108	219573_at	deltap	LRRC16A	55604	leucine rich repeat containing 16A
+BBBE7F7	GPRC5C(LUA-3531)	LM	Analyte 281	281	dp45	LUA-3531	219327_s_at	deltap	GPRC5C	55890	G protein-coupled receptor, family C, group 5, member C
+QQG10H10	COL4A5(LUA-41)	LM	Analyte 282	282	dp45	LUA-41	213110_s_at	deltap	COL4A5	1287	collagen, type IV, alpha 5
+HHHG12H12	NR2F6(LUA-4048)	LM	Analyte 283	283	dp45	LUA-4048	209262_s_at	deltap	NR2F6	2063	nuclear receptor subfamily 2, group F, member 6
+UUA1B1	EXOSC4(LUA-2007)	LM	Analyte 284	284	dp45	LUA-2007	218695_at	deltap	EXOSC4	54512	exosome component 4
+LLLG2H2	PDLIM1(LUA-4320)	LM	Analyte 285	285	dp45	LUA-4320	208690_s_at	deltap	PDLIM1	9124	PDZ and LIM domain 1
+OOG5H5	CRELD2(LUA-32)	LM	Analyte 286	286	dp45	LUA-32	218358_at	deltap	CRELD2	79174	cysteine-rich with EGF-like domains 2
+TTE3F3	RRP12(LUA-1124)	LM	Analyte 287	287	dp45	LUA-1124	216913_s_at	deltap	RRP12	23223	ribosomal RNA processing 12 homolog (S. cerevisiae)
+MMMC5D5	ACAT2(LUA-4410)	LM	Analyte 288	288	dp45	LUA-4410	209608_s_at	deltap	ACAT2	39	acetyl-CoA acetyltransferase 2
+PC4D4	THAP11(LUA-806)	LM	Analyte 289	289	dp45	LUA-806	212910_at	deltap	THAP11	57215	THAP domain containing 11
+AAAG3H3	CEBPD(LUA-3423)	LM	Analyte 290	290	dp45	LUA-3423	203973_s_at	deltap	CEBPD	1052	CCAAT/enhancer binding protein (C/EBP), delta
+QQA12B12	MAST2(LUA-1126)	LM	Analyte 291	291	dp45	LUA-1126	215903_s_at	deltap	MAST2	23139	microtubule associated serine/threonine kinase 2
+TTG11H11	DHDDS(LUA-2030)	LM	Analyte 292	292	dp45	LUA-2030	218547_at	deltap	DHDDS	79947	dehydrodolichyl diphosphate synthase
+PG7H7	GADD45B(LUA-820)	LM	Analyte 293	293	dp45	LUA-820	209304_x_at	deltap	GADD45B	4616	growth arrest and DNA-damage-inducible, beta
+IIIC5D5	KIAA0355(LUA-4075)	LM	Analyte 294	294	dp45	LUA-4075	203288_at	deltap	KIAA0355	9710	KIAA0355
+AAAC11D11	DYNLT3(LUA-3469)	LM	Analyte 295	295	dp45	LUA-3469	203303_at	deltap	DYNLT3	6990	dynein, light chain, Tctex-type 3
+OOE6F6	CHMP4A(LUA-87)	LM	Analyte 296	296	dp45	LUA-87	218571_s_at	deltap	CHMP4A	29082	charged multivesicular body protein 4A
+NNA1B1	IPO13(LUA-818)	LM	Analyte 297	297	dp45	LUA-818	203546_at	deltap	IPO13	9670	importin 13
+KKG7H7	ITFG1(LUA-570)	LM	Analyte 298	298	dp45	LUA-570	221449_s_at	deltap	ITFG1	81533	integrin alpha FG-GAP repeat containing 1
+BBBA5B5	FZD5(LUA-3520)	LM	Analyte 299	299	dp45	LUA-3520	221245_s_at	deltap	FZD5	7855	frizzled family receptor 5
+RE4F4	HYOU1(LUA-903)	LM	Analyte 300	300	dp45	LUA-903	200825_s_at	deltap	HYOU1	10525	hypoxia up-regulated 1
+VC7D7	FOS(LUA-1106)	LM	Analyte 301	301	dp45	LUA-1106	209189_at	deltap	FOS	2353	FBJ murine osteosarcoma viral oncogene homolog
+OOA7B7	MCOLN1(LUA-1140)	LM	Analyte 302	302	dp45	LUA-1140	219952_s_at	deltap	MCOLN1	57192	mucolipin 1
+YYC12D12	ID2(LUA-3290)	LM	Analyte 303	303	dp45	LUA-3290	201565_s_at	deltap	ID2	3398	inhibitor of DNA binding 2, dominant negative helix-loop-helix protein
+CCCA2B2	KCNK1(LUA-3575)	LM	Analyte 304	304	dp45	LUA-3575	204679_at	deltap	KCNK1	3775	potassium channel, subfamily K, member 1
+LLC6D6	PPP2R5B(LUA-166)	LM	Analyte 305	305	dp45	LUA-166	204611_s_at	deltap	PPP2R5B	5526	protein phosphatase 2, regulatory subunit B', beta
+AAG2H2	RAI14(LUA-1328)	LM	Analyte 306	306	dp45	LUA-1328	202052_s_at	deltap	RAI14	26064	retinoic acid induced 14
+NNNE9F9	DNAJC15(LUA-4523)	LM	Analyte 307	307	dp45	LUA-4523	218435_at	deltap	DNAJC15	29103	DnaJ (Hsp40) homolog, subfamily C, member 15
+TG7H7	HOXA10(LUA-1012)	LM	Analyte 308	308	dp45	LUA-1012	213150_at	deltap	HOXA10	3206	homeobox A10
+RRC5D5	DFNB31(LUA-43)	LM	Analyte 309	309	dp45	LUA-43	221887_s_at	deltap	DFNB31	25861	deafness, autosomal recessive 31
+YC6D6	CTNND1(LUA-1246)	LM	Analyte 310	310	dp45	LUA-1246	208407_s_at	deltap	CTNND1	1500	catenin (cadherin-associated protein), delta 1
+LC5D5	ZNF131(LUA-618)	LM	Analyte 311	311	dp45	LUA-618	214741_at	deltap	ZNF131	7690	zinc finger protein 131
+UUE6F6	HOOK2(LUA-608)	LM	Analyte 312	312	dp45	LUA-608	218780_at	deltap	HOOK2	29911	hook homolog 2 (Drosophila)
+MMME3F3	ERBB2(LUA-4398)	LM	Analyte 313	313	dp45	LUA-4398	216836_s_at	deltap	ERBB2	2064	v-erb-b2 erythroblastic leukemia viral oncogene homolog 2, neuro/glioblastoma derived oncogene homolog (avian)
+PPE6F6	INTS3(LUA-22)	LM	Analyte 314	314	dp45	LUA-22	202809_s_at	deltap	INTS3	65123	integrator complex subunit 3
+HHE4F4	RFNG(LUA-535)	LM	Analyte 315	315	dp45	LUA-535	212968_at	deltap	RFNG	5986	RFNG O-fucosylpeptide 3-beta-N-acetylglucosaminyltransferase
+TTG12H12	MICALL1(LUA-2026)	LM	Analyte 316	316	dp45	LUA-2026	221779_at	deltap	MICALL1	85377	MICAL-like 1
+XE1F1	KLHL21(LUA-1179)	LM	Analyte 317	317	dp45	LUA-1179	203068_at	deltap	KLHL21	9903	kelch-like 21 (Drosophila)
+RE9F9	TLE1(LUA-923)	LM	Analyte 318	318	dp45	LUA-923	203221_at	deltap	TLE1	7088	transducin-like enhancer of split 1 (E(sp1) homolog, Drosophila)
+CCCE2F2	KDELR3(LUA-3578)	LM	Analyte 319	319	dp45	LUA-3578	204017_at	deltap	KDELR3	11015	KDEL (Lys-Asp-Glu-Leu) endoplasmic reticulum protein retention receptor 3
+LE3F3	COG2(LUA-611)	LM	Analyte 320	320	dp45	LUA-611	203073_at	deltap	COG2	22796	component of oligomeric golgi complex 2
+NA11B11	MRPS2(LUA-737)	LM	Analyte 321	321	dp45	LUA-737	218001_at	deltap	MRPS2	51116	mitochondrial ribosomal protein S2
+RRC2D2	KCTD5(LUA-1364)	LM	Analyte 322	322	dp45	LUA-1364	218474_s_at	deltap	KCTD5	54442	potassium channel tetramerisation domain containing 5
+UUE7F7	CNPY3(LUA-439)	LM	Analyte 323	323	dp45	LUA-439	217931_at	deltap	CNPY3	10695	canopy 3 homolog (zebrafish)
+SE10F10	ADAM10(LUA-975)	LM	Analyte 324	324	dp45	LUA-975	202604_x_at	deltap	ADAM10	102	ADAM metallopeptidase domain 10
+QQG3H3	CD58(LUA-4)	LM	Analyte 325	325	dp45	LUA-4	205173_x_at	deltap	CD58	965	CD58 molecule
+KKE3F3	KIF5C(LUA-191)	LM	Analyte 326	326	dp45	LUA-191	203130_s_at	deltap	KIF5C	3800	kinesin family member 5C
+HHC3D3	HMG20B(LUA-380)	LM	Analyte 327	327	dp45	LUA-380	210719_s_at	deltap	HMG20B	10362	high mobility group 20B
+WA3B3	PIN1(LUA-1137)	LM	Analyte 328	328	dp45	LUA-1137	202927_at	deltap	PIN1	5300	peptidylprolyl cis/trans isomerase, NIMA-interacting 1
+CCCE3F3	LAGE3(LUA-3585)	LM	Analyte 329	329	dp45	LUA-3585	219061_s_at	deltap	LAGE3	8270	L antigen family, member 3
+RRC9D9	TNFRSF21(LUA-1292)	LM	Analyte 330	330	dp45	LUA-1292	218856_at	deltap	TNFRSF21	27242	tumor necrosis factor receptor superfamily, member 21
+RRE12F12	KIF14(LUA-583)	LM	Analyte 331	331	dp45	LUA-583	206364_at	deltap	KIF14	9928	kinesin family member 14
+RRE4F4	ANKRD49(LUA-28)	LM	Analyte 332	332	dp45	LUA-28	219069_at	deltap	ANKRD49	54851	ankyrin repeat domain 49
+MMMC7D7	CYB561(LUA-4422)	LM	Analyte 333	333	dp45	LUA-4422	209163_at	deltap	CYB561	1534	cytochrome b-561
+LLLA2B2	HTRA1(LUA-4313)	LM	Analyte 334	334	dp45	LUA-4313	201185_at	deltap	HTRA1	5654	HtrA serine peptidase 1
+PPE12F12	WASF3(LUA-65)	LM	Analyte 335	335	dp45	LUA-65	204042_at	deltap	WASF3	10810	WAS protein family, member 3
+NNNE10F10	TSPAN6(LUA-4528)	LM	Analyte 336	336	dp45	LUA-4528	209109_s_at	deltap	TSPAN6	7105	tetraspanin 6
+QE1F1	FBXO21(LUA-843)	LM	Analyte 337	337	dp45	LUA-843	212231_at	deltap	FBXO21	23014	F-box protein 21
+RRA4B4	PPP2R3C(LUA-9)	LM	Analyte 338	338	dp45	LUA-9	218852_at	deltap	PPP2R3C	55012	protein phosphatase 2, regulatory subunit B'', gamma
+AAAE9F9	DNAJB12(LUA-3454)	LM	Analyte 339	339	dp45	LUA-3454	202866_at	deltap	DNAJB12	54788	DnaJ (Hsp40) homolog, subfamily B, member 12
+BBBG7H7	GRB10(LUA-3534)	LM	Analyte 340	340	dp45	LUA-3534	209409_at	deltap	GRB10	2887	growth factor receptor-bound protein 10
+UA5B5	GM2A(LUA-1049)	LM	Analyte 341	341	dp45	LUA-1049	212737_at	deltap	GM2A	2760	GM2 ganglioside activator
+JJG3H3	ZW10(LUA-546)	LM	Analyte 342	342	dp45	LUA-546	204812_at	deltap	ZW10	9183	ZW10, kinetochore associated, homolog (Drosophila)
+QC7D7	CORO1A(LUA-866)	LM	Analyte 343	343	dp45	LUA-866	209083_at	deltap	CORO1A	11151	coronin, actin binding protein, 1A
+JJE8F8	XPNPEP1(LUA-433)	LM	Analyte 344	344	dp45	LUA-433	209045_at	deltap	XPNPEP1	7511	X-prolyl aminopeptidase (aminopeptidase P) 1, soluble
+KKG10H10	MAMLD1(LUA-555)	LM	Analyte 345	345	dp45	LUA-555	205088_at	deltap	MAMLD1	10046	mastermind-like domain containing 1
+AAAC10D10	DSG2(LUA-3459)	LM	Analyte 346	346	dp45	LUA-3459	217901_at	deltap	DSG2	1829	desmoglein 2
+IIA12B12	SLC27A3(LUA-246)	LM	Analyte 347	347	dp45	LUA-246	222217_s_at	deltap	SLC27A3	11000	solute carrier family 27 (fatty acid transporter), member 3
+MMA1B1	CD97(LUA-98)	LM	Analyte 348	348	dp45	LUA-98	202910_s_at	deltap	CD97	976	CD97 molecule
+NNC11D11	IL13RA1(LUA-1305)	LM	Analyte 349	349	dp45	LUA-1305	201887_at	deltap	IL13RA1	3597	interleukin 13 receptor, alpha 1
+LA3B3	AGL(LUA-609)	LM	Analyte 350	350	dp45	LUA-609	203566_s_at	deltap	AGL	178	amylo-alpha-1, 6-glucosidase, 4-alpha-glucanotransferase
+RRC11D11	ZGPAT(LUA-307)	LM	Analyte 351	351	dp45	LUA-307	221848_at	deltap	ZGPAT	84619	zinc finger, CCCH-type with G patch domain
+MA6B6	GATA3(LUA-669)	LM	Analyte 352	352	dp45	LUA-669	209603_at	deltap	GATA3	2625	GATA binding protein 3
+JJA9B9	RPA3(LUA-446)	LM	Analyte 353	353	dp45	LUA-446	209507_at	deltap	RPA3	6119	replication protein A3, 14kDa
+EEEC11D11	TES(LUA-3813)	LM	Analyte 354	354	dp45	LUA-3813	202720_at	deltap	TES	26136	testis derived transcript (3 LIM domains)
+TE6F6	SPR(LUA-1007)	LM	Analyte 355	355	dp45	LUA-1007	203458_at	deltap	SPR	6697	sepiapterin reductase (7,8-dihydrobiopterin:NADP+ oxidoreductase)
+HHHE11F11	RELB(LUA-4039)	LM	Analyte 356	356	dp45	LUA-4039	205205_at	deltap	RELB	5971	v-rel reticuloendotheliosis viral oncogene homolog B
+NE1F1	ERCC6L(LUA-699)	LM	Analyte 357	357	dp45	LUA-699	219650_at	deltap	ERCC6L	54821	excision repair cross-complementing rodent repair deficiency, complementation group 6-like
+QQE10F10	RPIA(LUA-18)	LM	Analyte 358	358	dp45	LUA-18	212973_at	deltap	RPIA	22934	ribose 5-phosphate isomerase A
+LLC10D10	GPR56(LUA-553)	LM	Analyte 359	359	dp45	LUA-553	212070_at	deltap	GPR56	9289	G protein-coupled receptor 56
+NNE3F3	NVL(LUA-829)	LM	Analyte 360	360	dp45	LUA-829	207877_s_at	deltap	NVL	4931	nuclear VCP-like
+IIC5D5	CHCHD7(LUA-303)	LM	Analyte 361	361	dp45	LUA-303	218642_s_at	deltap	CHCHD7	79145	coiled-coil-helix-coiled-coil-helix domain containing 7
+KKKA5B5	ME2(LUA-4247)	LM	Analyte 362	362	dp45	LUA-4247	210153_s_at	deltap	ME2	4200	malic enzyme 2, NAD(+)-dependent, mitochondrial
+HHA12B12	CTSL2(LUA-326)	LM	Analyte 363	363	dp45	LUA-326	210074_at	deltap	CTSL2	1515	cathepsin L2
+LA4B4	WDR67(LUA-613)	LM	Analyte 364	364	dp45	LUA-613	214061_at	deltap	WDR67	93594	WD repeat domain 67
+WC1D1	RFC2(LUA-1130)	LM	Analyte 365	365	dp45	LUA-1130	203696_s_at	deltap	RFC2	5982	replication factor C (activator 1) 2, 40kDa
+LC1D1	TIMM9(LUA-602)	LM	Analyte 366	366	dp45	LUA-602	218316_at	deltap	TIMM9	26520	translocase of inner mitochondrial membrane 9 homolog (yeast)
+IIA7B7	ORC1L(LUA-548)	LM	Analyte 367	367	dp45	LUA-548	205085_at	deltap	ORC1	4998	origin recognition complex, subunit 1
+XG1H1	PARP2(LUA-1180)	LM	Analyte 368	368	dp45	LUA-1180	214086_s_at	deltap	PARP2	10038	poly (ADP-ribose) polymerase 2
+RRC4D4	FASTKD5(LUA-6)	LM	Analyte 369	369	dp45	LUA-6	219016_at	deltap	FASTKD5	60493	FAST kinase domains 5
+RE5F5	PTPLAD1(LUA-907)	LM	Analyte 370	370	dp45	LUA-907	217777_s_at	deltap	PTPLAD1	51495	protein tyrosine phosphatase-like A domain containing 1
+UUA3B3	MSRA(LUA-2005)	LM	Analyte 371	371	dp45	LUA-2005	219281_at	deltap	MSRA	4482	methionine sulfoxide reductase A
+KKE6F6	SYNE2(LUA-181)	LM	Analyte 372	372	dp45	LUA-181	202761_s_at	deltap	SYNE2	23224	spectrin repeat containing, nuclear envelope 2
+OOC12D12	UBE3C(LUA-1085)	LM	Analyte 373	373	dp45	LUA-1085	201817_at	deltap	UBE3C	9690	ubiquitin protein ligase E3C
+RRE1F1	CCDC92(LUA-1271)	LM	Analyte 374	374	dp45	LUA-1271	218175_at	deltap	CCDC92	80212	coiled-coil domain containing 92
+RC5D5	MGST2(LUA-906)	LM	Analyte 375	375	dp45	LUA-906	204168_at	deltap	MGST2	4258	microsomal glutathione S-transferase 2
+RRG4H4	TIMM22(LUA-1203)	LM	Analyte 376	376	dp45	LUA-1203	219184_x_at	deltap	TIMM22	29928	translocase of inner mitochondrial membrane 22 homolog (yeast)
+KKA12B12	ATF5(LUA-159)	LM	Analyte 377	377	dp45	LUA-159	204999_s_at	deltap	ATF5	22809	activating transcription factor 5
+ZE6F6	NSDHL(LUA-1295)	LM	Analyte 378	378	dp45	LUA-1295	215093_at	deltap	NSDHL	50814	NAD(P) dependent steroid dehydrogenase-like
+ZZA7B7	ADI1(LUA-3351)	LM	Analyte 379	379	dp45	LUA-3351	217761_at	deltap	ADI1	55256	acireductone dioxygenase 1
+ZZE12F12	CABC1(LUA-3386)	LM	Analyte 380	380	dp45	LUA-3386	218168_s_at	deltap	ADCK3	56997	aarF domain containing kinase 3
+YYA11B11	GDPD5(LUA-3284)	LM	Analyte 381	381	dp45	LUA-3284	213343_s_at	deltap	GDPD5	81544	glycerophosphodiester phosphodiesterase domain containing 5
+PPA7B7	TARBP1(LUA-1322)	LM	Analyte 382	382	dp45	LUA-1322	202813_at	deltap	TARBP1	6894	TAR (HIV-1) RNA binding protein 1
+AAE11F11	RBKS(LUA-1363)	LM	Analyte 383	383	dp45	LUA-1363	219222_at	deltap	RBKS	64080	ribokinase
+JJA11B11	KDM3A(LUA-460)	LM	Analyte 384	384	dp45	LUA-460	212689_s_at	deltap	KDM3A	55818	lysine (K)-specific demethylase 3A
+ZZC12D12	BID(LUA-3383)	LM	Analyte 385	385	dp45	LUA-3383	211725_s_at	deltap	BID	637	BH3 interacting domain death agonist
+PE11F11	MTF2(LUA-835)	LM	Analyte 386	386	dp45	LUA-835	203346_s_at	deltap	MTF2	22823	metal response element binding transcription factor 2
+RRG3H3	SMYD3(LUA-48)	LM	Analyte 387	387	dp45	LUA-48	218788_s_at	deltap	SMYD3	64754	SET and MYND domain containing 3
+JJA3B3	PIK3C2B(LUA-462)	LM	Analyte 388	388	dp45	LUA-462	204484_at	deltap	PIK3C2B	5287	phosphoinositide-3-kinase, class 2, beta polypeptide
+OOA5B5	SLC25A46(LUA-82)	LM	Analyte 389	389	dp45	LUA-82	212833_at	deltap	SLC25A46	91137	solute carrier family 25, member 46
+RC12D12	CDC2L6(LUA-934)	LM	Analyte 390	390	dp45	LUA-934	212899_at	deltap	CDK19	23097	cyclin-dependent kinase 19
+HHG11H11	KIAA0753(LUA-234)	LM	Analyte 391	391	dp45	LUA-234	204711_at	deltap	KIAA0753	9851	KIAA0753
+HHG3H3	MYST4(LUA-600)	LM	Analyte 392	392	dp45	LUA-600	212462_at	deltap	KAT6B	23522	K(lysine) acetyltransferase 6B
+MMMA4B4	CHN1(LUA-4401)	LM	Analyte 393	393	dp45	LUA-4401	212624_s_at	deltap	CHN1	1123	chimerin (chimaerin) 1
+LLLC5D5	MAPK13(LUA-4334)	LM	Analyte 394	394	dp45	LUA-4334	210058_at	deltap	MAPK13	5603	mitogen-activated protein kinase 13
+OOC3D3	UFM1(LUA-955)	LM	Analyte 395	395	dp45	LUA-955	218050_at	deltap	UFM1	51569	ubiquitin-fold modifier 1
+BBBG1H1	EPB41L4B(LUA-3489)	LM	Analyte 396	396	dp45	LUA-3489	220161_s_at	deltap	EPB41L4B	54566	erythrocyte membrane protein band 4.1 like 4B
+HHC5D5	IARS2(LUA-478)	LM	Analyte 397	397	dp45	LUA-478	217900_at	deltap	IARS2	55699	isoleucyl-tRNA synthetase 2, mitochondrial
+YG9H9	GATA2(LUA-1260)	LM	Analyte 398	398	dp45	LUA-1260	209710_at	deltap	GATA2	2624	GATA binding protein 2
+RA1B1	PTEN(LUA-889)	LM	Analyte 399	399	dp45	LUA-889	204054_at	deltap	PTEN	5728	phosphatase and tensin homolog
+VC8D8	NRIP1(LUA-1110)	LM	Analyte 400	400	dp45	LUA-1110	202599_s_at	deltap	NRIP1	8204	nuclear receptor interacting protein 1
+UC2D2	CCNB2(LUA-1038)	LM	Analyte 401	401	dp45	LUA-1038	202705_at	deltap	CCNB2	9133	cyclin B2
+UE8F8	RNPS1(LUA-1063)	LM	Analyte 402	402	dp45	LUA-1063	200060_s_at	deltap	RNPS1	10921	RNA binding protein S1, serine-rich domain
+IIE8F8	GAPDH(LUA-576)	LM	Analyte 403	403	dp45	LUA-576	217398_x_at	deltap	GAPDH	2597	glyceraldehyde-3-phosphate dehydrogenase
+NC1D1	ARID4B(LUA-698)	LM	Analyte 404	404	dp45	LUA-698	221230_s_at	deltap	ARID4B	51742	AT rich interactive domain 4B (RBP1-like)
+MMMA8B8	GSTZ1(LUA-4429)	LM	Analyte 405	405	dp45	LUA-4429	209531_at	deltap	GSTZ1	2954	glutathione transferase zeta 1
+RA9B9	SESN1(LUA-921)	LM	Analyte 406	406	dp45	LUA-921	218346_s_at	deltap	SESN1	27244	sestrin 1
+XA8B8	SPEN(LUA-1205)	LM	Analyte 407	407	dp45	LUA-1205	201997_s_at	deltap	SPEN	23013	spen homolog, transcriptional regulator (Drosophila)
+LLA1B1	SERTAD3(LUA-160)	LM	Analyte 408	408	dp45	LUA-160	219382_at	deltap	SERTAD3	29946	SERTA domain containing 3
+IIG12H12	PDHX(LUA-133)	LM	Analyte 409	409	dp45	LUA-133	203067_at	deltap	PDHX	8050	pyruvate dehydrogenase complex, component X
+RRG6H6	DENND2D(LUA-1057)	LM	Analyte 410	410	dp45	LUA-1057	221081_s_at	deltap	DENND2D	79961	DENN/MADD domain containing 2D
+AAAA7B7	CTTN(LUA-3440)	LM	Analyte 411	411	dp45	LUA-3440	214074_s_at	deltap	CTTN	2017	cortactin
+IIIC2D2	UBR7(LUA-4057)	LM	Analyte 412	412	dp45	LUA-4057	218108_at	deltap	UBR7	55148	ubiquitin protein ligase E3 component n-recognin 7 (putative)
+VC2D2	EPHB4(LUA-1086)	LM	Analyte 413	413	dp45	LUA-1086	202894_at	deltap	EPHB4	2050	EPH receptor B4
+TG10H10	CD44(LUA-1024)	LM	Analyte 414	414	dp45	LUA-1024	204489_s_at	deltap	CD44	960	CD44 molecule (Indian blood group)
+UUG2H2	VAV3(LUA-2035)	LM	Analyte 415	415	dp45	LUA-2035	218807_at	deltap	VAV3	10451	vav 3 guanine nucleotide exchange factor
+RRA7B7	ABHD6(LUA-1090)	LM	Analyte 416	416	dp45	LUA-1090	221552_at	deltap	ABHD6	57406	abhydrolase domain containing 6
+UUE11F11	FBRS(LUA-417)	LM	Analyte 417	417	dp45	LUA-417	218255_s_at	deltap	FBRS	64319	fibrosin
+MMG5H5	CAB39(LUA-746)	LM	Analyte 418	418	dp45	LUA-746	217873_at	deltap	CAB39	51719	calcium binding protein 39
+EEEA12B12	TIAM1(LUA-3820)	LM	Analyte 419	419	dp45	LUA-3820	213135_at	deltap	TIAM1	7074	T-cell lymphoma invasion and metastasis 1
+RG3H3	DNM1L(LUA-900)	LM	Analyte 420	420	dp45	LUA-900	203105_s_at	deltap	DNM1L	10059	dynamin 1-like
+SA8B8	DERA(LUA-965)	LM	Analyte 421	421	dp45	LUA-965	218102_at	deltap	DERA	51071	deoxyribose-phosphate aldolase (putative)
+UA8B8	PTPRK(LUA-1061)	LM	Analyte 422	422	dp45	LUA-1061	203038_at	deltap	PTPRK	5796	protein tyrosine phosphatase, receptor type, K
+MA7B7	HERC6(LUA-673)	LM	Analyte 423	423	dp45	LUA-673	219352_at	deltap	HERC6	55008	hect domain and RLD 6
+CCCG4H4	LIMK2(LUA-3591)	LM	Analyte 424	424	dp45	LUA-3591	210582_s_at	deltap	LIMK2	3985	LIM domain kinase 2
+KKKC12D12	ACOT9(LUA-4297)	LM	Analyte 425	425	dp45	LUA-4297	221641_s_at	deltap	ACOT9	23597	acyl-CoA thioesterase 9
+MME12F12	ST3GAL5(LUA-756)	LM	Analyte 426	426	dp45	LUA-756	203217_s_at	deltap	ST3GAL5	8869	ST3 beta-galactoside alpha-2,3-sialyltransferase 5
+UC10D10	CTNNAL1(LUA-1070)	LM	Analyte 427	427	dp45	LUA-1070	202468_s_at	deltap	CTNNAL1	8727	catenin (cadherin-associated protein), alpha-like 1
+LLC2D2	ABHD4(LUA-563)	LM	Analyte 428	428	dp45	LUA-563	218581_at	deltap	ABHD4	63874	abhydrolase domain containing 4
+OC9D9	INPP4B(LUA-778)	LM	Analyte 429	429	dp45	LUA-778	205376_at	deltap	INPP4B	8821	inositol polyphosphate-4-phosphatase, type II, 105kDa
+IIE1F1	ZMIZ1(LUA-111)	LM	Analyte 430	430	dp45	LUA-111	212124_at	deltap	ZMIZ1	57178	zinc finger, MIZ-type containing 1
+SSG4H4	PPARG(LUA-885)	LM	Analyte 431	431	dp45	LUA-885	208510_s_at	deltap	PPARG	5468	peroxisome proliferator-activated receptor gamma
+IIE4F4	RPP38(LUA-110)	LM	Analyte 432	432	dp45	LUA-110	205562_at	deltap	RPP38	10557	ribonuclease P/MRP 38kDa subunit
+ME5F5	CAST(LUA-667)	LM	Analyte 433	433	dp45	LUA-667	208908_s_at	deltap	CAST	831	calpastatin
+IIA1B1	BAG3(LUA-142)	LM	Analyte 434	434	dp45	LUA-142	217911_s_at	deltap	BAG3	9531	BCL2-associated athanogene 3
+OG10H10	GNA11(LUA-784)	LM	Analyte 435	435	dp45	LUA-784	40562_at	deltap	GNA11	2767	guanine nucleotide binding protein (G protein), alpha 11 (Gq class)
+ZC4D4	TOR1A(LUA-1286)	LM	Analyte 436	436	dp45	LUA-1286	202349_at	deltap	TOR1A	1861	torsin family 1, member A (torsin A)
+PPA11B11	SLC25A13(LUA-1220)	LM	Analyte 437	437	dp45	LUA-1220	203775_at	deltap	SLC25A13	10165	solute carrier family 25, member 13 (citrin)
+HHC8D8	TSPAN4(LUA-282)	LM	Analyte 438	438	dp45	LUA-282	209263_x_at	deltap	TSPAN4	7106	tetraspanin 4
+TTC3D3	NR3C1(LUA-45)	LM	Analyte 439	439	dp45	LUA-45	216321_s_at	deltap	NR3C1	2908	nuclear receptor subfamily 3, group C, member 1 (glucocorticoid receptor)
+ZA4B4	TRIB3(LUA-1285)	LM	Analyte 440	440	dp45	LUA-1285	218145_at	deltap	TRIB3	57761	tribbles homolog 3 (Drosophila)
+HHHC7D7	PHF15(LUA-4013)	LM	Analyte 441	441	dp45	LUA-4013	212660_at	deltap	PHF15	23338	PHD finger protein 15
+AAAC7D7	CXCR4(LUA-3441)	LM	Analyte 442	442	dp45	LUA-3441	211919_s_at	deltap	CXCR4	7852	chemokine (C-X-C motif) receptor 4
+UUC2D2	FKBP14(LUA-2008)	LM	Analyte 443	443	dp45	LUA-2008	219390_at	deltap	FKBP14	55033	FK506 binding protein 14, 22 kDa
+QA2B2	CIAPIN1(LUA-845)	LM	Analyte 444	444	dp45	LUA-845	208424_s_at	deltap	CIAPIN1	57019	cytokine induced apoptosis inhibitor 1
+OOC5D5	COG7(LUA-1102)	LM	Analyte 445	445	dp45	LUA-1102	213190_at	deltap	COG7	91949	component of oligomeric golgi complex 7
+QQC8D8	TUBB6(LUA-1356)	LM	Analyte 446	446	dp45	LUA-1356	209191_at	deltap	TUBB6	84617	tubulin, beta 6
+HHG7H7	ABL1(LUA-312)	LM	Analyte 447	447	dp45	LUA-312	202123_s_at	deltap	ABL1	25	c-abl oncogene 1, non-receptor tyrosine kinase
+QQE2F2	CCNF(LUA-1223)	LM	Analyte 448	448	dp45	LUA-1223	204826_at	deltap	CCNF	899	cyclin F
+LLA2B2	CEP55(LUA-174)	LM	Analyte 449	449	dp45	LUA-174	218542_at	deltap	CEP55	55165	centrosomal protein 55kDa
+JJA12B12	FAM57A(LUA-497)	LM	Analyte 450	450	dp45	LUA-497	218898_at	deltap	FAM57A	79850	family with sequence similarity 57, member A
+BBBA3B3	EVL(LUA-3501)	LM	Analyte 451	451	dp45	LUA-3501	217838_s_at	deltap	EVL	51466	Enah/Vasp-like
+PA8B8	GPER(LUA-821)	LM	Analyte 452	452	dp45	LUA-821	210640_s_at	deltap	GPER	2852	G protein-coupled estrogen receptor 1
+PPA4B4	EAPP(LUA-1101)	LM	Analyte 453	453	dp45	LUA-1101	202623_at	deltap	EAPP	55837	E2F-associated phosphoprotein
+VA10B10	EXT1(LUA-1117)	LM	Analyte 454	454	dp45	LUA-1117	201995_at	deltap	EXT1	2131	exostosin 1
+JJC7D7	POLE2(LUA-511)	LM	Analyte 455	455	dp45	LUA-511	205909_at	deltap	POLE2	5427	polymerase (DNA directed), epsilon 2 (p59 subunit)
+HHC10D10	LHPP(LUA-364)	LM	Analyte 456	456	dp45	LUA-364	218523_at	deltap	LHPP	64077	phospholysine phosphohistidine inorganic pyrophosphate phosphatase
+LG1H1	C2CD2(LUA-604)	LM	Analyte 457	457	dp45	LUA-604	212875_s_at	deltap	C2CD2	25966	C2 calcium-dependent domain containing 2
+XG3H3	ANKRD10(LUA-1188)	LM	Analyte 458	458	dp45	LUA-1188	218093_s_at	deltap	ANKRD10	55608	ankyrin repeat domain 10
+QQC3D3	DDX10(LUA-1350)	LM	Analyte 459	459	dp45	LUA-1350	204977_at	deltap	DDX10	1662	DEAD (Asp-Glu-Ala-Asp) box polypeptide 10
+AAA8B8	CEP57(LUA-1349)	LM	Analyte 460	460	dp45	LUA-1349	203494_s_at	deltap	CEP57	9702	centrosomal protein 57kDa
+VG10H10	RAB31(LUA-1120)	LM	Analyte 461	461	dp45	LUA-1120	217763_s_at	deltap	RAB31	11031	RAB31, member RAS oncogene family
+QC4D4	ABCC5(LUA-854)	LM	Analyte 462	462	dp45	LUA-854	209380_s_at	deltap	ABCC5	10057	ATP-binding cassette, sub-family C (CFTR/MRP), member 5
+RRG9H9	RFC5(LUA-1318)	LM	Analyte 463	463	dp45	LUA-1318	203209_at	deltap	RFC5	5985	replication factor C (activator 1) 5, 36.5kDa
+PPE9F9	HES1(LUA-1289)	LM	Analyte 464	464	dp45	LUA-1289	203395_s_at	deltap	HES1	3280	hairy and enhancer of split 1, (Drosophila)
+OC7D7	KLHL9(LUA-770)	LM	Analyte 465	465	dp45	LUA-770	213233_s_at	deltap	KLHL9	55958	kelch-like 9 (Drosophila)
+TTG3H3	UBE2J1(LUA-62)	LM	Analyte 466	466	dp45	LUA-62	217825_s_at	deltap	UBE2J1	51465	ubiquitin-conjugating enzyme E2, J1, U
+VE5F5	SLC37A4(LUA-1099)	LM	Analyte 467	467	dp45	LUA-1099	202830_s_at	deltap	SLC37A4	2542	solute carrier family 37 (glucose-6-phosphate transporter), member 4
+XC10D10	PARN(LUA-1214)	LM	Analyte 468	468	dp45	LUA-1214	203905_at	deltap	PARN	5073	poly(A)-specific ribonuclease
+RE10F10	TUSC4(LUA-927)	LM	Analyte 469	469	dp45	LUA-927	203246_s_at	deltap	NPRL2	10641	nitrogen permease regulator-like 2 (S. cerevisiae)
+OOC11D11	PWP1(LUA-1080)	LM	Analyte 470	470	dp45	LUA-1080	201608_s_at	deltap	PWP1	11137	PWP1 homolog (S. cerevisiae)
+OA11B11	PLEKHM1(LUA-785)	LM	Analyte 471	471	dp45	LUA-785	212717_at	deltap	PLEKHM1	9842	pleckstrin homology domain containing, family M (with RUN domain) member 1
+OOE3F3	VAT1(LUA-8)	LM	Analyte 472	472	dp45	LUA-8	208626_s_at	deltap	VAT1	10493	vesicle amine transport protein 1 homolog (T. californica)
+RRE3F3	KIF20A(LUA-52)	LM	Analyte 473	473	dp45	LUA-52	218755_at	deltap	KIF20A	10112	kinesin family member 20A
+NE6F6	CDH3(LUA-719)	LM	Analyte 474	474	dp45	LUA-719	203256_at	deltap	CDH3	1001	cadherin 3, type 1, P-cadherin (placental)
+ZZE5F5	SSBP2(LUA-3343)	LM	Analyte 475	475	dp45	LUA-3343	203787_at	deltap	SSBP2	23635	single-stranded DNA binding protein 2
+TTG8H8	SNX11(LUA-2012)	LM	Analyte 476	476	dp45	LUA-2012	220140_s_at	deltap	SNX11	29916	sorting nexin 11
+TTA12B12	SFN(LUA-2020)	LM	Analyte 477	477	dp45	LUA-2020	209260_at	deltap	SFN	2810	stratifin
+LLG9H9	RFX5(LUA-147)	LM	Analyte 478	478	dp45	LUA-147	202963_at	deltap	RFX5	5993	regulatory factor X, 5 (influences HLA class II expression)
+AAG1H1	PKIG(LUA-1324)	LM	Analyte 479	479	dp45	LUA-1324	202732_at	deltap	PKIG	11142	protein kinase (cAMP-dependent, catalytic) inhibitor gamma
+NNE6F6	FSD1(LUA-757)	LM	Analyte 480	480	dp45	LUA-757	219170_at	deltap	FSD1	79187	fibronectin type III and SPRY domain containing 1
+QQG7H7	ATP6V1D(LUA-1144)	LM	Analyte 481	481	dp45	LUA-1144	208898_at	deltap	ATP6V1D	51382	ATPase, H+ transporting, lysosomal 34kDa, V1 subunit D
+PPG12H12	CDC45L(LUA-1145)	LM	Analyte 482	482	dp45	LUA-1145	204126_s_at	deltap	CDC45	8318	cell division cycle 45 homolog (S. cerevisiae)
+AAA7B7	EDEM1(LUA-1345)	LM	Analyte 483	483	dp45	LUA-1345	203279_at	deltap	EDEM1	9695	ER degradation enhancer, mannosidase alpha-like 1
+WE4F4	SWAP70(LUA-1143)	LM	Analyte 484	484	dp45	LUA-1143	209307_at	deltap	SWAP70	23075	SWAP switching B-cell complex 70kDa subunit
+RRE7F7	USP6NL(LUA-1043)	LM	Analyte 485	485	dp45	LUA-1043	204761_at	deltap	USP6NL	9712	USP6 N-terminal like
+RRE8F8	NT5DC2(LUA-1245)	LM	Analyte 486	486	dp45	LUA-1245	218051_s_at	deltap	NT5DC2	64943	5'-nucleotidase domain containing 2
+OA12B12	CP110(LUA-789)	LM	Analyte 487	487	dp45	LUA-789	204662_at	deltap	CCP110	9738	centriolar coiled coil protein 110kDa
+YC1D1	STK10(LUA-1226)	LM	Analyte 488	488	dp45	LUA-1226	203047_at	deltap	STK10	6793	serine/threonine kinase 10
+TG4H4	UGDH(LUA-1000)	LM	Analyte 489	489	dp45	LUA-1000	203343_at	deltap	UGDH	7358	UDP-glucose 6-dehydrogenase
+KKA7B7	SQRDL(LUA-591)	LM	Analyte 490	490	dp45	LUA-591	217995_at	deltap	SQRDL	58472	sulfide quinone reductase-like (yeast)
+PPC2D2	HEBP1(LUA-15)	LM	Analyte 491	491	dp45	LUA-15	218450_at	deltap	HEBP1	50865	heme binding protein 1
+GGA6B6	WDR6(LUA-517)	LM	Analyte 492	492	dp45	cLUA-517	221934_s_at	deltap	DALRD3	55152	DALR anticodon binding domain containing 3
+TTA8B8	ZNF692(LUA-2014)	LM	Analyte 493	493	dp45	LUA-2014	220661_s_at	deltap	ZNF692	55657	zinc finger protein 692
+UUA6B6	ATP11B(LUA-712)	LM	Analyte 494	494	dp45	LUA-712	212536_at	deltap	ATP11B	23200	ATPase, class VI, type 11B
+TTC7D7	CD320(LUA-2001)	LM	Analyte 495	495	dp45	LUA-2001	218529_at	deltap	CD320	51293	CD320 molecule
+GGE5F5	VRK2(LUA-512)	LM	Analyte 496	496	dp45	cLUA-512	218397_at	deltap	FANCL	55120	Fanconi anemia, complementation group L
+QQA9B9	MLLT11(LUA-61)	LM	Analyte 497	497	dp45	LUA-61	211071_s_at	deltap	MLLT11	10962	myeloid/lymphoid or mixed-lineage leukemia (trithorax homolog, Drosophila); translocated to, 11
+QG9H9	CEBPZ(LUA-876)	LM	Analyte 498	498	dp45	LUA-876	203341_at	deltap	CEBPZ	10153	CCAAT/enhancer binding protein (C/EBP), zeta
+TG1H1	ASAP2(LUA-988)	LM	Analyte 499	499	dp45	LUA-988	206414_s_at	deltap	ASAP2	8853	ArfGAP with SH3 domain, ankyrin repeat and PH domain 2
+HHHA9B9	CBR3(LUA-4022)	LM	Analyte 500	500	dp45	LUA-4022	205379_at	deltap	CBR3	874	carbonyl reductase 3
