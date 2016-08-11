@@ -23,7 +23,7 @@ switch args.mapversion
     case '2.2'
         % required fields
         required = {'rna_plate','rna_well',...
-            'det_plate', 'det_well'};
+            'det_plate', 'det_well', 'pert_type'};
         
         fn = fieldnames(smap);
         if ~isequal(length(intersect(fn, required)), length(required))
