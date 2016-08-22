@@ -1,20 +1,32 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 '''
 Created on Jan 12, 2012
 provides .gct file io modules
 @author: cflynn
 '''
+from __future__ import print_function
+
 import csv
 import os
 import sqlite3
+import sys
 import warnings
 
 import re
 import numpy
+import pandas as pd
 import tables
 
-import cmap.io.plategrp as grp
-import pandas as pd
+from . import plategrp as grp
+
+if sys.version_info[0] < 3:
+    def unicode2str(s):
+        if isinstance(s, unicode):
+            return s.encode('utf-8')
+        return s
+else:
+    def unicode2str(s):
+        return s
 
 class GCT(object):
     '''
@@ -119,18 +131,18 @@ class GCT(object):
         #     progress_bar = update.DeterminateProgressBar('GCT_READER')
 
         #open the file
-        f = open(src,'rb')
+        f = open(src, 'r')
         reader = csv.reader(f, delimiter='\t')
         self.src = src
 
         #read the gct file header information and build the empty self.matrix
         #array for later use
-        self.version = reader.next()[0]
-        dims = reader.next()
+        self.version = next(reader)[0]
+        dims = next(reader)
         self.matrix = numpy.ndarray([int(dims[0]), int(dims[1])])
 
         #parse the first line to get sample names and row meta_data headers
-        titles = reader.next()
+        titles = next(reader)
         cid = titles[int(dims[2])+1:]
         row_meta_headers = titles[:int(dims[2])+1]
         row_meta_headers.insert(0,'ind')
@@ -143,7 +155,7 @@ class GCT(object):
         current_row = 0
         col_meta_headers = ['ind','id']
         while current_row < int(dims[3]):
-            tmp_row = reader.next()
+            tmp_row = next(reader)
             col_meta_headers.append(tmp_row[0])
             for ii,item in enumerate(tmp_row[int(dims[2])+1:]):
                 col_meta_array[ii].append(item)
@@ -247,8 +259,8 @@ class GCT(object):
         #open the gctx file
         self._open_gctx(src)
 
-        if match_list == None:
-            matches = range(len(self.column_id_node))
+        if match_list is None:
+            matches = list(range(len(self.column_id_node)))
         else:
             #find all of the matching cids
             cid = [x.rstrip() for x in self.column_id_node.read()]
@@ -280,7 +292,7 @@ class GCT(object):
         #open the gctx file
         self._open_gctx(src)
 
-        if match_list == None:
+        if match_list is None:
             matches = [x for x in self.column_id_node]
         else:
             #find all of the matching cids
@@ -303,8 +315,8 @@ class GCT(object):
         #open the gctx file
         self._open_gctx(src)
 
-        if match_list == None:
-            matches = range(len(self.row_id_node))
+        if match_list is None:
+            matches = list(range(len(self.row_id_node)))
         else:
             #find all of the matching rids
             rid = [x.rstrip() for x in self.row_id_node.read()]
@@ -332,7 +344,7 @@ class GCT(object):
         #open the gctx file
         self._open_gctx(src)
 
-        if match_list == None:
+        if match_list is None:
             matches = [x for x in self.row_id_node]
         else:
             #find all of the matching cids
@@ -370,13 +382,13 @@ class GCT(object):
 
         #set up the indices
         if not col_inds:
-            col_inds = range(len(self.column_id_node))
+            col_inds = list(range(len(self.column_id_node)))
         if not row_inds:
-            row_inds = range(len(self.row_id_node))
+            row_inds = list(range(len(self.row_id_node)))
 
         #check if we're reading just reading the epsilon landmark genes
         #if so, can get the matrix in one read
-        if row_inds == range(978):
+        if row_inds == list(range(978)):
             self.matrix = self.matrix_node[col_inds, 0:978]
         #otherwise, figure out which direction reads the fewest elements
         # then read in that orientation
@@ -450,7 +462,7 @@ class GCT(object):
 
         #set up the indices
         if not col_inds:
-            col_inds = range(len(self.column_id_node))
+            col_inds = list(range(len(self.column_id_node)))
 
         #read in the column meta data
         column_headers = [x.name for x in self.column_data]
@@ -489,7 +501,7 @@ class GCT(object):
 
         #set up the indices
         if not row_inds:
-            row_inds = range(len(self.row_id_node))
+            row_inds = list(range(len(self.row_id_node)))
 
         #read in the row meta data
         row_headers = [x.name for x in self.row_data]
@@ -544,8 +556,8 @@ class GCT(object):
                                 row_inds=row_inds, frame=frame)
             else:
                 raise GCTException("source file must be .gct or .gctx")
-        except GCTException, (instance):
-            print instance.message
+        except GCTException as instance:
+            print(instance.message)
 
     def build(self, matrix, rid, cid,
               rdesc = None, cdesc = None,
@@ -574,19 +586,18 @@ class GCT(object):
         # assign the matrix
         self.matrix = matrix
         # assign the annotations; convert to unicode from string if required
-        unicode2str = lambda x: str(x) if type(x) is unicode else x
-        rdesc['id'] = map(unicode2str, rid)
-        rdesc['ind'] = range(nrows)
-        cdesc['id'] = map(unicode2str, cid)
-        cdesc['ind'] = range(ncols)
-        rhd = rdesc.keys()
-        chd = cdesc.keys()
+        rdesc['id'] = list(map(unicode2str, rid))
+        rdesc['ind'] = list(range(nrows))
+        cdesc['id'] = list(map(unicode2str, cid))
+        cdesc['ind'] = list(range(ncols))
+        rhd = list(rdesc.keys())
+        chd = list(cdesc.keys())
         self._add_table_to_meta_db('row', rhd)
         self._add_table_to_meta_db('col', chd)
-        for i in xrange(nrows):
+        for i in range(nrows):
             thisrow = [str(rdesc[k][i]) for k in rhd]
             self._add_row_to_meta_table('row', thisrow)
-        for i in xrange(ncols):
+        for i in range(ncols):
             thisrow = [str(cdesc[k][i]) for k in chd]
             self._add_row_to_meta_table('col', thisrow)
         self.frame = pd.DataFrame(self.matrix,
@@ -637,7 +648,7 @@ class GCT(object):
             if not keepidx.all() and verbose:
                 warnstr = 'The following fields of {0} had unicode text and were not included:\n{1}'
                 warnstr = warnstr.format(name, '\n'.join(keepidx.index[~keepidx]))
-                print warnstr
+                print(warnstr)
             keepidx = keepidx.index[keepidx]
             annots_dict = annots[keepidx].to_dict(outtype = 'list')
         else:
@@ -813,8 +824,7 @@ class GCT(object):
         c.close()
 
         #ensure that the ids are in the proper order according to ind
-        inds_ids = zip(inds,ids)
-        inds_ids.sort()
+        inds_ids = sorted(zip(inds, ids))
         ordered_ids = [item[1] for item in inds_ids]
 
         # if requested, return in order they were asked for from user
@@ -839,8 +849,7 @@ class GCT(object):
         c.close()
 
         #ensure that the ids are in the proper order according to ind
-        inds_ids = zip(inds,ids)
-        inds_ids.sort()
+        inds_ids = sorted(zip(inds, ids))
         ordered_ids = [item[1] for item in inds_ids]
 
         # if requested, return in order they were asked for from user
@@ -916,11 +925,11 @@ def parse_gct_dict(file_path):
     f = open(file_path,'rb')
     reader = csv.reader(f, delimiter='\t')
     #read the gct file header information
-    version = reader.next()[0]
-    dims = reader.next()
+    version = next(reader)[0]
+    dims = next(reader)
 
     #set up the column names
-    titles = reader.next()
+    titles = next(reader)
     cid = titles[int(dims[2])+1:]
 
     #set up a dictionary read and skip the header info
@@ -952,4 +961,4 @@ def parse_gct_dict(file_path):
 if __name__ == '__main__':
     os.chdir('../../unittest_resources')
     gct_data = parse_gct_dict('gct_v13.gct')
-    print sum(gct_data['SAMPLES']['LITMUS001_PC3_96H_X2:J16']['PROBE_VALS'])
+    print(sum(gct_data['SAMPLES']['LITMUS001_PC3_96H_X2:J16']['PROBE_VALS']))
