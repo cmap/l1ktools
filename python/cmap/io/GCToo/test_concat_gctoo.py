@@ -24,7 +24,7 @@ class TestConcatGCToo(unittest.TestCase):
         expected_gct = pg.parse(expected_gct_path)
 
         # Merge left and right
-        concated_gct = cg.hstack([left_gct, right_gct], None, False)
+        concated_gct = cg.hstack([left_gct, right_gct], None, False, False)
 
         self.assertTrue(expected_gct.data_df.equals(concated_gct.data_df), (
             "\nconcated_gct.data_df:\n{}\nexpected_gct.data_df:\n{}".format(
@@ -53,11 +53,11 @@ class TestConcatGCToo(unittest.TestCase):
             columns=["rhd1", "rhd2"])
 
         with self.assertRaises(AssertionError) as e:
-            out_meta_df = cg.concat_row_meta([meta1, meta2], None)
+            out_meta_df = cg.concat_row_meta([meta1, meta2], None, False)
         self.assertIn("rids are duplicated", str(e.exception))
 
         # happy path, using fields_to_remove
-        out_meta_df = cg.concat_row_meta([meta1, meta2], fields_to_remove=["rhd3"])
+        out_meta_df = cg.concat_row_meta([meta1, meta2], ["rhd3"], False)
 
         self.assertTrue(out_meta_df.equals(e_meta), (
             "\nout_meta_df:\n{}\ne_meta:\n{}".format(out_meta_df, e_meta)))
