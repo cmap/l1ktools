@@ -62,8 +62,8 @@ def parse(file_path, nan_values=None):
         gctoo_obj: GCToo object
     """
     # Use default nan values if none given
-    default_nan_values = ["#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN", "nan",
-                          "-nan", "#N/A!", "na", "NA", "None", "-666"]
+    default_nan_values = ["#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN",
+                          "nan", "-nan", "#N/A!", "na", "NA", "None", "-666"]
     if nan_values is None:
         nan_values = default_nan_values
 
@@ -160,10 +160,6 @@ def assemble_row_metadata(full_df, num_col_metadata, num_data_rows, num_row_meta
     # Rename the index name and columns name
     row_metadata.index.name = row_index_name
     row_metadata.columns.name = row_header_name
-
-    # delete additional id column (for compatibility w/gctx parser)
-    if "id" in list(row_metadata.columns):
-       del row_metadata["id"]
 
     # Convert metadata to numeric if possible
     row_metadata = row_metadata.apply(lambda x: pd.to_numeric(x, errors="ignore"))
