@@ -1,3 +1,34 @@
+"""
+Parses a gctx file to a GCToo instance. 
+
+Main method is parse; helper methods respectively check/open files,
+parse in the data matrix, and populates/properly formats the metadata values. 
+
+Note re: conversion to -666: This option exists because by default, CMap
+uses "-666" to represent null values in qualitative fields (eg. metadata). 
+However, this is not the default null value (numpy.nan) employed by pandas;
+so, we provide users the option to convert "-666" values to numpy.NaN in 
+their GCToo instances to allow maximal use of pandas/python tools. 
+
+Sample (minimal) .gctx hierarchical structure:
+
+/version
+/src
+/0
+	/DATA 
+		/0
+			/matrix 
+	/META 
+		/ROW 
+			/id 
+			/[other metadata r1]
+			...
+		/COL 
+			/id 
+			/[other metadata c1]
+			...
+"""
+
 import logging
 import setup_GCToo_logger as setup_logger
 import sys

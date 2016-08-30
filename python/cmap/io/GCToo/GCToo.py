@@ -73,7 +73,7 @@ class GCToo(object):
                     self.check_uniqueness(df.index)
                     self.check_uniqueness(df.columns)
                 else:
-                    logger.error("{} is not a pandas DataFrame instance!".format(df))
+                    self.logger.error("{} is not a pandas DataFrame instance!".format(df))
                 
         # check rid matching in data & metadata
         if ((self.data_df is not None) and (self.row_metadata_df is not None)):

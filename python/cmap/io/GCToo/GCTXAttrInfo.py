@@ -1,7 +1,10 @@
+"""
+Class representing all node prefixes and suffixes needed to access 
+relevant groups/nodes of gctx.
+"""
+
 __author__ = 'Oana Enache'
 __email__ = 'oana@broadinstitute.org'
-
-
 
 class GCTXAttrInfo(object):
 	"""
