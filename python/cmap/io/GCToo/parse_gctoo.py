@@ -190,10 +190,6 @@ def assemble_col_metadata(full_df, num_col_metadata, num_row_metadata, num_data_
     col_metadata.index.name = column_index_name
     col_metadata.columns.name = column_header_name
 
-    # delete additional id column (for compatibility w/gctx parser)
-    # if "id" in list(col_metadata.columns):
-    #     del col_metadata["id"]
-
     # Convert metadata to numeric if possible
     col_metadata = col_metadata.apply(lambda x: pd.to_numeric(x, errors="ignore"))
 
