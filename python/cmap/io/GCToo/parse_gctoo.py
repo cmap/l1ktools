@@ -1,13 +1,4 @@
-import logging
-import setup_GCToo_logger as setup_logger
-import pandas as pd
-import os.path
-import GCToo
-
-__author__ = "Lev Litichevskiy"
-__email__ = "lev@broadinstitute.org"
-
-"""Reads in a gct file as a gctoo object.
+""" Reads in a gct file as a gctoo object.
 
 The main method is parse. parse_into_3_dfs creates the row
 metadata, column metadata, and data dataframes, while the
@@ -42,6 +33,15 @@ N.B. col_metadata_df is stored as the transpose of how it looks in the gct file.
 That is, col_metadata_df.shape = (num_cid, num_chd).
 """
 
+import logging
+import setup_GCToo_logger as setup_logger
+import pandas as pd
+import os.path
+import GCToo
+
+__author__ = "Lev Litichevskiy"
+__email__ = "lev@broadinstitute.org"
+
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 # What to label the index and columns of the component dfs
@@ -52,7 +52,7 @@ column_header_name = "chd"
 
 
 def parse(file_path, nan_values=None):
-    """The main method.
+    """ The main method.
 
     Args:
         file_path: path to gct file as string
@@ -79,10 +79,9 @@ def parse(file_path, nan_values=None):
      num_row_metadata, num_col_metadata) = read_version_and_dims(file_path)
 
     # Read in metadata and data
-    (row_metadata, col_metadata, data) = parse_into_3_df(file_path,
-                                                         num_data_rows, num_data_cols,
-                                                         num_row_metadata, num_col_metadata,
-                                                         nan_values)
+    (row_metadata, col_metadata, data) = parse_into_3_df(
+        file_path, num_data_rows, num_data_cols,
+        num_row_metadata, num_col_metadata, nan_values)
 
     # Create the gctoo object and assemble 3 component dataframes
     gctoo_obj = create_gctoo_obj(file_path, version, row_metadata, col_metadata, data)
@@ -98,7 +97,8 @@ def read_version_and_dims(file_path):
 
     # Check that the version is 1.3
     if version != "1.3":
-        err_msg = "Only GCT v1.3 is supported. The first row of the GCT file must simply be (without quotes) '#1.3'"
+        err_msg = ("Only GCT v1.3 is supported. The first row of the GCT " +
+                   "file must simply be (without quotes) '#1.3'")
         logger.error(err_msg.format(version))
         raise(Exception(err_msg.format(version)))
 
