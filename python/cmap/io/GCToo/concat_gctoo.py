@@ -50,7 +50,6 @@ def build_parser():
     parser.add_argument("--full_out_name", "-o", type=str, default="concated.gct",
         help="what to name the output file (full path)")
     parser.add_argument("--fields_to_remove", "-ftr", nargs="+",
-        default=["pr_probe_suitability_manual", "pr_probe_normalization_group"],
         help="fields to remove from the row metadata headers before concatenating")
     parser.add_argument("--sort_headers", "-sh", action="store_true", default=False,
         help=("whether to sort the headers of row metadata dfs (use this flag " +
@@ -79,6 +78,9 @@ def main(args):
     # Or find them
     else:
         files = get_file_list(args.file_wildcard)
+
+    assert len(files) > 0, "No files were found. args.file_wildcard: {}".format(
+        args.file_wildcard)
 
     # Parse each file and append to a list
     gctoos = []
