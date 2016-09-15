@@ -16,7 +16,7 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 #       self.assertEqual(str(context.exception), "expected exception message")
 
 
-class TestNumericalSlice(unittest.TestCase):
+class TestRandomSlice(unittest.TestCase):
 	def test_make_specified_size_gctoo(self):
 		mini_gctoo = mini_gctoo_for_testing.make()
 		logger.debug("mini gctoo data_df shape: {}".format(mini_gctoo.data_df.shape))
