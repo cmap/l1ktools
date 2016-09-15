@@ -26,21 +26,23 @@ def make_specified_size_gctoo(og_gctoo, num_samples, dim):
 		assert num_samples < og_gctoo.data_df.shape[1], "number of samples must be subset of original file sample size"
 		# generate a consistent set of rids/cids
 		new_cids = generate_specified_length_unique_ids(num_samples)
+		random_cols = random.sample(range(0, og_gctoo.data_df.shape[1]), num_samples)
 		new_rids = generate_specified_length_unique_ids(og_gctoo.data_df.shape[0])
 		# subset relevant data frames 
-		new_data_df = og_gctoo.data_df.iloc[:,0:num_samples]
+		new_data_df = og_gctoo.data_df.iloc[:,random_cols]
 		new_row_meta = og_gctoo.row_metadata_df
-		new_col_meta = og_gctoo.col_metadata_df.iloc[0:num_samples,:]
+		new_col_meta = og_gctoo.col_metadata_df.iloc[random_cols,:]
 		logger.debug("New col_meta shape after slice: {}".format(new_col_meta.shape))
 	elif dim == "row":
 		assert num_samples < og_gctoo.data_df.shape[0], "number of samples must be subset of original file sample size"
 		# generate a consistent set of rids/cids
 		new_rids = generate_specified_length_unique_ids(num_samples)
+		random_rows = random.sample(range(0, og_gctoo.data_df.shape[0]), num_samples)
 		new_cids = generate_specified_length_unique_ids(og_gctoo.data_df.shape[1])
 		logger.debug("New cids: {}".format(new_cids))
 		# subset relevant data frames 
-		new_data_df = og_gctoo.data_df.iloc[0:num_samples,:]
-		new_row_meta = og_gctoo.row_metadata_df.iloc[0:num_samples,:]
+		new_data_df = og_gctoo.data_df.iloc[random_rows,:]
+		new_row_meta = og_gctoo.row_metadata_df.iloc[random_rows,:]
 		new_col_meta = og_gctoo.col_metadata_df
 
 	# relabel rids/cids to avoid consistency_check error 
