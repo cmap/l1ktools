@@ -5,8 +5,11 @@ import sys
 import pandas
 import GCToo
 import uuid
+import random
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
+
+# TODO: add option for using uuids 
 
 def make_specified_size_gctoo(og_gctoo, num_samples, dim):
 	"""
@@ -22,12 +25,15 @@ def make_specified_size_gctoo(og_gctoo, num_samples, dim):
 	"""	
 	assert dim in ["row", "col"], "dim specified must be either 'row' or 'col'"
 
+	# change if statement to set 0 or 1 for shape
+	# look into using row/col specification within i/loc call
+
 	if dim == "col":
 		assert num_samples < og_gctoo.data_df.shape[1], "number of samples must be subset of original file sample size"
 		# generate a consistent set of rids/cids
-		new_cids = generate_specified_length_unique_ids(num_samples)
+		# new_cids = generate_specified_length_unique_ids(num_samples)
 		random_cols = random.sample(range(0, og_gctoo.data_df.shape[1]), num_samples)
-		new_rids = generate_specified_length_unique_ids(og_gctoo.data_df.shape[0])
+		# new_rids = generate_specified_length_unique_ids(og_gctoo.data_df.shape[0])
 		# subset relevant data frames 
 		new_data_df = og_gctoo.data_df.iloc[:,random_cols]
 		new_row_meta = og_gctoo.row_metadata_df
@@ -36,10 +42,10 @@ def make_specified_size_gctoo(og_gctoo, num_samples, dim):
 	elif dim == "row":
 		assert num_samples < og_gctoo.data_df.shape[0], "number of samples must be subset of original file sample size"
 		# generate a consistent set of rids/cids
-		new_rids = generate_specified_length_unique_ids(num_samples)
+		# new_rids = generate_specified_length_unique_ids(num_samples)
 		random_rows = random.sample(range(0, og_gctoo.data_df.shape[0]), num_samples)
-		new_cids = generate_specified_length_unique_ids(og_gctoo.data_df.shape[1])
-		logger.debug("New cids: {}".format(new_cids))
+		# new_cids = generate_specified_length_unique_ids(og_gctoo.data_df.shape[1])
+		# logger.debug("New cids: {}".format(new_cids))
 		# subset relevant data frames 
 		new_data_df = og_gctoo.data_df.iloc[random_rows,:]
 		new_row_meta = og_gctoo.row_metadata_df.iloc[random_rows,:]
@@ -65,6 +71,7 @@ def generate_specified_length_unique_ids(id_length):
 		- a list of unique ids 
 	"""
 	s = set()
+	# TODO: change to while set <= id_length
 	for i in range(id_length):
 		# Note: uuid4 generates a random UUID (Universally Unique IDentifier)
 		#	There is a *very minor* chance of collisions b/c of random generation, but very low likelihood 
