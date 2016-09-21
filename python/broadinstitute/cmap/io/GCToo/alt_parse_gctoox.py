@@ -214,23 +214,31 @@ def make_meta_df(dim_id_key, dset, id_dict, convert_neg_666):
 	"""
 	"""
 	(row_indexes, df_index_vals) = set_meta_index_to_use(dim_id_key, id_dict)
+	logger.debug("row_indexes: {}".format(row_indexes))
 	logger.debug("{} df index vals: {}".format(dim_id_key, df_index_vals))
 
-	meta_array = populate_meta_array(dset, row_indexes)
+	if len(dset.keys()) > 1: # aka if there is metadata besides ids
+		meta_df = populate_meta_array(dset, row_indexes)
 
-	# column values shouldn't include "id"
-	df_column_vals = list(dset.keys()[:])
-	logger.debug("{} df columns vals: {}".format(dim_id_key, df_column_vals))
-	id_there = "id" in df_column_vals
-	logger.debug("id in column vals? {}".format(id_there))
-	df_column_vals.remove("id")
-	logger.debug("df columns vals: {}".format(df_column_vals))
+		# column values shouldn't include "id"
+		df_column_vals = list(dset.keys()[:])
+		df_column_vals.remove("id")
+		logger.debug("df columns vals: {}".format(df_column_vals))
 
-	meta_df = pd.DataFrame(meta_array, index = df_index_vals, columns = df_column_vals)
-	meta_df = set_metadata_index_and_column_names(dim_id_key, meta_df)
+		meta_df.index = df_index_vals
+		meta_df.columns = df_column_vals
+		meta_df = set_metadata_index_and_column_names(dim_id_key, meta_df)
+	else:
+		meta_df = pd.DataFrame(index= df_index_vals)
 
 	if convert_neg_666:
 		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
+
+	# Convert metadata to numeric if possible, after converting everything to string first 
+	# Note: This conversion first to string is to ensure consistent behavior between
+	#	the gctx and gct parser (which by default reads the entire text file into a string)
+	meta_df = meta_df.astype(str)
+	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
 	
 	return meta_df
 
@@ -239,18 +247,24 @@ def set_meta_index_to_use(dim_id_key, id_dict):
 		row_indexes = id_dict[dim_id_key]["slice_indexes"]
 		df_index_vals = id_dict[dim_id_key]["slice_values"]
 	else: # no slice
-		row_indexes = range(0,len(id_dict[dim_id_key]["full_id_list"]))
-		df_index_vals = id_dict[dim_id_key]["full_id_list"].columns
+		row_indexes = range(0,len(id_dict[dim_id_key]["full_id_list"].columns))
+		df_index_vals = list(id_dict[dim_id_key]["full_id_list"].columns)
 
 	return row_indexes, df_index_vals	
 
 def populate_meta_array(dset, row_indexes):
-	meta_array = np.empty((len(row_indexes), (len(dset.keys()) - 1)), dtype = "S50")
-	c = 0
+	meta_values = {}
 	for k in dset.keys():
 		if k != "id":
-			meta_array[:, c] = dset[k][row_indexes]
-			c = c + 1
+			with dset[k].astype("S50"):
+				curr_meta = list(dset[k][row_indexes])
+				# logger.debug("curr_meta values: {}".format(curr_meta))
+				# logger.debug("curr_meta as list: {}".format(list(curr_meta)))
+				meta_values[k] = curr_meta
+	# logger.debug("meta values before concat: {}".format(meta_values))
+	meta_value_df = pd.DataFrame.from_dict(meta_values)
+	return meta_value_df
+
 
 def set_metadata_index_and_column_names(dim_id_key, meta_df):	
 	"""
