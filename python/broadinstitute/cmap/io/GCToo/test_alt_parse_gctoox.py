@@ -121,6 +121,8 @@ class TestAltParseGCToox(unittest.TestCase):
 		self.assertTrue(len(case4['cids']) == 3,
 			"rids key should point to 3 values but instead has {} values".format(len(case4["cids"]))) 
 
+		mini_hdf5.close()
+
 	def test_set_slice_order(self):
 		mini_hdf5 = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctx_with_metadata_n2x3.gctx", "r", driver = "core")
 		rid_dset = mini_hdf5[rid_node]
@@ -149,6 +151,8 @@ class TestAltParseGCToox(unittest.TestCase):
 		(s4, f4) = alt_parse_gctoox.set_slice_order(id_dict4)
 		self.assertTrue(s4)
 		self.assertEqual(f4, "rids")
+
+		mini_hdf5.close()
 
 	def test_parse_data_df(self):
 		mini_hdf5 = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctx_with_metadata_n2x3.gctx", "r", driver = "core")
@@ -179,6 +183,108 @@ class TestAltParseGCToox(unittest.TestCase):
 		id_dict4 = alt_parse_gctoox.make_id_info_dict(rid_dset, cid_dset, ["200814_at", "218597_s_at"], ["LJP005_A375_24H:DMSO:-666"])
 		case4 = alt_parse_gctoox.parse_data_df(data_dset, id_dict4)
 		assert_frame_equal(case4, full_df4, check_less_precise = True)
+
+		mini_hdf5.close()
+
+	def test_make_meta_df(self):
+		pass
+
+	def test_set_meta_index_to_use(self):
+		mini_hdf5 = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctx_with_metadata_n2x3.gctx", "r", driver = "core")
+		rid_dset = mini_hdf5[rid_node]
+		cid_dset = mini_hdf5[cid_node]
+
+		# case 1: full data frame
+		id_dict1 = alt_parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
+		(r1, v1) = alt_parse_gctoox.set_meta_index_to_use("rids", id_dict1)	
+		self.assertEqual(r1, [0, 1, 2], 
+			"Expected full rid index for metadata but found {}".format(r1))
+		self.assertEqual(v1, ['200814_at', '218597_s_at', '217140_s_at'],
+			"Expected full rid values for metadata but found {}".format(v1))
+
+		# case 2: rid slice only
+		id_dict2 = alt_parse_gctoox.make_id_info_dict(rid_dset, cid_dset,["200814_at", "218597_s_at"], None)
+		(r2, v2) = alt_parse_gctoox.set_meta_index_to_use("rids", id_dict2)
+		self.assertEqual(r2, [0, 1], 
+			"Expected full rid index for metadata but found {}".format(r2))
+		self.assertEqual(v2, ['200814_at', '218597_s_at'],
+			"Expected first two rid values for metadata but found {}".format(v2))
+
+		# case 3: cid slice only
+		id_dict3 = alt_parse_gctoox.make_id_info_dict(rid_dset, cid_dset,None, ["LJP005_A375_24H:DMSO:-666"])
+		(r3, v3) = alt_parse_gctoox.set_meta_index_to_use("cids", id_dict3)
+		self.assertEqual(r3, [0], 
+			"Expected first cid index for metadata but found {}".format(r3))
+		self.assertEqual(v2, ['200814_at', '218597_s_at'],
+			"Expected first cid value for metadata but found {}".format(v3))
+
+		mini_hdf5.close()
+
+	def test_populate_meta_array(self):
+		mini_hdf5 = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctx_with_metadata_n2x3.gctx", "r", driver = "core")
+		rid_dset = mini_hdf5[rid_node]
+		cid_dset = mini_hdf5[cid_node]
+		row_meta_group = mini_hdf5[row_meta_group_node]
+		col_meta_group = mini_hdf5[col_meta_group_node]
+
+		# case 1a: full row data frame
+		full_row_meta_df = pd.DataFrame([["Analyte 11", 11, 5720, -666],["Analyte 12", 12, 55847, -666], ["Analyte 12", 12, 7416, -666]], 
+			columns = ["pr_analyte_id", "pr_analyte_num", "pr_gene_id", "pr_model_id"])
+		id_dict1 = alt_parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
+		(r1a, v1a) = alt_parse_gctoox.set_meta_index_to_use("rids", id_dict1)
+		meta_df1a = alt_parse_gctoox.populate_meta_array(row_meta_group, r1a)
+		self.assertEqual(meta_df1a.index.all(), full_row_meta_df.index.all(), 
+			"Mismatch between expected and populated df indexes: all rows")
+		self.assertEqual(meta_df1a.columns.all(), full_row_meta_df.columns.all(), 
+			"Mismatch between expected and populated df columns: all rows")
+
+		# case 1b: full col data frame
+		full_col_meta_df = pd.DataFrame([["b19", "r2"],["b19", "r2"]], columns = ["bead_batch", "bead_revision"])
+		(r1b, v1b) = alt_parse_gctoox.set_meta_index_to_use("cids", id_dict1)
+		meta_df1b = alt_parse_gctoox.populate_meta_array(col_meta_group, r1b)
+		self.assertEqual(meta_df1b.index.all(), full_col_meta_df.index.all(), 
+			"Mismatch between expected and populated df indexes: all cols")
+		self.assertEqual(meta_df1b.columns.all(), full_col_meta_df.columns.all(), 
+			"Mismatch between expected and populated df columns: all cols")
+
+		# case 2: rid slice only
+		sliced_row_meta_df = full_row_meta_df.iloc[[0,1]]
+		id_dict2 = alt_parse_gctoox.make_id_info_dict(rid_dset, cid_dset,["200814_at", "218597_s_at"], None)
+		(r2, v2) = alt_parse_gctoox.set_meta_index_to_use("rids", id_dict2)
+		meta_df2 = alt_parse_gctoox.populate_meta_array(row_meta_group, r2)
+		self.assertEqual(meta_df2.index.all(), sliced_row_meta_df.index.all(), 
+			"Mismatch between expected and populated df indexes: row slice")
+		self.assertEqual(meta_df2.columns.all(), sliced_row_meta_df.columns.all(), 
+			"Mismatch between expected and populated df columns: row slice")
+
+		# case 3: cid slice only
+		sliced_col_meta_df = full_col_meta_df.iloc[[0]]
+		id_dict3 = alt_parse_gctoox.make_id_info_dict(rid_dset, cid_dset,None, ["LJP005_A375_24H:DMSO:-666"])
+		(r3, v3) = alt_parse_gctoox.set_meta_index_to_use("cids", id_dict3)
+		meta_df3 = alt_parse_gctoox.populate_meta_array(col_meta_group, r3)
+		self.assertEqual(meta_df3.index.all(), sliced_col_meta_df.index.all(), 
+			"Mismatch between expected and populated df indexes: sliced cols")
+		self.assertEqual(meta_df3.columns.all(), sliced_col_meta_df.columns.all(), 
+			"Mismatch between expected and populated df columns: sliced cols")
+
+		mini_hdf5.close()				
+
+	def test_set_metadata_index_and_column_names(self):
+		mini_df1 = pd.DataFrame([[1,2],[3,4], [4,5]])
+
+		# case 1: rows
+		row_names_set = alt_parse_gctoox.set_metadata_index_and_column_names("rids", mini_df1)
+		self.assertTrue(row_names_set.index.name == "rid",
+			"Expected index name to be 'rid' but was {}".format(row_names_set.index.name))
+		self.assertTrue(row_names_set.columns.name == "rhd",
+			"Expected columns name to be 'rhd' but was {}".format(row_names_set.columns.name))
+
+		# case 2: cols
+		col_names_set = alt_parse_gctoox.set_metadata_index_and_column_names("cids", mini_df1)
+		self.assertTrue(col_names_set.index.name == "cid",
+			"Expected index name to be 'cid' but was {}".format(col_names_set.index.name))
+		self.assertTrue(col_names_set.columns.name == "chd",
+			"Expected columns name to be 'chd' but was {}".format(col_names_set.columns.name))
 
 
 

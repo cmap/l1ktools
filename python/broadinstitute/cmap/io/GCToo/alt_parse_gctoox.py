@@ -243,15 +243,14 @@ def set_meta_index_to_use(dim_id_key, id_dict):
 	else: # no slice
 		row_indexes = range(0,len(id_dict[dim_id_key]["full_id_list"].columns))
 		df_index_vals = list(id_dict[dim_id_key]["full_id_list"].columns)
-
 	return row_indexes, df_index_vals	
 
-def populate_meta_array(dset, row_indexes):
+def populate_meta_array(meta_group, row_indexes):
 	meta_values = {}
-	for k in dset.keys():
+	for k in meta_group.keys():
 		if k != "id":
-			with dset[k].astype("S50"):
-				curr_meta = list(dset[k][row_indexes])
+			with meta_group[k].astype("S50"):
+				curr_meta = list(meta_group[k][row_indexes])
 				# logger.debug("curr_meta values: {}".format(curr_meta))
 				# logger.debug("curr_meta as list: {}".format(list(curr_meta)))
 				meta_values[k] = curr_meta
