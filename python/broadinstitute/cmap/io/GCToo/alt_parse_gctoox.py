@@ -93,16 +93,13 @@ def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 	# for looking up id information 
 	# (full & subsets, as applicable)
 	id_dict = {}
-
 	# read in full id values 
 	get_all_id_values(rid_dset, cid_dset, id_dict)
-
 	# to store slice lengths (if applicable)
 	# Note: Currently h5py throws an error if you try hyperslab selection along
 	#  		more than one dimension at once, so we hyperslab first by the longer slice length
 	#		(in cases where both dimensions are sliced)
 	id_dict["slice_lengths"] = {}
-
 	# set subsetted id values to whatever's applicable
 	# if taking slices w/hyperslabs, need to obtain an ordered list of indexes
 	if rid != None:
@@ -111,7 +108,6 @@ def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 	if cid != None:
 		get_ordered_slice_indexes("cids", id_dict, cid)
 		id_dict["slice_lengths"]["cids"] = len(cid)
-
 	return id_dict
 
 
@@ -124,16 +120,13 @@ def get_all_id_values(rid_dset, cid_dset, id_dict):
 	# TODO: Q: What's the limit for id lengths? 
 	rid_array = np.empty(rid_dset.shape, dtype = "S50")
 	cid_array = np.empty(cid_dset.shape, dtype = "S50")
-
 	# set numpy arrays to respective id values 
 	rid_dset.read_direct(rid_array)
 	cid_dset.read_direct(cid_array)
-
 	# convert to pandas DataFrames
 	# this structure enables us to easily get a list of slice value indexes
 	rid_df = pd.DataFrame(range(0, rid_array.shape[0]), index = rid_array).transpose()
 	cid_df = pd.DataFrame(range(0, cid_array.shape[0]), index = cid_array).transpose()
-
 	# add full values to id info dict
 	id_dict["rids"] = {}
 	id_dict["rids"]["full_id_list"] = rid_df
@@ -145,15 +138,12 @@ def get_ordered_slice_indexes(dim_id_key, id_dict, slice_id_list):
 	TODO: Explain why this is necessary for hyperslab slicing w/h5py
 	"""
 	# get unsorted index values of slice_id_list 
-	unordered_slice_df = id_dict[dim_id_key][slice_id_list]
-
+	unordered_slice_df = id_dict[dim_id_key]["full_id_list"].loc[:, slice_id_list]
 	# gets indexes that would properly sort slice_id_list values, 
 	# and orders elements of slice_id_list accordingly
-	ordered_columns = unordered_slice_df.columns[unordered_slice_df.ix[unordered_slice_df.last_valid_index()].argsort()]
-	
+	ordered_columns = unordered_slice_df.columns[unordered_slice_df.ix[unordered_slice_df.last_valid_index()].argsort()]	
 	# order index values corresponding to slice_id_list in ascending numerical order
 	ordered_slice_df = unordered_slice_df[ordered_columns]
-
 	# set 
 	id_dict[dim_id_key]["slice_indexes"] = ordered_slice_df[ordered_columns].values.tolist()[0]
 	id_dict[dim_id_key]["slice_values"] = list(ordered_columns)
@@ -162,37 +152,41 @@ def get_ordered_slice_indexes(dim_id_key, id_dict, slice_id_list):
 def parse_data_df(data_dset, id_dict):
 	"""
 	TODO
+
+	NOTE: Data_DF is stored transposed from final parsed form;
+		so, the indexing of slicing is the opposite of what would normally
+		be expected. 
 	"""
 	# for setting proper index/columns of data df 
 	rids = id_dict["rids"]["full_id_list"].columns
 	cids = id_dict["cids"]["full_id_list"].columns 
-
 	# if applicable, determine how to slice hdf5 file
 	(slice_both, first_dim) = set_slice_order(id_dict) 
-
 	if slice_both: # slice both columns 
-		if first_dim == "row":
-			first_slice = data_dset[id_dict["rids"]["slice_indexes"],:]
-			data_array = first_slice[:, id_dict["cids"]["slice_indexes"]]
-			rids = id_dict["rids"]["slice_values"]
+		rids = id_dict["rids"]["slice_values"]
+		cids = id_dict["cids"]["slice_values"]
+		if first_dim == "rids":
+			first_slice = data_dset[:, id_dict["rids"]["slice_indexes"]]
+			data_array = first_slice[id_dict["cids"]["slice_indexes"],:]
 		else:
-			first_slice = data_dset[:, id_dict["cids"]["slice_indexes"]]
-			data_array = first_slice[id_dict["rids"]["slice_indexes"],:]
-			cids = id_dict["cids"]["slice_values"]
+			first_slice = data_dset[id_dict["cids"]["slice_indexes"],:]
+			data_array = first_slice[:, id_dict["rids"]["slice_indexes"]]
 	elif first_dim != None: # slice one column 
-		if first_dim == "row":
-			data_array = data_dset[id_dict["rids"]["slice_indexes"],:]
+		if first_dim == "rids":
+			data_array = data_dset[:, id_dict["rids"]["slice_indexes"]]
 			rids = id_dict["rids"]["slice_values"]
-		elif first_dim == "col":
-			data_array = first_slice[:, id_dict["cids"]["slice_indexes"]]
+		elif first_dim == "cids":
+			data_array = data_dset[(id_dict["cids"]["slice_indexes"]),:]
 			cids = id_dict["cids"]["slice_values"]
 	else: # slice no columns 
 		# empty numpy array to populate w/data dset values
 		data_array = np.empty(data_dset.shape, dtype = np.float64) 
 		data_dset.read_direct(data_array)
 
+	logger.debug("rids: {}".format(rids))
+	logger.debug("cids: {}".format(cids))
 	data_df = pd.DataFrame(data_array.transpose(), index = rids, columns = cids)
-
+	logger.debug("parsed data_df: {}".format(data_df))
 	return data_df
 
 def set_slice_order(id_dict):
