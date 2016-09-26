@@ -1,9 +1,9 @@
 """
-ds_slice.py
+slice_gct.py
 
-Extract a subset of data from a GCToo object. If called from the command line,
-inputs can be file paths to grp files or lists of ids. If using the slice
-method in Python, ids or boolean arrays can be used.
+Extract a subset of data from a gct file. If called from the command line,
+ids can be provided as a file path to a grp file or a list of ids. If using the
+slice method in Python, ids or boolean arrays can be used.
 
 """
 
@@ -57,7 +57,7 @@ def main(args):
     exclude_cid = _read_arg(args.exclude_cid)
 
     # Slice the gct
-    out_gct = ds_slice(in_gct, rid=rid, cid=cid, exclude_rid=exclude_rid, exclude_cid=exclude_cid)
+    out_gct = slice_gctoo(in_gct, rid=rid, cid=cid, exclude_rid=exclude_rid, exclude_cid=exclude_cid)
     assert out_gct.data_df.size > 0, "Slicing yielded an empty gct!"
 
     # Write the output gct
@@ -94,7 +94,7 @@ def _read_arg(arg):
     return arg_out
 
 
-def ds_slice(gctoo, row_bool=None, col_bool=None, rid=None, cid=None, exclude_rid=None, exclude_cid=None):
+def slice_gctoo(gctoo, row_bool=None, col_bool=None, rid=None, cid=None, exclude_rid=None, exclude_cid=None):
     """ Extract a subset of data from a GCToo object in a variety of ways.
 
     Args:

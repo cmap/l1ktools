@@ -5,7 +5,7 @@ import pandas as pd
 
 import setup_GCToo_logger as setup_logger
 import GCToo
-import ds_slice
+import slice_gct
 import parse_gctoo as pg
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
@@ -26,20 +26,20 @@ class TestDsSlice(unittest.TestCase):
 
     def test_read_arg(self):
         arg_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_slice_rid.grp")
-        rids = ds_slice._read_arg([arg_path])
+        rids = slice_gct._read_arg([arg_path])
         self.assertItemsEqual(rids, ["a", "Bb", "c"])
 
     def test_read_arg_bad(self):
         with self.assertRaises(AssertionError) as e:
-            ds_slice._read_arg("a b c")
+            slice_gct._read_arg("a b c")
         self.assertIn("arg_out must be a list", str(e.exception))
 
         with self.assertRaises(AssertionError) as e:
-            ds_slice._read_arg([1, 2, 3])
+            slice_gct._read_arg([1, 2, 3])
         self.assertIn("arg_out must be a list of strings", str(e.exception))
 
     def test_slice_bools(self):
-        out_gct = ds_slice.ds_slice(IN_GCT, row_bool=[True, False, True, False], col_bool=[False, False, True])
+        out_gct = slice_gct.slice_gctoo(IN_GCT, row_bool=[True, False, True, False], col_bool=[False, False, True])
 
         # Outputs should be dataframes even if there is only 1 index or column
         pd.util.testing.assert_frame_equal(out_gct.data_df, pd.DataFrame(IN_GCT.data_df.iloc[[0, 2], 2]))
@@ -47,7 +47,7 @@ class TestDsSlice(unittest.TestCase):
         pd.util.testing.assert_frame_equal(out_gct.col_metadata_df, pd.DataFrame(IN_GCT.col_metadata_df.iloc[2, :]).T)
 
     def test_slice_and_exclude_rids(self):
-        out_gct = ds_slice.ds_slice(IN_GCT, rid=["a", "c", "d"], exclude_rid=["d"])
+        out_gct = slice_gct.slice_gctoo(IN_GCT, rid=["a", "c", "d"], exclude_rid=["d"])
 
         # Outputs should be dataframes even if there is only 1 index or column
         pd.util.testing.assert_frame_equal(out_gct.data_df, IN_GCT.data_df.iloc[[0, 2], :])
@@ -57,7 +57,7 @@ class TestDsSlice(unittest.TestCase):
     def test_slice_cid_and_col_bool(self):
         # cid and col_bool should not both be provided
         with self.assertRaises(AssertionError) as e:
-            out_gct = ds_slice.ds_slice(IN_GCT, cid=["e", "f", "g"], col_bool=[True, True, False])
+            out_gct = slice_gct.slice_gctoo(IN_GCT, cid=["e", "f", "g"], col_bool=[True, True, False])
         self.assertIn("cid and col_bool", str(e.exception))
 
     def test_main(self):
@@ -68,10 +68,10 @@ class TestDsSlice(unittest.TestCase):
 
         args_string = "-i {} --rid {} -ec {} -o {}".format(
             in_gct_path, rid_grp_path, "f", out_name)
-        args = ds_slice.build_parser().parse_args(args_string.split())
+        args = slice_gct.build_parser().parse_args(args_string.split())
 
         # Run main method
-        ds_slice.main(args)
+        slice_gct.main(args)
 
         # Compare output to expected
         out_gct = pg.parse(out_name)
