@@ -172,16 +172,16 @@ class GCToo(object):
                 self.data_df.columns.values, self.col_metadata_df.index.values))
 
 
-def multi_index_df_to_component_dfs(multi_index_df):
+def multi_index_df_to_component_dfs(multi_index_df, rid="rid", cid="cid"):
     """ Convert a multi-index df into 3 component dfs. """
 
     # Id level of the multiindex will become the index
-    rids = list(multi_index_df.index.get_level_values("rid"))
-    cids = list(multi_index_df.columns.get_level_values("cid"))
+    rids = list(multi_index_df.index.get_level_values(rid))
+    cids = list(multi_index_df.columns.get_level_values(cid))
 
     # Drop rid and cid because they won't go into the body of the metadata
-    mi_df_index = multi_index_df.index.droplevel("rid")
-    mi_df_columns = multi_index_df.columns.droplevel("cid")
+    mi_df_index = multi_index_df.index.droplevel(rid)
+    mi_df_columns = multi_index_df.columns.droplevel(cid)
 
     # Names of the multiindex become the headers
     rhds = list(mi_df_index.names)
