@@ -1,3 +1,8 @@
+"""
+Functional tests comparing gct vs gctx parsing for equivalent file content 
+(stored in gct/text vs gctx/hdf5 format)
+"""
+
 import unittest
 import logging
 import setup_GCToo_logger as setup_logger
@@ -5,9 +10,7 @@ import pandas
 import numpy
 import parse_gctoo
 import parse_gctoox
-from pandas.util.testing import assert_frame_equal, assert_series_equal
-
-# TODO: Change to assert_series_equal
+from pandas.util.testing import assert_series_equal
 
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
@@ -60,7 +63,7 @@ class TestEdgeCases(unittest.TestCase):
 			logger.debug("first couple elems of {} in gctoo: {}".format(c, list(c1_gctoo.row_metadata_df[c])[0:3]))
 			self.assertTrue(c1_gctoo.row_metadata_df[c].dtype == c1_gctoox.row_metadata_df[c].dtype,
 				"Dtype mismatch for {} between parsed gct & gctx: {} vs {}".format(c, c1_gctoo.row_metadata_df[c].dtype, c1_gctoox.row_metadata_df[c].dtype))
-			assert_frame_equal(pandas.DataFrame(c1_gctoo.row_metadata_df[c]), pandas.DataFrame(c1_gctoox.row_metadata_df[c]))
+			assert_series_equal(c1_gctoo.row_metadata_df[c], c1_gctoox.row_metadata_df[c])
 
 		# check rows and columns: col_metadata_df
 		self.assertTrue(set(list(c1_gctoo.col_metadata_df.index)) == set(list(c1_gctoox.col_metadata_df.index)),
@@ -74,7 +77,7 @@ class TestEdgeCases(unittest.TestCase):
 			self.assertTrue(c1_gctoo.col_metadata_df[c].dtype == c1_gctoox.col_metadata_df[c].dtype,
 				"Dtype mismatch between parsed gct & gctx: {} vs {}".format(c1_gctoo.col_metadata_df[c].dtype, c1_gctoox.col_metadata_df[c].dtype))
 
-			assert_frame_equal(pandas.DataFrame(c1_gctoo.col_metadata_df[c]), pandas.DataFrame(c1_gctoox.col_metadata_df[c]))
+			assert_series_equal(c1_gctoo.col_metadata_df[c], c1_gctoox.col_metadata_df[c])
 
 	# # ###### parsing case 2: Only row metadata ######
 	def test_with_only_row_metadata(self):
@@ -96,7 +99,7 @@ class TestEdgeCases(unittest.TestCase):
 		for c in list(c2_gctoo.data_df.columns):
 			self.assertTrue(len(list(c2_gctoo.data_df[c])) == len(list(c2_gctoox.data_df[c])),
 				"Lengths of column {} differ between gct and gctx".format(c))
-			assert_frame_equal(pandas.DataFrame(c2_gctoo.data_df[c]), pandas.DataFrame(c2_gctoox.data_df[c]))
+			assert_series_equal(c2_gctoo.data_df[c], c2_gctoox.data_df[c])
 
 		# check rows and columns: row_metadata_df
 		self.assertTrue(set(list(c2_gctoo.row_metadata_df.index)) == set(list(c2_gctoox.row_metadata_df.index)),
@@ -110,7 +113,7 @@ class TestEdgeCases(unittest.TestCase):
 			self.assertTrue(c2_gctoo.row_metadata_df[c].dtype == c2_gctoox.row_metadata_df[c].dtype,
 				"Dtype mismatch between parsed gct & gctx: {} vs {}".format(c2_gctoo.row_metadata_df[c].dtype, c2_gctoox.row_metadata_df[c].dtype))
 			logger.debug("first couple elems of {} in gctoo: {}".format(c, list(c2_gctoo.row_metadata_df[c])[0:3]))
-			assert_frame_equal(pandas.DataFrame(c2_gctoo.row_metadata_df[c]), pandas.DataFrame(c2_gctoox.row_metadata_df[c]))
+			assert_series_equal(c2_gctoo.row_metadata_df[c], c2_gctoox.row_metadata_df[c])
 
 		# check rows and columns: col_metadata_df
 		self.assertTrue(set(list(c2_gctoo.col_metadata_df.index)) == set(list(c2_gctoox.col_metadata_df.index)),
@@ -123,8 +126,7 @@ class TestEdgeCases(unittest.TestCase):
 				"Lengths of column {} differ between gct and gctx".format(c))
 			self.assertTrue(c2_gctoo.col_metadata_df[c].dtype == c2_gctoox.col_metadata_df[c].dtype,
 				"Dtype mismatch between parsed gct & gctx: {} vs {}".format(c2_gctoo.col_metadata_df[c].dtype, c2_gctoox.col_metadata_df[c].dtype))
-
-			assert_frame_equal(pandas.DataFrame(c2_gctoo.col_metadata_df[c]), pandas.DataFrame(c2_gctoox.col_metadata_df[c]))
+			assert_series_equal(c2_gctoo.col_metadata_df[c], c2_gctoox.col_metadata_df[c])
 
 	# # ###### parsing case 3: Only col metadata ######
 	def test_with_only_col_metadata(self):
@@ -146,7 +148,7 @@ class TestEdgeCases(unittest.TestCase):
 		for c in list(c3_gctoo.data_df.columns):
 			self.assertTrue(len(list(c3_gctoo.data_df[c])) == len(list(c3_gctoox.data_df[c])),
 				"Lengths of column {} differ between gct and gctx".format(c))
-			assert_frame_equal(pandas.DataFrame(c3_gctoo.data_df[c]), pandas.DataFrame(c3_gctoox.data_df[c]))
+			assert_series_equal(c3_gctoo.data_df[c], c3_gctoox.data_df[c])
 
 		# check rows and columns: row_metadata_df
 		self.assertTrue(set(list(c3_gctoo.row_metadata_df.index)) == set(list(c3_gctoox.row_metadata_df.index)),
@@ -160,7 +162,7 @@ class TestEdgeCases(unittest.TestCase):
 			self.assertTrue(c3_gctoo.row_metadata_df[c].dtype == c3_gctoox.row_metadata_df[c].dtype,
 				"Dtype mismatch between parsed gct & gctx: {} vs {}".format(c3_gctoo.row_metadata_df[c].dtype, c3_gctoox.row_metadata_df[c].dtype))
 			logger.debug("first couple elems of {} in gctoo: {}".format(c, list(c3_gctoo.row_metadata_df[c])[0:3]))
-			assert_frame_equal(pandas.DataFrame(c3_gctoo.row_metadata_df[c]), pandas.DataFrame(c3_gctoox.row_metadata_df[c]))
+			assert_series_equal(c3_gctoo.row_metadata_df[c], c3_gctoox.row_metadata_df[c])
 
 		# check rows and columns: col_metadata_df
 		self.assertTrue(set(list(c3_gctoo.col_metadata_df.index)) == set(list(c3_gctoox.col_metadata_df.index)),
@@ -173,7 +175,7 @@ class TestEdgeCases(unittest.TestCase):
 				"Lengths of column {} differ between gct and gctx".format(c))
 			self.assertTrue(c3_gctoo.col_metadata_df[c].dtype == c3_gctoox.col_metadata_df[c].dtype,
 				"Dtype mismatch between parsed gct & gctx: {} vs {}".format(c3_gctoo.col_metadata_df[c].dtype, c3_gctoox.col_metadata_df[c].dtype))
-			assert_frame_equal(pandas.DataFrame(c3_gctoo.col_metadata_df[c]), pandas.DataFrame(c3_gctoox.col_metadata_df[c]))
+			assert_series_equal(c3_gctoo.col_metadata_df[c], c3_gctoox.col_metadata_df[c])
 
 if __name__ == "__main__":
 	setup_logger.setup(verbose=True)

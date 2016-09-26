@@ -1,3 +1,11 @@
+"""
+Creates a small GCToo instance (with representative examples of typically found fields); can use for testing.
+
+ex:
+	import mini_gctoo_for testing
+	my_mini_gctoo = mini_gctoo_for_testing.make()
+"""
+
 import logging
 import setup_GCToo_logger as setup_logger
 import sys
@@ -12,6 +20,9 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 setup_logger.setup(verbose = True)
 
 def make():
+	"""
+	Creates a small GCToo instance (with representative examples of typically found fields); can use for testing.
+	"""
 	# metadata examples; should be one of each type reasonable to find
 	id_vals = ["LJP007_MCF10A_24H:TRT_CP:BRD-K93918653:3.33", "MISC003_A375_24H:TRT_CP:BRD-K93918653:3.33" ,"LJP007_MCF7_24H:TRT_POSCON:BRD-K81418486:10", "LJP007_MCF7_24H:TRT_POSCON:BRD-A61304759:10", "LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666", "LJP007_MCF7_24H:TRT_CP:BRD-K64857848:10"]
 	count_cv = ["14|15|14","13|14|13", "13|15|14|14|15|14|14|13|14|15|15|14|14|15|14|15|14|14|15|14|15|14|14|14|14|14|14|15|14|14|15|14|14|14|14|13|14|14|14|14|14|14|15|14|13|13|15|14|14|15|14|14|14|15|13|13|15|13|14|13|13|14|14|14|14|13", "13", "13", "14"]
@@ -19,7 +30,6 @@ def make():
 	zmad_ref = ["population", "population", "population", "population", "population", "population"]
 	distil_nsample = [3,3,66,2, 9, 111111]
 	mfc_plate_id = ["-666", "-666", "-666", "-666", "-666", "-666"]
-	# TODO: mixture of -666 and numbers? 
 
 	# build metadata dataframe
 	mini_meta_dict = {}
@@ -35,7 +45,6 @@ def make():
 
 	# data example values
 	r1 = [1,2,3,4,5,6]
-
 	r2 = [4.3, 4.5, 4.3, 4.3, 4.3, 4.3]
 	r3 = [7,8,9,0,1.23476,9.758320]
 	r4 = [0.11, 3.3456356, 2.345667, 9.822065353, 4.78865099, 4.7886]
@@ -65,5 +74,3 @@ def make():
 	logger.debug("mini_gctoo row metadata types: {}".format(mini_gctoo.row_metadata_df.dtypes))
 
 	return mini_gctoo
-
-
