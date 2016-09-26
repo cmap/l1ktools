@@ -1,6 +1,6 @@
 import setuptools
 
 setuptools.setup(
-	name="python_cmap",
-	packages=["cmap"]
+	name="broadinstitute",
+	packages=["broadinstitute"]
 )
