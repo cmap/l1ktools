@@ -186,6 +186,8 @@ def parse_data_df(data_dset, id_dict):
 	logger.debug("rids: {}".format(rids))
 	logger.debug("cids: {}".format(cids))
 	data_df = pd.DataFrame(data_array.transpose(), index = rids, columns = cids)
+	data_df.index.name = "rid"
+	data_df.columns.name = "cid"
 	logger.debug("parsed data_df: {}".format(data_df))
 	return data_df
 
@@ -208,8 +210,8 @@ def make_meta_df(dim_id_key, dset, id_dict, convert_neg_666):
 	"""
 	"""
 	(row_indexes, df_index_vals) = set_meta_index_to_use(dim_id_key, id_dict)
-	logger.debug("row_indexes: {}".format(row_indexes))
-	logger.debug("{} df index vals: {}".format(dim_id_key, df_index_vals))
+	# logger.debug("row_indexes: {}".format(row_indexes))
+	# logger.debug("{} df index vals: {}".format(dim_id_key, df_index_vals))
 
 	if len(dset.keys()) > 1: # aka if there is metadata besides ids
 		meta_df = populate_meta_array(dset, row_indexes)
@@ -217,13 +219,14 @@ def make_meta_df(dim_id_key, dset, id_dict, convert_neg_666):
 		# column values shouldn't include "id"
 		df_column_vals = list(dset.keys()[:])
 		df_column_vals.remove("id")
-		logger.debug("df columns vals: {}".format(df_column_vals))
+		# logger.debug("df columns vals: {}".format(df_column_vals))
 
 		meta_df.index = df_index_vals
 		meta_df.columns = df_column_vals
-		meta_df = set_metadata_index_and_column_names(dim_id_key, meta_df)
 	else:
 		meta_df = pd.DataFrame(index= df_index_vals)
+
+	meta_df = set_metadata_index_and_column_names(dim_id_key, meta_df)
 
 	if convert_neg_666:
 		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
@@ -277,4 +280,6 @@ def set_metadata_index_and_column_names(dim_id_key, meta_df):
 		meta_df.index.name = "cid"
 		meta_df.columns.name = "chd"
 	return meta_df
+
+
 

@@ -186,9 +186,6 @@ class TestAltParseGCToox(unittest.TestCase):
 
 		mini_hdf5.close()
 
-	def test_make_meta_df(self):
-		pass
-
 	def test_set_meta_index_to_use(self):
 		mini_hdf5 = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctx_with_metadata_n2x3.gctx", "r", driver = "core")
 		rid_dset = mini_hdf5[rid_node]
@@ -285,7 +282,6 @@ class TestAltParseGCToox(unittest.TestCase):
 			"Expected index name to be 'cid' but was {}".format(col_names_set.index.name))
 		self.assertTrue(col_names_set.columns.name == "chd",
 			"Expected columns name to be 'chd' but was {}".format(col_names_set.columns.name))
-
 
 
 if __name__ == "__main__":
