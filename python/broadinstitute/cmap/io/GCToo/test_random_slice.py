@@ -7,15 +7,6 @@ import mini_gctoo_for_testing
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-# Some notes on testing conventions (more in cuppers convention doc):
-#   (1) Use "self.assert..." over "assert"
-#       - self.assert* methods: https://docs.python.org/2.7/library/unittest.html#assert-methods
-#   (2) For testing exceptions use:
-#       with self.assertRaises(some_exception) as context:
-#           [call method that should raise some_exception]
-#       self.assertEqual(str(context.exception), "expected exception message")
-
-
 class TestRandomSlice(unittest.TestCase):
 	def test_make_specified_size_gctoo(self):
 		mini_gctoo = mini_gctoo_for_testing.make()
