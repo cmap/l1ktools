@@ -15,7 +15,6 @@ import setup_GCToo_logger as setup_logger
 import GCToo
 import parse_gctoo as pg
 import write_gctoo as wg
-import cmap.io.plategrp as plategrp
 
 __author__ = "Lev Litichevskiy"
 __email__ = "lev@broadinstitute.org"
@@ -61,6 +60,14 @@ def main(args):
     # Write the output gct
     wg.write(out_gct, args.out_name, data_null="NaN", metadata_null="NA", filler_null="NA")
 
+def read_grp(in_path):
+    '''
+    reads .grp files to a list
+    '''
+    with open(in_path, 'r') as f:
+            lines = f.readlines()
+            # again, second conditional ignores comment lines
+            return [line.strip() for line in lines if line and not re.match('^#', line)]
 
 def _read_arg(arg):
     """
@@ -79,7 +86,7 @@ def _read_arg(arg):
     else:
         # If len(arg) == 1 and arg[0] is a valid filepath, read it as a grp file
         if len(arg) == 1 and os.path.exists(arg[0]):
-            arg_out = plategrp.read_grp(arg[0])
+            arg_out = read_grp(arg[0])
         else:
             arg_out = arg
 

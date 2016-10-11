@@ -78,10 +78,10 @@ def parse(file_path, convert_neg_666=False, rid=None, cid=None):
 	"""
 	if convert_neg_666:
 		# Use default nan values if none given
-		default_nan_values = ["#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN",
+		nan_values = ["#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN",
 							  "nan", "-nan", "#N/A!", "na", "NA", "None", "-666"]
 	else: 
-		default_nan_values = ["#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN",
+		nan_values = ["#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN",
 					  "nan", "-nan", "#N/A!", "na", "NA", "None"]
 
 
@@ -106,7 +106,7 @@ def parse(file_path, convert_neg_666=False, rid=None, cid=None):
 	gctoo_obj = create_gctoo_obj(file_path, version, row_metadata, col_metadata, data)
    
 	# slice (if applicable) as specified by user 
-	gctoo_obj = slice_gct.slice_gctoo(gctoo, rid=rid, cid=cid)
+	gctoo_obj = slice_gct.slice_gctoo(gctoo_obj, rid=rid, cid=cid)
 
 	return gctoo_obj
 
