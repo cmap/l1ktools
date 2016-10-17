@@ -234,7 +234,6 @@ def make_meta_df(dim_id_key, dset, id_dict, convert_neg_666):
 	# Convert metadata to numeric if possible, after converting everything to string first 
 	# Note: This conversion first to string is to ensure consistent behavior between
 	#	the gctx and gct parser (which by default reads the entire text file into a string)
-	meta_df = meta_df.astype(str)
 	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
 	
 	return meta_df
@@ -256,7 +255,7 @@ def populate_meta_array(meta_group, row_indexes):
 				curr_meta = list(meta_group[k][row_indexes])
 				# logger.debug("curr_meta values: {}".format(curr_meta))
 				# logger.debug("curr_meta as list: {}".format(list(curr_meta)))
-				meta_values[k] = curr_meta
+				meta_values[k] = [str(elem).strip() for elem in curr_meta]
 	# logger.debug("meta values before concat: {}".format(meta_values))
 	meta_value_df = pd.DataFrame.from_dict(meta_values)
 	return meta_value_df
