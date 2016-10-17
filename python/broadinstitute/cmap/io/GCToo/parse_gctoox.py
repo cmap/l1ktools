@@ -1,52 +1,26 @@
-"""
-Parses a gctx file to a GCToo instance. 
-
-Main method is parse; helper methods respectively check/open files,
-parse in the data matrix, and populates/properly formats the metadata values. 
-
-Note re: conversion to -666: This option exists because by default, CMap
-uses "-666" to represent null values in qualitative fields (eg. metadata). 
-However, this is not the default null value (numpy.nan) employed by pandas;
-so, we provide users the option to convert "-666" values to numpy.NaN in 
-their GCToo instances to allow maximal use of pandas/python tools. 
-
-Sample (minimal) .gctx hierarchical structure:
-
-/version
-/src
-/0
-	/DATA 
-		/0
-			/matrix 
-	/META 
-		/ROW 
-			/id 
-			/[other metadata r1]
-			...
-		/COL 
-			/id 
-			/[other metadata c1]
-			...
-"""
-
 import logging
 import setup_GCToo_logger as setup_logger
-import sys
-import os
-import tables
-import numpy
-import pandas
+# import sys
+import os 
+import numpy as np 
+import pandas as pd 
+import h5py
 import GCToo
-import GCTXAttrInfo
 
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
 
-# instantiate logger
+#instantiate logger
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 # when not in debug mode, probably best to set verbose=False
 setup_logger.setup(verbose = True)
 
+version_node = "version"
+rid_node = "/0/META/ROW/id"
+cid_node = "/0/META/COL/id"
+data_node = "/0/DATA/0/matrix"
+row_meta_group_node = "/0/META/ROW"
+col_meta_group_node = "/0/META/COL"
 
 def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None): 
 	"""
@@ -71,249 +45,224 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None):
 		including those for filtering nan's etc) we provide the option of converting these 
 		into numpy.NaN values, the pandas default. 
 	"""
-	# open gctx file from specified path
-	logger.info("Opening gctx file from specified path...")
-	gctx_file = open_gctx_file(gctx_file_path)
+	full_path = os.path.expanduser(gctx_file_path)
+	# open file 
+	gctx_file = h5py.File(full_path, "r", driver = "core")
 
-	# instantiate gctx node attribute object
-	node_info = GCTXAttrInfo.GCTXAttrInfo()
+	# get version
+	# Note: this should be "GCTX1.0"
+	my_version = gctx_file.attrs[version_node][0]
 
-	# Get gctx version
-	logger.info("Getting gctx version...")
-	my_version = gctx_file.getNodeAttr(node_info.version_prefix, node_info.version_suffix)
-	logger.debug("GCTX Version: {}".format(my_version))
+	# get dsets corresponding to rids, cids 
+	rid_dset = gctx_file[rid_node]
+	cid_dset = gctx_file[cid_node]
+	# store appropriate id information in dict for O(1) lookup
+	# Note: if slicing in 
+	id_info = make_id_info_dict(rid_dset, cid_dset, rid, cid)
 
-	# convert data matrix to pandas dataframe 
-	logger.info("Extracting data values from gctx... ")
-	data = parse_data_df(gctx_file, node_info, rid, cid)
+	# get data dset
+	data_dset = gctx_file[data_node]
+	# write data (or specified slice thereof) to pandas DataFrame
+	data_df = parse_data_df(data_dset, id_info)
 
-	# convert row meta data to pandas dataframe 
-	logger.info("Extracting row metadata from gctx... ")
-	row_metadata = parse_metadata("row", node_info, gctx_file, rid, cid, convert_neg_666)
+	# get row metadata
+	row_group = gctx_file[row_meta_group_node]
+	row_meta_df = make_meta_df("rids", row_group, id_info, convert_neg_666)
+	logger.debug("row_meta_df index: {}".format(row_meta_df.index))
+	logger.debug("row_meta_df columns: {}".format(row_meta_df.columns))
 
-	# convert col meta data to pandas dataframe 
-	logger.info("Extracting col metadata from gctx... ")
-	col_metadata = parse_metadata("col", node_info, gctx_file, rid, cid, convert_neg_666)
+	# get col metadata
+	col_group = gctx_file[col_meta_group_node]
+	col_meta_df = make_meta_df("cids", col_group, id_info, convert_neg_666)
+	logger.debug("col_meta_df index: {}".format(col_meta_df.index))
+	logger.debug("col_meta_df columns: {}".format(col_meta_df.columns))
 
-	# close gctx file
+	# close file 
 	gctx_file.close()
 
-	# instantiate GCToo object and set fields correspondingly
-	logger.info("Creating GCToo instance... ")
-	my_GCToo = GCToo.GCToo(src=gctx_file_path, version=my_version,
-				 row_metadata_df=row_metadata, col_metadata_df=col_metadata, data_df=data)
+	# make GCToo instance 
+	curr_GCToo = GCToo.GCToo(src=full_path, version=my_version,
+		row_metadata_df=row_meta_df, col_metadata_df=col_meta_df, data_df=data_df)
 
-	return my_GCToo
+	return curr_GCToo
 
-def open_gctx_file(gctx_file_path):
+def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 	"""
-	Checks that file path corresponds to an actual HDF5 file and opens it for reading.
-
-	Input:
-		- gctx_file_path (str): path to gctx file you wish to parse. 
-
-	Output:
-		- gctx_file (tables.File): instance of a PyTables File object to read from.
+	TODO
 	"""
-	# expand input gctx path to full path
-	gctx_file_path = os.path.expanduser(gctx_file_path)
-	# check if file exists
-	if os.path.isfile(gctx_file_path):
-		# check if file is hdf5; if so, try reading it in
-		if tables.is_hdf5_file(gctx_file_path):
-				# open file 
-				logger.info("Opening gctx file...")
-				gctx_file = tables.openFile(gctx_file_path)
-				return gctx_file
+	# for looking up id information 
+	# (full & subsets, as applicable)
+	id_dict = {}
+	# read in full id values 
+	get_all_id_values(rid_dset, cid_dset, id_dict)
+	# to store slice lengths (if applicable)
+	# Note: Currently h5py throws an error if you try hyperslab selection along
+	#  		more than one dimension at once, so we hyperslab first by the longer slice length
+	#		(in cases where both dimensions are sliced)
+	id_dict["slice_lengths"] = {}
+	# set subsetted id values to whatever's applicable
+	# if taking slices w/hyperslabs, need to obtain an ordered list of indexes
+	if rid != None:
+		get_ordered_slice_indexes("rids", id_dict, rid)
+		id_dict["slice_lengths"]["rids"] = len(rid)
+	if cid != None:
+		get_ordered_slice_indexes("cids", id_dict, cid)
+		id_dict["slice_lengths"]["cids"] = len(cid)
+	return id_dict
+
+
+def get_all_id_values(rid_dset, cid_dset, id_dict):
+	"""
+	TODO
+	"""
+	# make empty numpy arrays of proper dims to populate
+	# Note: ids are currently truncated at > 50 chars
+	# TODO: Q: What's the limit for id lengths? 
+	rid_array = np.empty(rid_dset.shape, dtype = "S50")
+	cid_array = np.empty(cid_dset.shape, dtype = "S50")
+	# set numpy arrays to respective id values 
+	rid_dset.read_direct(rid_array)
+	cid_dset.read_direct(cid_array)
+	# convert to pandas DataFrames
+	# this structure enables us to easily get a list of slice value indexes
+	rid_df = pd.DataFrame(range(0, rid_array.shape[0]), index = rid_array).transpose()
+	cid_df = pd.DataFrame(range(0, cid_array.shape[0]), index = cid_array).transpose()
+	# add full values to id info dict
+	id_dict["rids"] = {}
+	id_dict["rids"]["full_id_list"] = rid_df
+	id_dict["cids"] = {}
+	id_dict["cids"]["full_id_list"] = cid_df
+
+def get_ordered_slice_indexes(dim_id_key, id_dict, slice_id_list):
+	"""
+	TODO: Explain why this is necessary for hyperslab slicing w/h5py
+	"""
+	# get unsorted index values of slice_id_list 
+	unordered_slice_df = id_dict[dim_id_key]["full_id_list"].loc[:, slice_id_list]
+	# gets indexes that would properly sort slice_id_list values, 
+	# and orders elements of slice_id_list accordingly
+	ordered_columns = unordered_slice_df.columns[unordered_slice_df.ix[unordered_slice_df.last_valid_index()].argsort()]	
+	# order index values corresponding to slice_id_list in ascending numerical order
+	ordered_slice_df = unordered_slice_df[ordered_columns]
+	# set 
+	id_dict[dim_id_key]["slice_indexes"] = ordered_slice_df[ordered_columns].values.tolist()[0]
+	id_dict[dim_id_key]["slice_values"] = list(ordered_columns)
+
+
+def parse_data_df(data_dset, id_dict):
+	"""
+	TODO
+
+	NOTE: Data_DF is stored transposed from final parsed form;
+		so, the indexing of slicing is the opposite of what would normally
+		be expected. 
+	"""
+	# for setting proper index/columns of data df 
+	rids = id_dict["rids"]["full_id_list"].columns
+	cids = id_dict["cids"]["full_id_list"].columns 
+	# if applicable, determine how to slice hdf5 file
+	(slice_both, first_dim) = set_slice_order(id_dict) 
+	if slice_both: # slice both columns 
+		rids = id_dict["rids"]["slice_values"]
+		cids = id_dict["cids"]["slice_values"]
+		if first_dim == "rids":
+			first_slice = data_dset[:, id_dict["rids"]["slice_indexes"]]
+			data_array = first_slice[id_dict["cids"]["slice_indexes"],:]
 		else:
-			raise TypeError("Input is not an hdf5 file - gctx_file_path:  {}".format(gctx_file_path))
-	else:
-		raise ValueError("file does not exist gctx_file_path:  {}".format(gctx_file_path))
+			first_slice = data_dset[id_dict["cids"]["slice_indexes"],:]
+			data_array = first_slice[:, id_dict["rids"]["slice_indexes"]]
+	elif first_dim != None: # slice one column 
+		if first_dim == "rids":
+			data_array = data_dset[:, id_dict["rids"]["slice_indexes"]]
+			rids = id_dict["rids"]["slice_values"]
+		elif first_dim == "cids":
+			data_array = data_dset[(id_dict["cids"]["slice_indexes"]),:]
+			cids = id_dict["cids"]["slice_values"]
+	else: # slice no columns 
+		# empty numpy array to populate w/data dset values
+		data_array = np.empty(data_dset.shape, dtype = np.float64) 
+		data_dset.read_direct(data_array)
 
-def parse_data_df(open_gctx_file, node_info, rid, cid):
-	"""
-	Main parsing method for data matrix.
-
-	Input:
-		- open_gctx_file (tables.File): File instance from which to read
-		- node_info (GCTXAttrInfo): GCTXAttrInfo instance from which to get node prefixes/suffixes.
-		- rid (list of strings): list of row ids to specifically keep from gctx. Default=None. 
-		- cid (list of strings): list of col ids to specifically keep from gctx. Default=None. 
-
-	Output:
-		- data_df (pandas.DataFrame): data frame corresponding to data matrix. 
-	"""
-	# open data node
-	data_node = open_gctx_file.getNode(node_info.data_matrix_prefix, node_info.matrix_suffix)
-
-	# convert node to pandas DataFrame
-	data_df = pandas.DataFrame(data_node[:]).transpose()
-
-	# convert data types to string, then convert to numeric
-	# Note: This conversion first to string is to ensure consistent behavior between
-	#	the gctx and gct parser (which by default reads the entire text file into a string)
-	data_df = data_df.astype(str)
-	data_df = data_df.apply(lambda x: pandas.to_numeric(x, errors='ignore'))
-
-	# set rids
-	rid_info = get_dim_specific_id_info("row", node_info)
-	all_rids = pandas.Series(list(open_gctx_file.getNode(rid_info[0], rid_info[1])[:])).str.strip()
-
-	# set cids
-	cid_info = get_dim_specific_id_info("col", node_info)
-	all_cids = pandas.Series(list(open_gctx_file.getNode(cid_info[0], cid_info[1])[:])).str.strip()
-
-	# set columns 
-	data_df.columns = all_cids 
-	data_df.columns.name = "cid"
-
-	# set index
-	data_df.index = all_rids 
+	logger.debug("rids: {}".format(rids))
+	logger.debug("cids: {}".format(cids))
+	data_df = pd.DataFrame(data_array.transpose(), index = rids, columns = cids)
 	data_df.index.name = "rid"
+	data_df.columns.name = "cid"
+	logger.debug("parsed data_df: {}".format(data_df))
+	return data_df
 
-	# subset to specified rids/cids 
-	data_df = subset_by_ids(data_df, rid, cid)
-
-	return data_df 
-
-
-def parse_metadata(dim, node_info, open_gctx_file, rid, cid, convert_neg_666):
+def set_slice_order(id_dict):
 	"""
-	Main parsing method for metadata nodes. 
-
-	Input:
-		- dim (str): Dimension of metadata to read. Must be either "row" or "col"
-		- node_info (GCTXAttrInfo): GCTXAttrInfo instance from which to get node prefixes/suffixes.
-		- open_gctx_file (tables.File): File instance from which to read
-		- rid (list of strings): list of row ids to specifically keep from gctx. Default=None. 
-		- cid (list of strings): list of col ids to specifically keep from gctx. Default=None. 
-		- convert_neg_666 (bool): whether to convert -666 values to numpy.nan or not.
-
-	Output: 
-		- meta_df (pandas.DataFrame): data frame corresponding to metadata fields of dimension specified.
+	TODO
 	"""
-	# open metadata node
-	meta_group_info = get_dim_specific_meta_group_info(dim, node_info)
-	meta_group = open_gctx_file.getNode(meta_group_info[0], meta_group_info[1])
+	# (for current h5py version) can only take hyperslab on one dimension
+	# ... so we choose the larger one 
+	slice_both_dims = False 
+	first_slice_dim = None 
+	if len(id_dict["slice_lengths"]) == 2: 
+		first_slice_dim = max(id_dict['slice_lengths'].iterkeys(), key=(lambda key: id_dict["slice_lengths"][key]))
+		slice_both_dims = True
+	elif len(id_dict["slice_lengths"]) == 1:
+		first_slice_dim = id_dict["slice_lengths"].keys()[0]
+	return slice_both_dims, first_slice_dim
 
-	# populate dict with metadata header values
-	full_node_path = meta_group_info[0] + "/" + meta_group_info[1]
-	meta_dict = populate_meta_df(full_node_path, meta_group.__members__, open_gctx_file)
+def make_meta_df(dim_id_key, dset, id_dict, convert_neg_666):
+	"""
+	"""
+	(row_indexes, df_index_vals) = set_meta_index_to_use(dim_id_key, id_dict)
+	# logger.debug("row_indexes: {}".format(row_indexes))
+	# logger.debug("{} df index vals: {}".format(dim_id_key, df_index_vals))
 
-	# convert dict to DataFrame
-	meta_df = pandas.DataFrame.from_dict(meta_dict)
+	if len(dset.keys()) > 1: # aka if there is metadata besides ids
+		meta_df = populate_meta_array(dset, row_indexes)
 
-	# subset to ids specified
-	id_info = get_dim_specific_id_info(dim, node_info)
-	id_vals = pandas.Series(list(open_gctx_file.getNode(id_info[0], id_info[1])[:])).str.strip()
-	meta_df = set_id_vals(id_vals, meta_df)
-	meta_df = set_metadata_index_and_column_names(dim, meta_df)
-	# metadata convention is that ids are always index values 
-	if dim == "row":
-		meta_df = subset_by_ids(meta_df, rid, None)
-	elif dim == "col":
-		meta_df = subset_by_ids(meta_df, cid, None)
+		# column values shouldn't include "id"
+		df_column_vals = list(dset.keys()[:])
+		df_column_vals.remove("id")
+		# logger.debug("df columns vals: {}".format(df_column_vals))
+
+		meta_df.index = df_index_vals
+		meta_df.columns = df_column_vals
+	else:
+		meta_df = pd.DataFrame(index= df_index_vals)
+
+	meta_df = set_metadata_index_and_column_names(dim_id_key, meta_df)
+
+	if convert_neg_666:
+		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
 
 	# Convert metadata to numeric if possible, after converting everything to string first 
 	# Note: This conversion first to string is to ensure consistent behavior between
 	#	the gctx and gct parser (which by default reads the entire text file into a string)
 	meta_df = meta_df.astype(str)
-	meta_df = meta_df.apply(lambda x: pandas.to_numeric(x, errors="ignore"))
-	logger.debug("First row of metadata after numeric conversion: {}".format(meta_df.iloc[1]))
-	logger.debug("Post-numeric conversion dtypes: {}".format(meta_df.dtypes))
-
-	# convert -666s if specified
-	meta_df = replace_666(meta_df, convert_neg_666)
-
+	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
+	
 	return meta_df
 
-def get_dim_specific_meta_group_info(dim, node_info):
-	"""
-	Helper method for metadata parser. 
-	Returns proper dimension-specific prefix/suffix for node access.
+def set_meta_index_to_use(dim_id_key, id_dict):
+	if len(id_dict[dim_id_key]) == 3: # yes slice
+		row_indexes = id_dict[dim_id_key]["slice_indexes"]
+		df_index_vals = id_dict[dim_id_key]["slice_values"]
+	else: # no slice
+		row_indexes = range(0,len(id_dict[dim_id_key]["full_id_list"].columns))
+		df_index_vals = list(id_dict[dim_id_key]["full_id_list"].columns)
+	return row_indexes, df_index_vals	
 
-	Input:
-		- dim (str): Dimension of metadata to read. Must be either "row" or "col"
-		- node_info (GCTXAttrInfo): GCTXAttrInfo instance from which to get node prefixes/suffixes.
+def populate_meta_array(meta_group, row_indexes):
+	meta_values = {}
+	for k in meta_group.keys():
+		if k != "id":
+			with meta_group[k].astype("S50"):
+				curr_meta = list(meta_group[k][row_indexes])
+				# logger.debug("curr_meta values: {}".format(curr_meta))
+				# logger.debug("curr_meta as list: {}".format(list(curr_meta)))
+				meta_values[k] = curr_meta
+	# logger.debug("meta values before concat: {}".format(meta_values))
+	meta_value_df = pd.DataFrame.from_dict(meta_values)
+	return meta_value_df
 
-	Output:
-		tuple containing relevant metadata_prefix and suffix in positions 0 and 1, respectively.
-	"""
-	if dim == "row":
-		return (node_info.metadata_prefix, node_info.row_metadata_suffix)
-	elif dim == "col":
-		return (node_info.metadata_prefix, node_info.col_metadata_suffix)
 
-def populate_meta_df(full_node_path, group_members, open_gctx_file):
-	"""
-	Helper method for metadata parser.
-	Iterates over metadata nodes by header and populates a dictionary with values.
-
-	Input: 
-		- full_node_path (str): path to full (dimension-specific) metadata group
-		- group_members (list): list of metadata headers
-		- open_gctx_file (tables.File): File instance from which to read
-
-	Output:
-		- meta_dict (dict): Dictionary where metadata headers are keys and values are metadata values.
-	"""
-	meta_dict = {}
-	for m in group_members:
-		if m != "id":
-			logger.debug("Member name: {}".format(m))
-			m_values = open_gctx_file.getNode(full_node_path, m)
-			m_values = m_values[:][:]
-			# if m_values contains strings, need to strip whitespace
-			if list(m_values)[0] == str or "numpy.string" in str(type(list(m_values)[0])):
-				m_values = [x.strip() for x in m_values]
-			# can't have duplicate header values 
-			if m.strip() not in meta_dict.keys():
-				meta_dict[m.strip()] = m_values
-			else:
-				logger.error("Can't have duplicated metadata fields: {} detected more than once".format(m.strip()))
-	return meta_dict
-
-def get_dim_specific_id_info(dim, node_info):
-	"""
-	Helper method for metadata parser. 
-	Returns proper dimension-specific prefix/suffix for rid/cid value access.
-
-	Input:
-		- dim (str): Dimension of metadata to read. Must be either "row" or "col"
-		- node_info (GCTXAttrInfo): GCTXAttrInfo instance from which to get node prefixes/suffixes.
-
-	Output:
-		tuple containing relevant prefix and suffix in positions 0 and 1, respectively.
-	"""
-	if dim == "row":
-		id_vals_prefix = node_info.metadata_prefix + "/" + node_info.row_metadata_suffix
-		id_vals_suffix = node_info.rid_suffix
-	elif dim == "col":
-		id_vals_prefix = node_info.metadata_prefix + "/" + node_info.col_metadata_suffix
-		id_vals_suffix = node_info.cid_suffix
-	return (id_vals_prefix, id_vals_suffix)
-
-def set_id_vals(id_vals, meta_df):
-	"""
-	Sets index of metadata data frame to id values.
-
-	Input: 
-		- id_vals (list of str): rid or cid values to set as index. 
-		- meta_df (pandas.DataFrame): data frame corresponding to metadata fields of dimension specified.
-
-	Output:
-		- meta_df (pandas.DataFrame): data frame corresponding to metadata fields of dimension specified.
-	"""
-	if meta_df.shape != (0,0): # if there is metadata 
-		meta_df.index = id_vals
-	else: 
-		meta_df = pandas.DataFrame(id_vals)
-		logger.debug("empty meta_df after id_vals introduced: {}".format(meta_df))
-		meta_df.set_index(0, inplace = True)
-		logger.debug("empty meta_df after id_vals set as index: {}".format(meta_df))
-	return meta_df
-
-def set_metadata_index_and_column_names(dim, meta_df):	
+def set_metadata_index_and_column_names(dim_id_key, meta_df):	
 	"""
 	Sets index and column names to GCTX convention.
 
@@ -324,52 +273,13 @@ def set_metadata_index_and_column_names(dim, meta_df):
 	Output:
 		- meta_df (pandas.DataFrame): data frame corresponding to metadata fields of dimension specified.
 	"""
-	if dim == "row":
+	if dim_id_key == "rids":
 		meta_df.index.name = "rid"
 		meta_df.columns.name = "rhd"
-	elif dim == "col":
+	elif dim_id_key == "cids":
 		meta_df.index.name = "cid"
 		meta_df.columns.name = "chd"
 	return meta_df
 
-def subset_by_ids(df, rid, cid):
-	"""
-	Subsets a DataFrame to specified rids/cids (if not None).
 
-	Input: 
-		- df: a DataFrame, with ids set to index and columns 
-			(as relevant; note this is different for data_df vs. meta_df)
-		- rid (list of strings): list of row ids to specifically keep from gctx. Default=None. 
-		- cid (list of strings): list of col ids to specifically keep from gctx. Default=None. 
-
-	Output:
-		- df: subsetted DataFrame. 
-	"""
-	if rid == None and cid == None:
-		pass
-	elif rid != None and cid != None:
-		df = df.loc[rid][cid]
-	elif rid == None:
-		df = df[cid]
-	elif cid == None:
-		df = df.loc[rid]
-	return df
-
-def replace_666(meta_df, convert_neg_666):
-	"""
-	Converts -666 values into numpy.NaN. 
-
-	Input: 
-		- meta_df (pandas.DataFrame): data frame corresponding to metadata fields of dimension specified.
-		- convert_neg_666 (bool): whether to convert -666 values to numpy.nan or not 
-
-	Output: 
-		- meta_df (pandas.DataFrame): data frame corresponding to metadata fields of dimension specified.
-	"""
-	# TODO: Add comment on why does this exist 
-	if convert_neg_666:
-		meta_df = meta_df.replace([-666, "-666", -666.0], [numpy.nan, numpy.nan, numpy.nan])
-	else:
-		meta_df = meta_df.replace([-666, -666.0], ["-666", "-666"])
-	return meta_df
 
