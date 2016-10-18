@@ -160,12 +160,18 @@ class GCToo(object):
                 field.values)))
 
     def rid_consistency_check(self):
+        """
+        Checks that rids are consistent between data_df and row_metadata_df.
+        """
         assert self.data_df.index.equals(self.row_metadata_df.index), (
             ("The rids are inconsistent between data_df and row_metadata_df.\n" +
              "self.data_df.index.values:\n{}\nself.row_metadata_df.index.values:\n{}").format(
                 self.data_df.index.values, self.row_metadata_df.index.values))
                 
     def cid_consistency_check(self):
+        """
+        Checks that cids are consistent between data_df and col_metadata_df. 
+        """
         assert self.data_df.columns.equals(self.col_metadata_df.index), (
             ("The cids are inconsistent between data_df and col_metadata_df.\n" +
              "self.data_df.columns.values:\n{},\nself.col_metadata_df.index.values:\n{}").format(
@@ -197,45 +203,3 @@ def multi_index_df_to_component_dfs(multi_index_df):
     data_df = pd.DataFrame(multi_index_df.values, index=pd.Index(rids, name="rid"), columns=pd.Index(cids, name="cid"))
 
     return data_df, row_metadata_df, col_metadata_df
-
-def slice(gctoo, row_bool=None, col_bool=None):
-    """ Extract a subset of data from a GCToo object in a variety of ways.
-
-    Args:
-        gctoo (GCToo object)
-        row_bool (list of bools): length must equal gctoo.data_df.shape[0]
-        col_bool (list of bools): length must equal gctoo.data_df.shape[1]
-        NOT YET IMPLEMENTED:
-        row_id (list of strings): if empty, will use all rid
-        col_id (list of strings): if empty, will use all cid
-        row_meta_field (list of strings)
-        row_meta_values (list of strings)
-        exclude_rid (bool): if true, select row ids EXCLUDING 'rid' (default: False)
-        exclude_cid (bool): if true, select col ids EXCLUDING 'cid' (default: False)
-        ridx (list of ints): select rows using row indices
-        cidx (list of ints): select cols using col indices
-        ignore_missing (bool): if true, ignore missing ids (default: False)
-    Returns:
-        out_gctoo (GCToo object): gctoo after slicing
-    """
-    # TODO(lev): should use mutually exclusive groups and argparse here
-
-    # Initialize output
-    out_gctoo = GCToo()
-
-    # If row_bool is None, use all rids
-    if row_bool is None:
-        row_bool = [True] * gctoo.data_df.shape[0]
-    # If col_bool is None, use all cids
-    if col_bool is None:
-        col_bool = [True] * gctoo.data_df.shape[1]
-
-    assert len(row_bool) == gctoo.data_df.shape[0], 'len(row_bool) must equal gctoo.data_df.shape[0]'
-    assert len(col_bool) == gctoo.data_df.shape[1], 'len(row_bool) must equal gctoo.data_df.shape[1]'
-
-    # Use boolean indexing
-    out_gctoo.data_df = gctoo.data_df.iloc[row_bool, col_bool]
-    out_gctoo.row_metadata_df = gctoo.row_metadata_df.iloc[row_bool, :]
-    out_gctoo.col_metadata_df = gctoo.col_metadata_df.iloc[col_bool, :]
-
-    return out_gctoo
