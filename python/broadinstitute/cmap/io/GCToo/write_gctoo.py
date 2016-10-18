@@ -62,6 +62,8 @@ def write(gctoo, out_fname, data_null="NaN", metadata_null="-666", filler_null="
         nothing
     """
     # Create handle for output file
+    if not out_fname.endswith(".gct"):
+        out_fname = out_fname + ".gct"
     f = open(out_fname, "wb")
 
     # Write first two lines
