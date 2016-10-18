@@ -6,9 +6,9 @@ import logging
 import setup_GCToo_logger as setup_logger
 import pandas as pd
 
-import GCToo as GCToo
-import parse_gctoo as parse_gctoo
-import write_gctoo as write_gctoo
+import GCToo 
+import parse_gctoo 
+import write_gctoo 
 
 """
 concat_gctoo.py
