@@ -169,6 +169,7 @@ def slice_gctoo(gctoo, row_bool=None, col_bool=None, rid=None, cid=None, exclude
 
     # Make the output gct
     out_gctoo = GCToo.GCToo(
+        src= gctoo.src, version = gctoo.version,
         data_df=gctoo.data_df.loc[rows_to_keep_bools, cols_to_keep_bools],
         row_metadata_df=gctoo.row_metadata_df.loc[rows_to_keep_bools, :],
         col_metadata_df=gctoo.col_metadata_df.loc[cols_to_keep_bools, :])
