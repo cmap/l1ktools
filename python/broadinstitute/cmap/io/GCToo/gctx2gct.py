@@ -1,3 +1,13 @@
+"""
+Command-line script to convert a .gctx file to .gct. 
+
+Main method takes in a .gctx file path (and, optionally, an 
+	out path and/or name to which to save the equivalent .gctx)
+	and saves the enclosed content to a .gct file. 
+
+Note: Only supports v1.0 .gctx files. 
+"""
+
 import logging
 import setup_GCToo_logger as setup_logger
 import argparse
@@ -6,17 +16,24 @@ import GCToo
 import parse_gctoox
 import write_gctoo
 
+__author__ = "Oana Enache"
+__email__ = "oana@broadinstitute.org"
+
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-
 def build_parser():
-	parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+	parser = argparse.ArgumentParser(description=__doc__, 
+		formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 	# required
-	parser.add_argument("-filename", help=".gct file that you would like converted to .gctx form")
+	parser.add_argument("-filename", 
+		help=".gctx file that you would like converted to .gct form")
 	# optional
-	parser.add_argument("-outpath", help="(optional) path for output gct file", default=None)
-	parser.add_argument("-outname", help ="(optional) different name for output gct file", default=None)
-	parser.add_argument("-verbose", "-v", help="Whether to print a bunch of output.", action="store_true", default=False)
+	parser.add_argument("-outpath", 
+		help="(optional) path for output gct file", default=None)
+	parser.add_argument("-outname", 
+		help ="(optional) different name for output gct file", default=None)
+	parser.add_argument("-verbose", "-v", 
+		help="Whether to print a bunch of output.", action="store_true", default=False)
 	return parser
 
 
