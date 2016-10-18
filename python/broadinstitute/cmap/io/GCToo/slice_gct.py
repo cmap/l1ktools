@@ -1,8 +1,10 @@
 """
 slice_gct.py
+
 Extract a subset of data from a gct file. If called from the command line,
-ids can be provided as a file path to a grp file or a list of ids. If using the
+ids can be provided as a list or as a path to a grp file. If using the
 slice method in Python, ids or boolean arrays can be used.
+
 """
 
 import logging
@@ -60,21 +62,24 @@ def main(args):
     # Write the output gct
     wg.write(out_gct, args.out_name, data_null="NaN", metadata_null="NA", filler_null="NA")
 
+
 def read_grp(in_path):
-    '''
-    reads .grp files to a list
-    '''
+    """ Read .grp file to a list. """
+
     with open(in_path, 'r') as f:
             lines = f.readlines()
-            # again, second conditional ignores comment lines
+            # second conditional ignores comment lines
             return [line.strip() for line in lines if line and not re.match('^#', line)]
+
 
 def _read_arg(arg):
     """
     If arg is a list with 1 element that corresponds to a valid file path, use
     plategrp to read the grp file. Otherwise, check that arg is a list of strings.
+
     Args:
         arg (list or None)
+
     Returns:
         arg_out (list or None)
     """
@@ -99,6 +104,7 @@ def _read_arg(arg):
 
 def slice_gctoo(gctoo, row_bool=None, col_bool=None, rid=None, cid=None, exclude_rid=None, exclude_cid=None):
     """ Extract a subset of data from a GCToo object in a variety of ways.
+
     Args:
         gctoo (GCToo object)
         row_bool (list of bools): length must equal gctoo.data_df.shape[0]
@@ -107,6 +113,7 @@ def slice_gctoo(gctoo, row_bool=None, col_bool=None, rid=None, cid=None, exclude
         cid (list of strings): length must equal gctoo.data_df.shape[0]
         exclude_rid (bool): if true, select row ids EXCLUDING 'rid' (default: False)
         exclude_cid (bool): if true, select col ids EXCLUDING 'cid' (default: False)
+
     Returns:
         out_gctoo (GCToo object): gctoo after slicing
     """

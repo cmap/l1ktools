@@ -1,3 +1,22 @@
+"""
+concat_gctoo.py
+This function is for concatenating gct files together. You can tell it to find
+gct files using the file_wildcard argument, or you can tell it exactly which
+files you want to concatenate using the list_of_gct_paths argument. The meat of
+this function is the hstack method (i.e. horizontal concatenation of
+gct). Vertical concatenation has not yet been implemented but is very
+analogous to what has been done here.
+There are 3 arguments that allow you to work around certain obstacles
+of concatenation.
+1) If the row metadata contains headers with values that are not the same in
+all files, then you can remove these headers using the fields_to_remove argument.
+2) If the row metadata headers are the same between different files but not in
+the same order, you can sort them using the sort_headers argument.
+3) If the sample ids are not unique between different files, you can use the
+reset_sample_ids argument. This will move the cids to a new metadata field
+and assign a unique integer index for each sample.
+"""
+
 import argparse
 import os
 import sys
@@ -10,23 +29,6 @@ import GCToo
 import parse_gctoo 
 import write_gctoo 
 
-"""
-concat_gctoo.py
-
-This function is for concatenating gct files together. It can find the gct files
-using the get_file_list method, or you can concatenate GCToo objects already
-loaded in memory using the hstack method (i.e. horizontal concatenation of
-gct). Vertical concatenation has not yet been implemented but is very
-analogous to what has been done here.
-
-In order to save the output as a proper gct file, the sample ids need to be
-unique. If sample ids are not unique, then this function will error out.
-However, if you want to concatenate files anyway, you can use the flag
-reset_sample_ids to move the cids to a new metadata field and assign a unique
-integer index for each sample.
-
-"""
-
 __author__ = "Lev Litichevskiy"
 __email__ = "lev@broadinstitute.org"
 
@@ -36,23 +38,31 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 def build_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument("file_wildcard", type=str,
+    # Required args
+    mutually_exclusive_group = parser.add_mutually_exclusive_group()
+    mutually_exclusive_group.add_argument("--list_of_gct_paths", "-lop", nargs="+",
+        help="full paths to gct files to be concatenated")
+    mutually_exclusive_group.add_argument("--file_wildcard", "-w", type=str,
         help=("wildcard specifying where files should be found " +
-              "(surround in quotes if calling from command line)"))
-    parser.add_argument("full_out_name", type=str,
+              "(make sure to surround in quotes if calling from command line!)"))
+
+    # Optional args
+    parser.add_argument("--full_out_name", "-o", type=str, default="concated.gct",
         help="what to name the output file (full path)")
+    parser.add_argument("--fields_to_remove", "-ftr", nargs="+",
+        help="fields to remove from the row metadata headers before concatenating")
+    parser.add_argument("--sort_headers", "-sh", action="store_true", default=False,
+        help=("whether to sort the headers of row metadata dfs (use this flag " +
+              "if row metadata headers are not in the same order in different files)"))
+    parser.add_argument("--reset_sample_ids", "-rsi", action="store_true", default=False,
+        help="whether to reset sample ids (use this flag if sample ids are not unique)")
+
     parser.add_argument("-data_null", type=str, default="NA",
         help="how to represent missing values in the data")
     parser.add_argument("-metadata_null", type=str, default="NA",
         help="how to represent missing values in the metadata")
     parser.add_argument("-filler_null", type=str, default="NA",
         help="what value to use for filling the top-left filler block of a .gct")
-
-    parser.add_argument("-fields_to_remove", type=str, nargs="*",
-        default=["pr_probe_suitability_manual", "pr_probe_normalization_group"],
-        help="fields to remove from the row metadata headers before concatenating")
-    parser.add_argument("-reset_sample_ids", "-rsi", action="store_true", default=False,
-        help="whether to reset sample ids (use this flag if sample ids are not unique)")
     parser.add_argument("-verbose", "-v", action="store_true", default=False,
         help="whether to print a bunch of output")
 
@@ -60,8 +70,17 @@ def build_parser():
 
 
 def main(args):
-    # Find files
-    files = get_file_list(args.file_wildcard)
+
+    # Get files directly
+    if args.list_of_gct_paths is not None:
+        files = args.list_of_gct_paths
+
+    # Or find them
+    else:
+        files = get_file_list(args.file_wildcard)
+
+    assert len(files) > 0, "No files were found. args.file_wildcard: {}".format(
+        args.file_wildcard)
 
     # Parse each file and append to a list
     gctoos = []
@@ -69,7 +88,7 @@ def main(args):
         gctoos.append(parse_gctoo.parse(f))
 
     # Create concatenated gctoo object
-    out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_sample_ids)
+    out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_sample_ids, args.sort_headers)
 
     # Write out_gctoo to file
     logger.info("Write to file...")
@@ -81,7 +100,6 @@ def main(args):
 def get_file_list(wildcard):
     """Search for files to be concatenated. Currently very basic, but could
     expand to be more sophisticated.
-
     Args:
         wildcard (regular expression string)
     Returns:
@@ -91,15 +109,15 @@ def get_file_list(wildcard):
     return files
 
 
-def hstack(gctoos, fields_to_remove, reset_sample_ids):
+def hstack(gctoos, fields_to_remove, reset_sample_ids, sort_headers):
     """Horizontally concatenate gctoos.
-
     Args:
         gctoos (list of gctoo objects)
         fields_to_remove (list of strings): can specify certain fields to remove
             from row metadata in order to allow rows to line up
         reset_sample_ids (bool): set to True if sample ids are not unique
-
+        sort_headers (bool): set to True in order to sort the headers of each
+            row_metadata_df
     Return:
         concated (gctoo object)
     """
@@ -114,15 +132,13 @@ def hstack(gctoos, fields_to_remove, reset_sample_ids):
         data_dfs.append(g.data_df)
 
     # Concatenate row metadata
-    all_row_metadata_df = concat_row_meta(row_meta_dfs, fields_to_remove)
+    all_row_metadata_df = concat_row_meta(row_meta_dfs, fields_to_remove, sort_headers)
 
     # Concatenate col metadata
     all_col_metadata_df = concat_col_meta(col_meta_dfs)
 
     # Concatenate the data_dfs
     all_data_df = concat_data(data_dfs)
-
-    print all_data_df.index
 
     # Make sure df shapes are correct
     assert all_data_df.shape[0] == all_row_metadata_df.shape[0], "Number of rows is incorrect."
@@ -141,14 +157,14 @@ def hstack(gctoos, fields_to_remove, reset_sample_ids):
 
     return concated
 
-def concat_row_meta(row_meta_dfs, fields_to_remove):
+def concat_row_meta(row_meta_dfs, fields_to_remove, sort_headers):
     """Concatenate the row metadata dfs together and sort the index.
-
     Args:
         row_meta_dfs (list of pandas dfs)
         fields_to_remove (list of strings): metadata fields to drop from all dfs
             before concatenating
-
+        sort_headers (bool): set to True in order to sort the headers of each
+            row_metadata_df
     Returns:
         all_row_meta_df (pandas df)
     """
@@ -156,6 +172,11 @@ def concat_row_meta(row_meta_dfs, fields_to_remove):
     if fields_to_remove is not None:
         for df in row_meta_dfs:
             df.drop(fields_to_remove, axis=1, inplace=True)
+
+    # Sort metadata headers in case the order is different between dfs
+    if sort_headers:
+        for df in row_meta_dfs:
+            df.sort_index(axis=1, inplace=True)
 
     # Concat all row_meta_df and then remove duplicate rows (slow...but it works)
     all_row_meta_df_dups = pd.concat(row_meta_dfs, axis=0)
@@ -179,10 +200,8 @@ def concat_row_meta(row_meta_dfs, fields_to_remove):
 
 def concat_col_meta(col_meta_dfs):
     """Concatenate the column metadata dfs together.
-
     Args:
         col_meta_dfs (list of pandas dfs)
-
     Returns:
         all_col_meta_df (pandas df)
     """
@@ -202,10 +221,8 @@ def concat_col_meta(col_meta_dfs):
 
 def concat_data(data_dfs):
     """Concatenate the data dfs together.
-
     Args:
         data_dfs (list of pandas dfs)
-
     Returns:
         all_data_df_sorted (pandas df)
     """
@@ -229,21 +246,17 @@ def concat_data(data_dfs):
 def do_reset_sample_ids(all_col_metadata_df, all_data_df):
     """Rename sample ids in both metadata and data dfs to unique integers.
     Note that the dataframes are modified in-place.
-
     In order to save the output as a proper gct file, the sample ids need to be
     unique. If sample ids are not unique, then this function will error out.
     However, if you want to concatenate files anyway, you can use the flag
     reset_sample_ids to move the cids to a new metadata field and assign a unique
     integer index for each sample.
-
     Args:
         all_col_metadata_df (pandas df)
         all_data_df (pandas df)
-
     Returns:
         all_col_metadata_df (pandas df): updated
         all_data_df (pandas df): updated
-
     """
     # See how many samples are repeated before resetting
     logger.debug("num samples: {}".format(all_col_metadata_df.shape[0]))
