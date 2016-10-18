@@ -1,3 +1,6 @@
+"""
+Slices a random subset of a GCToo instance of a user-specified size. 
+"""
 import logging
 import setup_GCToo_logger as setup_logger
 import argparse
@@ -6,6 +9,9 @@ import pandas
 import GCToo
 import uuid
 import random
+
+__author__ = "Oana Enache"
+__email__ = "oana@broadinstitute.org"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
@@ -69,8 +75,7 @@ def generate_specified_length_unique_ids(id_length):
 		- a list of unique ids 
 	"""
 	s = set()
-	# TODO: change to while set <= id_length
-	for i in range(id_length):
+	while len(set) <= id_length:
 		# Note: uuid4 generates a random UUID (Universally Unique IDentifier)
 		#	There is a *very minor* chance of collisions b/c of random generation, but very low likelihood 
 		s.add(str(uuid.uuid4())) 
