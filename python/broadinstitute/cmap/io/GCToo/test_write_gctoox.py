@@ -7,6 +7,7 @@ import pandas
 from pandas.util.testing import assert_frame_equal
 import numpy 
 import GCToo
+import h5py
 import GCTXAttrInfo
 import parse_gctoox
 import write_gctoox
@@ -22,6 +23,13 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 # instance of mini_gctoo for testing
 mini_gctoo = mini_gctoo_for_testing.make()
+
+version_node = "version"
+rid_node = "/0/META/ROW/id"
+cid_node = "/0/META/COL/id"
+data_node = "/0/DATA/0/matrix"
+row_meta_group_node = "/0/META/ROW"
+col_meta_group_node = "/0/META/COL"
 
 class TestParseGCTooX(unittest.TestCase):
 	def test_add_gctx_to_out_name(self):
@@ -47,24 +55,34 @@ class TestParseGCTooX(unittest.TestCase):
 		write_gctoox.write_data_matrix(hdf5_writer, mini_gctoo)
 		# write ids to file, otherwise extract_data_df throws exception
 		hdf5_writer.createGroup(gctoo_attr.metadata_prefix, gctoo_attr.row_metadata_suffix, createparents = True)
-		hdf5_writer.createArray(os.path.join(gctoo_attr.metadata_prefix, gctoo_attr.row_metadata_suffix), gctoo_attr.rid_suffix, numpy.array(list(mini_gctoo.data_df.index)))
+		hdf5_writer.createArray(os.path.join(gctoo_attr.metadata_prefix, gctoo_attr.row_metadata_suffix), 
+			gctoo_attr.rid_suffix, numpy.array(list(mini_gctoo.data_df.index)))
 		hdf5_writer.createGroup(gctoo_attr.metadata_prefix, gctoo_attr.col_metadata_suffix, createparents = True)
-		hdf5_writer.createArray(os.path.join(gctoo_attr.metadata_prefix, gctoo_attr.col_metadata_suffix), gctoo_attr.cid_suffix, numpy.array(list(mini_gctoo.data_df.columns)))
+		hdf5_writer.createArray(os.path.join(gctoo_attr.metadata_prefix, gctoo_attr.col_metadata_suffix), 
+			gctoo_attr.cid_suffix, numpy.array(list(mini_gctoo.data_df.columns)))
 		hdf5_writer.close()
 
 		# read in written data df, then close & delete file
-		open_mini_gctoo_data_df = parse_gctoox.open_gctx_file(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_data_matrix.gctx"))
-		logger.debug("{} was successfully opened by pytables!".format(open_mini_gctoo_data_df))
-		written_data_df = parse_gctoox.parse_data_df(open_mini_gctoo_data_df, gctoo_attr, None, None)
+		open_mini_gctoo_data_df = h5py.File(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_data_matrix.gctx"), "r")
+		rid_dset = open_mini_gctoo_data_df[rid_node]
+		cid_dset = open_mini_gctoo_data_df[cid_node]
+		# store appropriate id information in dict for O(1) lookup
+		# Note: if slicing in 
+		id_info = parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
+
+		# get data dset
+		data_dset = open_mini_gctoo_data_df[data_node]
+		# write data (or specified slice thereof) to pandas DataFrame
+		written_data_df = parse_gctoox.parse_data_df(data_dset, id_info)
 		logger.debug("Shape of original data df: {}".format(mini_gctoo.data_df.shape))
 		logger.debug("Shape of written data df: {}".format(written_data_df.shape))
 		open_mini_gctoo_data_df.close()
 		os.remove(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_data_matrix.gctx"))
 
 		# check rows and columns
-		self.assertTrue(set(list(mini_gctoo.data_df.index)) == set(list(written_data_df.index)),
+		self.assertTrue(set(mini_gctoo.data_df.index) == set(written_data_df.index),
 			"Mismatch between expected index values of data df {} and index values written to file: {}".format(mini_gctoo.data_df.index,written_data_df.index))
-		self.assertTrue(set(list(mini_gctoo.data_df.columns)) == set(list(written_data_df.columns)),
+		self.assertTrue(set(mini_gctoo.data_df.columns) == set(written_data_df.columns),
 			"Mismatch between expected column values of data df {} and column values written to file: {}".format(mini_gctoo.data_df.columns, written_data_df.columns))
 		assert_frame_equal(mini_gctoo.data_df.sort(axis=1), written_data_df.sort(axis=1))
 
@@ -79,36 +97,42 @@ class TestParseGCTooX(unittest.TestCase):
 		write_gctoox.write_metadata(hdf5_writer, "row", mini_gctoo.row_metadata_df, False)
 		write_gctoox.write_metadata(hdf5_writer, "col", mini_gctoo.col_metadata_df, False)
 		hdf5_writer.close()
+		logger.debug("Wrote mini_gctoo_metadata.gctx to {}".format(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_metadata.gctx")))
 
 		# read in written metadata, then close and delete file
-		open_mini_gctoo_metadata = parse_gctoox.open_gctx_file(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_metadata.gctx"))
-		node_info = GCTXAttrInfo.GCTXAttrInfo()
-		rids = list(open_mini_gctoo_metadata.getNode(os.path.join(node_info.metadata_prefix, node_info.row_metadata_suffix), node_info.rid_suffix))
-		cids = list(open_mini_gctoo_metadata.getNode(os.path.join(node_info.metadata_prefix, node_info.col_metadata_suffix), node_info.cid_suffix))
-		mini_gctoo_row_metadata = parse_gctoox.parse_metadata("row", node_info, open_mini_gctoo_metadata, None, None, False)
-		mini_gctoo_col_metadata = parse_gctoox.parse_metadata("col", node_info, open_mini_gctoo_metadata, None, None, False)
+		open_mini_gctoo_metadata = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", "r", driver = "core")	
+		# get dsets corresponding to rids, cids 
+		rid_dset = open_mini_gctoo_metadata[rid_node]
+		cid_dset = open_mini_gctoo_metadata[cid_node]
+		id_info = parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
+		row_meta_group = open_mini_gctoo_metadata[row_meta_group_node]
+		mini_gctoo_row_metadata =  parse_gctoox.make_meta_df("rids", row_meta_group, id_info, False)
+
+		col_meta_group = open_mini_gctoo_metadata[col_meta_group_node]
+		mini_gctoo_col_metadata =  parse_gctoox.make_meta_df("cids", col_meta_group, id_info, False)
+
 		open_mini_gctoo_metadata.close()
 		os.remove(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_metadata.gctx"))
 
 		# check row metadata
-		self.assertTrue(set(list(mini_gctoo.row_metadata_df.columns)) == set(list(mini_gctoo_row_metadata.columns)),
+		self.assertTrue(set(mini_gctoo.row_metadata_df.columns) == set(mini_gctoo_row_metadata.columns),
 			"Mismatch between expected row metadata columns {} and column values written to file: {}".format(mini_gctoo.row_metadata_df.columns, mini_gctoo_row_metadata.columns))
-		self.assertTrue(set(list(mini_gctoo.row_metadata_df.index)) == set(list(mini_gctoo.col_metadata_df.index)),
+		self.assertTrue(set(mini_gctoo.row_metadata_df.index) == set(mini_gctoo.col_metadata_df.index),
 			"Mismatch between expect row metadata index {} and index values written to file: {}".format(mini_gctoo.row_metadata_df.index, mini_gctoo_row_metadata.index))
 		for c in list(mini_gctoo.row_metadata_df.columns):
 			logger.debug("C1: For column name: {}".format(c))
-			logger.debug("C1: populated values: {}".format(set(list(mini_gctoo_row_metadata[c]))))
-			logger.debug("C1: mini_gctoo values: {}".format(set(list(mini_gctoo.row_metadata_df[c]))))
-			self.assertTrue(set(list(mini_gctoo.row_metadata_df[c])) == set(list(mini_gctoo_row_metadata[c])), 
+			logger.debug("C1: populated values: {}".format(set(mini_gctoo_row_metadata[c])))
+			logger.debug("C1: mini_gctoo values: {}".format(set(mini_gctoo.row_metadata_df[c])))
+			self.assertTrue(set(mini_gctoo.row_metadata_df[c]) == set(mini_gctoo_row_metadata[c]), 
 				"Values in column {} differ between expected metadata and written row metadata!".format(c))
 
 		# check col metadata
-		self.assertTrue(set(list(mini_gctoo.col_metadata_df.columns)) == set(list(mini_gctoo_col_metadata.columns)),
+		self.assertTrue(set(mini_gctoo.col_metadata_df.columns) == set(mini_gctoo_col_metadata.columns),
 			"Mismatch between expected col metadata columns {} and column values written to file: {}".format(mini_gctoo.col_metadata_df.columns, mini_gctoo_col_metadata.columns))
-		self.assertTrue(set(list(mini_gctoo.col_metadata_df.index)) == set(list(mini_gctoo.col_metadata_df.index)),
+		self.assertTrue(set(mini_gctoo.col_metadata_df.index) == set(mini_gctoo.col_metadata_df.index),
 			"Mismatch between expect col metadata index {} and index values written to file: {}".format(mini_gctoo.col_metadata_df.index, mini_gctoo_col_metadata.index))
 		for c in list(mini_gctoo.col_metadata_df.columns):
-			self.assertTrue(set(list(mini_gctoo.col_metadata_df[c])) == set(list(mini_gctoo_col_metadata[c])), 
+			self.assertTrue(set(mini_gctoo.col_metadata_df[c]) == set(mini_gctoo_col_metadata[c]), 
 				"Values in column {} differ between expected metadata and written col metadata!".format(c))
 
 		"""
@@ -118,9 +142,9 @@ class TestParseGCTooX(unittest.TestCase):
 		"""
 
 		# first convert mini_gctoo's row & col metadata dfs -666s to NaN
-		converted_row_metadata = parse_gctoox.replace_666(mini_gctoo.row_metadata_df, True)
+		converted_row_metadata = mini_gctoo.row_metadata_df.replace([-666, "-666", -666.0], [numpy.nan, numpy.nan, numpy.nan])
 		logger.debug("First row of converted_row_metadata: {}".format(converted_row_metadata.iloc[0]))
-		converted_col_metadata = parse_gctoox.replace_666(mini_gctoo.col_metadata_df, True)
+		converted_col_metadata = mini_gctoo.col_metadata_df.replace([-666, "-666", -666.0], [numpy.nan, numpy.nan, numpy.nan])
 
 		# write row and col metadata fields from mini_gctoo_for_testing instance to file
 		# Note this time does convert back to -666
@@ -130,38 +154,40 @@ class TestParseGCTooX(unittest.TestCase):
 		hdf5_writer.close()
 
 		# read in written metadata, then close and delete file
-		open_mini_gctoo_metadata = parse_gctoox.open_gctx_file(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_metadata.gctx"))
-		node_info = GCTXAttrInfo.GCTXAttrInfo()
-		rids = list(open_mini_gctoo_metadata.getNode(os.path.join(node_info.metadata_prefix, node_info.row_metadata_suffix), node_info.rid_suffix))
-		cids = list(open_mini_gctoo_metadata.getNode(os.path.join(node_info.metadata_prefix, node_info.col_metadata_suffix), node_info.cid_suffix))
-		mini_gctoo_row_metadata = parse_gctoox.parse_metadata("row", node_info, open_mini_gctoo_metadata, None, None, False)
-		mini_gctoo_col_metadata = parse_gctoox.parse_metadata("col", node_info, open_mini_gctoo_metadata, None, None, False)
+		open_mini_gctoo_metadata = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", "r", driver = "core")	
+		# get dsets corresponding to rids, cids 
+		rid_dset = open_mini_gctoo_metadata[rid_node]
+		cid_dset = open_mini_gctoo_metadata[cid_node]
+		id_info = parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
+		row_meta_group = open_mini_gctoo_metadata[row_meta_group_node]
+		col_meta_group = open_mini_gctoo_metadata[col_meta_group_node]
+
+		mini_gctoo_row_metadata =  parse_gctoox.make_meta_df("rids", row_meta_group, id_info, False)
+		mini_gctoo_col_metadata = parse_gctoox.make_meta_df("cids", col_meta_group, id_info, False)		
+
 		open_mini_gctoo_metadata.close()
 		os.remove(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_metadata.gctx"))
 
 		# check row metadata
-		self.assertTrue(set(list(mini_gctoo.row_metadata_df.columns)) == set(list(mini_gctoo_row_metadata.columns)),
+		self.assertTrue(set(mini_gctoo.row_metadata_df.columns) == set(mini_gctoo_row_metadata.columns),
 			"Mismatch between expected row metadata columns {} and column values written to file: {}".format(mini_gctoo.row_metadata_df.columns, mini_gctoo_row_metadata.columns))
-		self.assertTrue(set(list(mini_gctoo.row_metadata_df.index)) == set(list(mini_gctoo.col_metadata_df.index)),
+		self.assertTrue(set(mini_gctoo.row_metadata_df.index) == set(mini_gctoo.col_metadata_df.index),
 			"Mismatch between expect row metadata index {} and index values written to file: {}".format(mini_gctoo.row_metadata_df.index, mini_gctoo_row_metadata.index))
 		for c in list(mini_gctoo.row_metadata_df.columns):
 			logger.debug("C2: For column name: {}".format(c))
-			logger.debug("C2: populated values: {}".format(set(list(mini_gctoo_row_metadata[c]))))
-			logger.debug("C2: mini_gctoo values: {}".format(set(list(mini_gctoo.row_metadata_df[c]))))
-			self.assertTrue(set(list(mini_gctoo.row_metadata_df[c])) == set(list(mini_gctoo_row_metadata[c])), 
+			logger.debug("C2: populated values: {}".format(set(mini_gctoo_row_metadata[c])))
+			logger.debug("C2: mini_gctoo values: {}".format(set(mini_gctoo.row_metadata_df[c])))
+			self.assertTrue(set(mini_gctoo.row_metadata_df[c]) == set(mini_gctoo_row_metadata[c]), 
 				"Values in column {} differ between expected metadata and written row metadata!".format(c))
 
 		# check col metadata
-		self.assertTrue(set(list(mini_gctoo.col_metadata_df.columns)) == set(list(mini_gctoo_col_metadata.columns)),
+		self.assertTrue(set(mini_gctoo.col_metadata_df.columns) == set(mini_gctoo_col_metadata.columns),
 			"Mismatch between expected col metadata columns {} and column values written to file: {}".format(mini_gctoo.col_metadata_df.columns, mini_gctoo_col_metadata.columns))
-		self.assertTrue(set(list(mini_gctoo.col_metadata_df.index)) == set(list(mini_gctoo.col_metadata_df.index)),
+		self.assertTrue(set(mini_gctoo.col_metadata_df.index) == set(mini_gctoo.col_metadata_df.index),
 			"Mismatch between expect col metadata index {} and index values written to file: {}".format(mini_gctoo.col_metadata_df.index, mini_gctoo_col_metadata.index))
 		for c in list(mini_gctoo.col_metadata_df.columns):
-			self.assertTrue(set(list(mini_gctoo.col_metadata_df[c])) == set(list(mini_gctoo_col_metadata[c])), 
+			self.assertTrue(set(mini_gctoo.col_metadata_df[c]) == set(mini_gctoo_col_metadata[c]), 
 				"Values in column {} differ between expected metadata and written col metadata!".format(c))
-
-	# TODO: add test case with id metadata 
-	# Also look into R adding/not adding an id field
 
 if __name__ == "__main__":
 	setup_logger.setup(verbose = True)

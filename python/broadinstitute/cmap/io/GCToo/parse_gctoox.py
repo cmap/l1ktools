@@ -228,13 +228,15 @@ def make_meta_df(dim_id_key, dset, id_dict, convert_neg_666):
 
 	meta_df = set_metadata_index_and_column_names(dim_id_key, meta_df)
 
-	if convert_neg_666:
-		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
-
 	# Convert metadata to numeric if possible, after converting everything to string first 
 	# Note: This conversion first to string is to ensure consistent behavior between
 	#	the gctx and gct parser (which by default reads the entire text file into a string)
 	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
+
+	if convert_neg_666:
+		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
+	else:
+		meta_df = meta_df.replace([-666, -666.0], ["-666", "-666"])
 	
 	return meta_df
 
