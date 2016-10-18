@@ -1,10 +1,10 @@
-__author__ = 'dlahr'
-
 import logging
 import logging.handlers
 import ConfigParser
 import os.path
 
+__author__ = "David Lahr"
+__email__ = "dlahr@broadinstitute.org"
 
 _default_dashboard_logger_config_file = os.path.expanduser("~/.cmap_dashboard_logger.cfg")
 
