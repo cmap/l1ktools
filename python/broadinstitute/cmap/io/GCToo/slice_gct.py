@@ -12,6 +12,7 @@ import sys
 import os
 import argparse
 import pandas as pd
+import re
 
 import setup_GCToo_logger as setup_logger
 import GCToo
