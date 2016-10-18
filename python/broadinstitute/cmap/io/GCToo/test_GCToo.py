@@ -8,7 +8,6 @@ import setup_GCToo_logger
 
 logger = logging.getLogger(setup_GCToo_logger.LOGGER_NAME)
 
-
 class TestGCToo(unittest.TestCase):
     def test_slice_bool(self):
         data = pd.DataFrame([[1,2,3],[4,5,6],[7,8,9],[10,11,12]],

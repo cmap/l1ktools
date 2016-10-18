@@ -12,9 +12,6 @@ import parse_gctoo
 import parse_gctoox
 from pandas.util.testing import assert_series_equal
 
-__author__ = "Oana Enache"
-__email__ = "oana@broadinstitute.org"
-
 FUNCTIONAL_TESTS_PATH = "functional_tests"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
@@ -27,10 +24,6 @@ class TestEdgeCases(unittest.TestCase):
 		# path to files
 		gctoo_path = FUNCTIONAL_TESTS_PATH + "/both_metadata_example_n1476x978.gct"
 		gctoox_path = FUNCTIONAL_TESTS_PATH + "/both_metadata_example_n1476x978.gctx"
-
-		# 8/29/16
-		# gctoo_path = "v2_functional_tests/matlab_written_example_both_metadata_n368x978.gct"
-		# gctoox_path = "v2_functional_tests/matlab_written_example_both_metadata_n368x978.gctx"
 
 		# parse files
 		c1_gctoo = parse_gctoo.parse(gctoo_path)
