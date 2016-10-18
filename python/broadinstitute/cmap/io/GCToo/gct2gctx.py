@@ -1,12 +1,10 @@
 import logging
-import cmap.io.setup_logger as setup_logger
+import setup_GCToo_logger as setup_logger
 import argparse
 import sys
 import GCToo
 import parse_gctoo
 import write_gctoox
-import cmap.io.plategrp 
-
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
@@ -16,17 +14,23 @@ def build_parser():
 	# required
 	parser.add_argument("-filename", help=".gct file that you would like converted to .gctx form")
 	# optional
-	parser.add_argument("-outname", help="(optional) name for output gct file", default=None)
+	parser.add_argument("-outpath", help="(optional) path for output gct file", default=None)
+	parser.add_argument("-outname", help ="(optional) different name for output gct file", default=None)
 	parser.add_argument("-verbose", "-v", help="Whether to print a bunch of output.", action="store_true", default=False)
 	return parser
 
 def main(args):
-	in_gctoo = parse_gctoo.parse(args.filename, convert_neg_666=False, rid=rid_list, cid=cid_list)
+	in_gctoo = parse_gctoo.parse(args.filename, convert_neg_666=False)
+	logger.debug("Original out name: {}".format(in_gctoo.src))
 
-	if args.outname != None:
+	if args.outname == None:
 		out_name = str.split(in_gctoo.src, "/")[-1].split(".")[0]
 	else:
 		out_name = args.outname
+
+	if args.outpath != None:
+		out_name = args.outpath + out_name
+
 	write_gctoox.write(in_gctoo, out_name)
 
 
