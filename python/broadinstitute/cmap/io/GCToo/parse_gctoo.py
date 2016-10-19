@@ -53,7 +53,7 @@ row_header_name = "rhd"
 column_header_name = "chd"
 
 
-def parse(file_path, convert_neg_666=False, rid=None, cid=None):
+def parse(file_path, convert_neg_666=True, rid=None, cid=None):
 	"""The main method.
 
 	Args:

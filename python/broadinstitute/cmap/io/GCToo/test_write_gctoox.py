@@ -8,7 +8,6 @@ from pandas.util.testing import assert_frame_equal
 import numpy 
 import GCToo
 import h5py
-import GCTXAttrInfo
 import parse_gctoox
 import write_gctoox
 import mini_gctoo_for_testing
@@ -31,6 +30,13 @@ data_node = "/0/DATA/0/matrix"
 row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
 
+
+metadata_prefix = "/0/META" 
+row_metadata_suffix = "ROW" 
+col_metadata_suffix = "COL"
+cid_suffix = "id" 
+rid_suffix = "id"
+
 class TestParseGCTooX(unittest.TestCase):
 	def test_add_gctx_to_out_name(self):
 		name1 = "my_cool_file"
@@ -47,19 +53,17 @@ class TestParseGCTooX(unittest.TestCase):
 			("out name should be my_other_cool_file.gctx, not {}").format(out_name2))
 
 	def test_write_data_matrix(self):
-		# Need an instance of GCTXAttrInfo for data reading method to work
-		gctoo_attr = GCTXAttrInfo.GCTXAttrInfo()
 
 		# write data df to file & then close pytables writer
 		hdf5_writer = tables.openFile(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_data_matrix.gctx"), mode = "w")
 		write_gctoox.write_data_matrix(hdf5_writer, mini_gctoo)
 		# write ids to file, otherwise extract_data_df throws exception
-		hdf5_writer.createGroup(gctoo_attr.metadata_prefix, gctoo_attr.row_metadata_suffix, createparents = True)
-		hdf5_writer.createArray(os.path.join(gctoo_attr.metadata_prefix, gctoo_attr.row_metadata_suffix), 
-			gctoo_attr.rid_suffix, numpy.array(list(mini_gctoo.data_df.index)))
-		hdf5_writer.createGroup(gctoo_attr.metadata_prefix, gctoo_attr.col_metadata_suffix, createparents = True)
-		hdf5_writer.createArray(os.path.join(gctoo_attr.metadata_prefix, gctoo_attr.col_metadata_suffix), 
-			gctoo_attr.cid_suffix, numpy.array(list(mini_gctoo.data_df.columns)))
+		hdf5_writer.createGroup(metadata_prefix, row_metadata_suffix, createparents = True)
+		hdf5_writer.createArray(os.path.join(metadata_prefix, row_metadata_suffix), 
+			rid_suffix, numpy.array(list(mini_gctoo.data_df.index)))
+		hdf5_writer.createGroup(metadata_prefix, col_metadata_suffix, createparents = True)
+		hdf5_writer.createArray(os.path.join(metadata_prefix, col_metadata_suffix), 
+			cid_suffix, numpy.array(list(mini_gctoo.data_df.columns)))
 		hdf5_writer.close()
 
 		# read in written data df, then close & delete file

@@ -75,7 +75,7 @@ def generate_specified_length_unique_ids(id_length):
 		- a list of unique ids 
 	"""
 	s = set()
-	while len(set) <= id_length:
+	while len(s) < id_length:
 		# Note: uuid4 generates a random UUID (Universally Unique IDentifier)
 		#	There is a *very minor* chance of collisions b/c of random generation, but very low likelihood 
 		s.add(str(uuid.uuid4())) 
