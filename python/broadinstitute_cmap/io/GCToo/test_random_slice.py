@@ -2,7 +2,7 @@ import unittest
 import logging
 import setup_GCToo_logger as setup_logger
 import random_slice
-import mini_gctoo_for_testing
+import functional_tests.mini_gctoo_for_testing as mini_gctoo_for_testing
 
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
