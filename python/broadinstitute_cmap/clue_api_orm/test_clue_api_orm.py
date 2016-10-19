@@ -2,12 +2,14 @@ import unittest
 import setup_logger
 import logging
 import clue_api_orm
-
+import os.path
+import ConfigParser
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-#use the DEV api for testing and the demo user_key
-cao = clue_api_orm.ClueApiOrm(base_url="https://dev-api.clue.io/api", user_key="582724ad750c4649b2edf420dc68f635")
+config_filepath = os.path.expanduser("~/.l1ktools_python.cfg")
+config_section = "test"
+cao = None
 
 
 class TestClueApiOrm(unittest.TestCase):
@@ -26,6 +28,11 @@ class TestClueApiOrm(unittest.TestCase):
         logger.debug("r:  {}".format(r))
         self.assertEqual(2, len(r))
 
+        r = cao.run_query("perts", {"where":{"pert_id":"BRD-K12345678"}})
+        self.assertIsNotNone(r)
+        logger.debug("len(r):  {}".format(len(r)))
+        self.assertEqual(0, len(r))
+
     def test_run_query_handle_fail(self):
         with self.assertRaises(Exception) as context:
             cao.run_query("fakeresource", filter={})
@@ -36,5 +43,10 @@ class TestClueApiOrm(unittest.TestCase):
 
 if __name__ == "__main__":
     setup_logger.setup(verbose=True)
+
+    cfg = ConfigParser.RawConfigParser()
+    cfg.read(config_filepath)
+    cao = clue_api_orm.ClueApiOrm(base_url=cfg.get(config_section, "clue_api_url"),
+                                  user_key=cfg.get(config_section, "clue_api_user_key"))
 
     unittest.main()
