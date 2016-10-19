@@ -16,7 +16,7 @@ class MockClueApiOrm(clue_api_orm.ClueApiOrm):
         if run_query_return_values:
             self.run_query_return_values = run_query_return_values
         else:
-            self.run_query_return_values = {}
+            self.run_query_return_values = []
 
     def run_query(self, resource_name, filter):
         return self.run_query_return_values
