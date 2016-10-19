@@ -9,34 +9,6 @@ import setup_GCToo_logger
 logger = logging.getLogger(setup_GCToo_logger.LOGGER_NAME)
 
 class TestGCToo(unittest.TestCase):
-    def test_slice_bool(self):
-        data = pd.DataFrame([[1,2,3],[4,5,6],[7,8,9],[10,11,12]],
-                            index=['a','b','c','d'],
-                            columns=['e','f','g'])
-        row_meta = pd.DataFrame([['rm1','rm2'],['rm3','rm4'],
-                                 ['rm5','rm6'],['rm7','rm8']],
-                                index=['a','b','c','d'],
-                                columns=['row_field1', 'row_field2'])
-        col_meta = pd.DataFrame([['cm1','cm2'],['cm3','cm4'],['cm5','cm6']],
-                                index=['e','f','g'],
-                                columns=['col_field1','col_field2'])
-        my_gctoo = GCToo.GCToo(data_df=data,
-                               row_metadata_df=row_meta,
-                               col_metadata_df=col_meta)
-
-        row_bool = [True, False, True, True]
-        col_bool = [True, True, False]
-        out_gctoo = GCToo.slice(my_gctoo, row_bool, col_bool)
-
-        self.assertEqual(out_gctoo.data_df.shape, (3, 2),
-                         'Size of returned data_df is wrong: {}'.format(out_gctoo.data_df.shape))
-        self.assertTrue(np.array_equal(out_gctoo.data_df.index.values, np.array(['a','c','d'])),
-                         'Incorrect data rows returned: {}'.format(out_gctoo.data_df.index.values))
-        self.assertTrue(np.array_equal(out_gctoo.col_metadata_df.index.values, np.array(['e','f'])),
-                         'Incorrect column metadata rows returned: {}'.format(out_gctoo.col_metadata_df.index.values))
-
-        # TODO(lev): test edge case of only one row or sample remaining
-
     def test_assemble_multi_index_df(self):
 
         # TODO: Add test of only row ids present as metadata
