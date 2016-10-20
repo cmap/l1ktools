@@ -1,0 +1,38 @@
+name: GCToo
+dependencies:
+- anaconda-client=1.4.0=py27_0
+- clyent=1.2.2=py27_0
+- cycler=0.10.0=py27_0
+- freetype=2.5.5=0
+- h5py=2.5.0=np110py27_4
+- hdf5=1.8.15.1=2
+- libpng=1.6.17=0
+- matplotlib=1.5.1=np111py27_0
+- mkl=11.3.1=0
+- numexpr=2.4.6=np110py27_1
+- numpy=1.11.0=py27_0
+- openssl=1.0.2h=1
+- pandas=0.17.1=np110py27_0
+- pip=8.1.2=py27_0
+- pyparsing=2.1.1=py27_0
+- pyqt=4.11.4=py27_1
+- pytables=3.2.2=np110py27_0
+- python=2.7.11=0
+- python-dateutil=2.5.3=py27_0
+- pytz=2016.4=py27_0
+- pyyaml=3.11=py27_4
+- qt=4.8.7=1
+- readline=6.2=2
+- requests=2.10.0=py27_0
+- scipy=0.17.0=np110py27_0
+- setuptools=23.0.0=py27_0
+- sip=4.16.9=py27_0
+- six=1.10.0=py27_0
+- sqlite=3.13.0=0
+- tk=8.5.18=0
+- wheel=0.29.0=py27_0
+- yaml=0.1.6=0
+- zlib=1.2.8=3
+- pip:
+  - tables==3.2.2
+

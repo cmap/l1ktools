@@ -5,3 +5,6 @@ python/*.pyc
 python/**/*.pyc
 
 data/python_example.gctx
+.gitignore
+*.idea
+*.egg-info
