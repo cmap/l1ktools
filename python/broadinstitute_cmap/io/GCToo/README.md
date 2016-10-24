@@ -10,6 +10,10 @@ Oana Enache
 oana@broadinstitute.org  
 October 2016
 
+## What is GCToo? 
+
+TODO
+
 ## Setting up your environment
 
 ### To set up your environment the first time:
@@ -77,3 +81,29 @@ October 2016
       ```
       cd /Users/my_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo
       python test_parse_gctoo.py
+
+## Examples
+
+For more detailed code/workflow examples, see example_methods.py within the GCToo folder. 
+
+### Use Case 1: Read a .gct or .gctx file to a GCToo instance
+
+### Use Case 2: Write a GCToo instance to .gct or .gctx 
+
+### Use Case 3: From your own DataFrames of expression values and/or metadata, create a GCToo instance
+
+### Use Case 4: From the command line, convert a gct -> gctx (or vice versa) 
+
+### Use Case 5: From the command line, concatenate a bunch of .gct or .gctx files 
+
+### Use Case 6: Slice a GCToo object with:
+
+    #### A specific set of rids and/or cids:
+    
+    
+    #### To a random subset of a certain size 
+    
+## Components
+
+
+## Submitting bugs 
