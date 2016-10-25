@@ -85,7 +85,7 @@ TODO: Thoughts on how best to explain this here?
 
 ## Examples
 
-For more detailed code/workflow examples, see example_methods.py within the GCToo folder. For all of theses, don't forget to activate your GCToo conda environment first!
+For all of theses, don't forget to activate your GCToo conda environment first!
 
 ### Use Case 1: Read an entire .gct or .gctx file to a GCToo instance
 From an active python session in your local GCToo directory (adjust import statements accordingly if not):
