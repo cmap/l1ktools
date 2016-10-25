@@ -35,8 +35,7 @@ A directory of example .lxb files from a LINCS Joint Project (LJP) plate under t
 l1kt_setup
 
 % Plate to process
-plate_name='LJP009_A375_24H_X1_B20';
-% plate_name='TEST_A375_24H_X1_B20'; % A smaller test plate
+plate_name='TEST_A375_24H_X1_B20'; % A smaller test plate
 % Parent folder containing raw lxb files for a given plate
 raw_path=fullfile(mortarpath, '../data/lxb');
 % Path to map files with sample annotations
@@ -72,14 +71,14 @@ zs_ds = level3_to_level4(qnorm_ds, 'plate', plate_name, 'plate_path', plate_path
 
 | File | Data Level | Gene Space | Description |
 | ---- | ----------- | ----------- | ---------- |
-| LJP009_A375_24H_X1_B20.map | n/a | n/a | Sample annotations file |
-| LJP009_A375_24H_X1_B20_COUNT_n384x978.gct | n/a | landmark | Matrix of analyte counts per sample|
-| LJP009_A375_24H_X1_B20_GEX_n384x978.gct | 2 | landmark | gene expression (GEX) values|
-| LJP009_A375_24H_X1_B20_NORM_n371x978.gct | n/a | landmark | LISS normalized expession profiles |
-| LJP009_A375_24H_X1_B20_QNORM_n371x978.gct | 3 | landmark | quantile normalized (QNORM) expession profiles |
-| LJP009_A375_24H_X1_B20_INF_n371x22268.gct | 3 | full | quantile normalized (QNORM) expession profiles |
-| LJP009_A375_24H_X1_B20_ZSPCQNORM_n371x978.gct | 4 | landmark | differential expression (z-score) signatures |
-| LJP009_A375_24H_X1_B20_ZSPCINF_n371x22268.gct | 4 | full | differential expression (z-score) signatures |
+| TEST_A375_24H_X1_B20.map | n/a | n/a | Sample annotations file |
+| TEST_A375_24H_X1_B20_COUNT_n26x978.gct | n/a | landmark | Matrix of analyte counts per sample|
+| TEST_A375_24H_X1_B20_GEX_n26x978.gct | 2 | landmark | gene expression (GEX) values|
+| TEST_A375_24H_X1_B20_NORM_n23x978.gct | n/a | landmark | LISS normalized expession profiles |
+| TEST_A375_24H_X1_B20_QNORM_n23x978.gct | 3 | landmark | quantile normalized (QNORM) expession profiles |
+| TEST_A375_24H_X1_B20_INF_n23x22268.gct | 3 | full | quantile normalized (QNORM) expession profiles |
+| TEST_A375_24H_X1_B20_ZSPCQNORM_n23x978.gct | 4 | landmark | differential expression (z-score) signatures |
+| TEST_A375_24H_X1_B20_ZSPCINF_n23x22268.gct | 4 | full | differential expression (z-score) signatures |
 | dpeak | n/a | n/a | folder containing peak detection outputs and QC | 
 | liss | n/a | n/a | folder containing LISS outputs and QC | 
 | calibplot.png |  n/a | n/a | Plot of invariant gene sets for each sample |

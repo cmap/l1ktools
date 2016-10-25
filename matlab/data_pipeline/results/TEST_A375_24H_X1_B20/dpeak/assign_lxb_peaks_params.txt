@@ -1,0 +1,5 @@
+assign_lxb_peaks: Parameters
+ntag: 2
+min_support: 10
+min_support_pct: 10
+out: ./TEST_A375_24H_X1_B20/dpeak
