@@ -178,3 +178,5 @@ C. You have 2 GCToo objects in memory that you want to concatenate. hstack is th
 import broadinstitute_cmap.io.GCToo.concat_gctoo as cg
 concated = cg.hstack([gct1, gct2])
 ```
+
+### TODO: Use cases involving slicing, specific rid/cid selection, metadata only 
