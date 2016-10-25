@@ -12,7 +12,7 @@ October 2016
 
 ## What is GCToo? 
 
-TODO
+TODO: Thoughts on how best to explain this here?
 
 ## Setting up your environment
 
@@ -85,26 +85,96 @@ TODO
 
 ## Examples
 
-For more detailed code/workflow examples, see example_methods.py within the GCToo folder. 
+For more detailed code/workflow examples, see example_methods.py within the GCToo folder. For all of theses, don't forget to activate your GCToo conda environment first!
 
-### Use Case 1: Read a .gct or .gctx file to a GCToo instance
+### Use Case 1: Read an entire .gct or .gctx file to a GCToo instance
+From an active python session in your local GCToo directory (adjust import statements accordingly if not):
+
+   GCT file (say it's called something.gct)
+     ```
+     import parse_gctoo
+     
+     my_gctoo = parse_gctoo.parse("something.gct")  
+     ```
+     
+    GCTX file (say it's called something.gctx)
+     ```
+     import parse_gctoox
+     
+     my_gctoo = parse_gctoox.parse("something.gctx")  
+     ```
 
 ### Use Case 2: Write a GCToo instance to .gct or .gctx 
+   Assuming you're in an active python session in your local GCToo directory and have a GCToo instance (let's call it `my_gctoo` that you'd like to write to .gct or .gctx. To write to a gct, you'll need to `import write_gctoo`; to write to a gctx, you'll need to `import write_gctoox`. 
+
+   To write to a GCT file: 
+     ```
+    write_gctoo.write(my_gctoo, "my_gctoo.gct")  
+     ```
+     
+   To write to a GCTX file: 
+     ```
+    write_gctoox.write(my_gctoo, "my_gctoo.gctx")  
+     ```
 
 ### Use Case 3: From your own DataFrames of expression values and/or metadata, create a GCToo instance
+Say you have 3 pandas DataFrames consisting of a data matrix, row metadata values, and col metadata values. For this, you'll need to `import GCToo`.
+
+*NOTE* To create a valid GCToo instance, these DataFrames must satisfy the following requirements (the GCToo constructor will also check for these):
+- data matrix DF (call it `my_data`): index are unique rids that map to corresponding row metadata values, columns are unique cids that map to corresponding col metadata values 
+- row metadata DF (call it `my_row_metadata`): index are unique rids that map to corresponding numerical values in data matrix; columns are unique descriptive headers
+- col metadata DF (call it `my_col_metadata`): index are unique cids that map to corresponding numerical values in data matrix; columns are unique descriptive headers
+
+     ```
+     my_GCToo = GCToo.GCToo(data_df=my_data, row_metadata_df=my_row_metadata, col_metadata_df=my_col_metadata)
+     ```
 
 ### Use Case 4: From the command line, convert a gct -> gctx (or vice versa) 
+Converting from a gct to a gctx might be useful if you have a large gct and want faster IO in the future. 
+
+To write some_thing.gct -> some_thing.gctx in working directory:
+
+     ```
+     python gct2gctx.py -filename some_thing.gct 
+     ```
+To write some_thing.gct to a .gctx named something_else.gctx in a different out directory (both -outname and -outpath are optional):
+
+     ```
+     python gct2gctx.py -filename some_thing.gct -outname something_else -outpath my/special/folder
+     ```
+Converting a gctx to a gct might be useful if you want to look at your .gctx file in a text editor or something similar. 
+
+To write some_thing.gctx -> some_thing.gct in working directory:
+
+     ```
+     python gctx2gct.py -filename some_thing.gctx
+     ```
+To write some_thing.gctx to a .gct named something_else.gct in a different out directory (both -outname and -outpath are optional):
+
+     ```
+     python gctx2gct.py -filename some_thing.gctx -outname something_else -outpath my/special/folder
+     ```
+
 
 ### Use Case 5: From the command line, concatenate a bunch of .gct or .gctx files 
 
-### Use Case 6: Slice a GCToo object with:
+A. You have a bunch of files that start with 'LINCS_GCP' in your Downloads folder that you want to concatenate. Type the following in your command line:
 
-    #### A specific set of rids and/or cids:
-    
-    
-    #### To a random subset of a certain size 
-    
-## Components
+```
+python /Users/some_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo/concat_gctoo.py --file_wildcard '/Users/some_name/Downloads/LINCS_GCP*'
+```
 
+This will save a file called `concated.gct` in your current directory.  Make sure that the wildcard is in quotes!
 
-## Submitting bugs 
+B. You have 2 files that you want to concatenate: /Users/some_name/file_to_concatenate1.gct and /Users/some_name/file_to_concatenate2.gct. Type the following in your command line:
+
+```
+python /Users/some_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo/concat_gctoo.py --list_of_gct_paths /Users/some_name/file_to_concatenate1.gct /Users/some_name/file_to_concatenate2.gct
+```
+
+C. You have 2 GCToo objects in memory that you want to concatenate. hstack is the method in concat_gctoo.py that actually does the concatenation. From within the Python console or script where you have your 2 GCToos (gct1 & gct2), type the following:
+
+```
+import broadinstitute_cmap.io.GCToo.concat_gctoo as cg
+concated = cg.hstack([gct1, gct2])
+```
