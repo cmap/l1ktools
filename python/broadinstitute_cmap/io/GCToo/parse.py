@@ -27,7 +27,7 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None, nan_values=None, 
 
 	Input:
 		Mandatory:
-		- gctx_file_path (str): full path to gctx file you want to parse. 
+		- gct(x)_file_path (str): full path to gct(x) file you want to parse.
 		
 		Optional:
 		- convert_neg_666 (bool): whether to convert -666 values to numpy.nan or not 
