@@ -1,20 +1,26 @@
 """
 concat_gctoo.py
-This function is for concatenating gct files together. You can tell it to find
+
+This function is for concatenating gct(x) files together. You can tell it to find
 gct files using the file_wildcard argument, or you can tell it exactly which
 files you want to concatenate using the list_of_gct_paths argument. The meat of
 this function is the hstack method (i.e. horizontal concatenation of
 gct). Vertical concatenation has not yet been implemented but is very
 analogous to what has been done here.
+
 There are 3 arguments that allow you to work around certain obstacles
 of concatenation.
+
 1) If the row metadata contains headers with values that are not the same in
 all files, then you can remove these headers using the fields_to_remove argument.
+
 2) If the row metadata headers are the same between different files but not in
 the same order, you can sort them using the sort_headers argument.
+
 3) If the sample ids are not unique between different files, you can use the
 reset_sample_ids argument. This will move the cids to a new metadata field
 and assign a unique integer index for each sample.
+
 """
 
 import argparse
@@ -26,7 +32,7 @@ import setup_GCToo_logger as setup_logger
 import pandas as pd
 
 import GCToo 
-import parse_gctoo 
+import parse
 import write_gctoo 
 
 __author__ = "Lev Litichevskiy"
@@ -85,7 +91,7 @@ def main(args):
     # Parse each file and append to a list
     gctoos = []
     for f in files:
-        gctoos.append(parse_gctoo.parse(f))
+        gctoos.append(parse.parse(f))
 
     # Create concatenated gctoo object
     out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_sample_ids, args.sort_headers)

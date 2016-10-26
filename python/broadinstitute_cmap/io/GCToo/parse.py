@@ -20,14 +20,14 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 # when not in debug mode, probably best to set verbose=False
 setup_logger.setup(verbose = True)
 
-def parse(file_path, convert_neg_666=True, rid=None, cid=None, nan_values=None, meta_only=False):
+def parse(file_path, convert_neg_666=True, rid=None, cid=None, nan_values=None, meta_only=None):
 	""" 
 	Identifies whether file_path corresponds to a .gct or .gctx file and calls the
 	correct corresponding parse method.
 
 	Input:
 		Mandatory:
-		- gctx_file_path (str): full path to gctx file you want to parse. 
+		- gct(x)_file_path (str): full path to gct(x) file you want to parse.
 		
 		Optional:
 		- convert_neg_666 (bool): whether to convert -666 values to numpy.nan or not 
@@ -48,7 +48,7 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None, nan_values=None, 
 	if file_path.endswith(".gct"):
 		curr = parse_gctoo.parse(file_path, convert_neg_666, rid, cid)
 	elif file_path.endswith(".gctx"):
-		curr = parse_gctoox.parse(file_path, convert_neg_666, rid, cid)
+		curr = parse_gctoox.parse(file_path, convert_neg_666, rid, cid, meta_only)
 	else:
 		logger.error("File to parse must be .gct or .gctx!")
 	return curr 
