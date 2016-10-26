@@ -41,10 +41,12 @@ GCToo is a class representing the contents of .gct or .gctx files. For instance,
 
 #### Setup the GCToo conda environment for the first time 
 
-1. You'll notice there's a file in /GCToo very creatively called conda_environment.yml. This has all the dependencies (in the proper version) of GCToo. To create the GCToo environment, move to the 'GCToo' directory and type the following:
+More details can be found here:http://conda.pydata.org/docs/using/envs.html#create-an-environment
+
+1. To create the GCToo environment (with appropriate versions of packages), type the following:
 
       ```
-      conda env create -f conda_environment.yml
+      conda create --name GCToo python=2.7.11 numpy=1.11.2 pandas=0.18 h5py=2.6.0 pytables=3.2
       ```
 
 2. Activate the new environment (GCToo)
@@ -84,6 +86,14 @@ GCToo is a class representing the contents of .gct or .gctx files. For instance,
       cd /Users/my_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo
       python test_parse_gctoo.py
        ```
+## Adding packages to your environment
+For instance, if you'd like to add matplotlib, plotly, seaborn, etc. Activate your GCToo conda environment, then type the following:
+```
+conda install --name GCToo matplotlib
+```
+...and follow instructions. 
+
+More details at: http://conda.pydata.org/docs/using/pkgs.html#install-a-package
 
 ## Examples
 
