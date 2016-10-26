@@ -86,6 +86,7 @@ More details can be found here:http://conda.pydata.org/docs/using/envs.html#crea
       cd /Users/my_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo
       python test_parse_gctoo.py
        ```
+
 ## Adding packages to your environment
 For instance, if you'd like to add matplotlib, plotly, seaborn, etc. Activate your GCToo conda environment, then type the following:
 ```
