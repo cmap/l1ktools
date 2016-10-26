@@ -46,7 +46,7 @@ data_node = "/0/DATA/0/matrix"
 row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
 
-def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None): 
+def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=None): 
 	"""
 	Primary method of script. Reads in path to a gctx file and parses into GCToo object.
 
@@ -59,6 +59,7 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None):
 			(see Note below for more details on this). Default = False.
 		- rid (list of strings): list of row ids to specifically keep from gctx. Default=None. 
 		- cid (list of strings): list of col ids to specifically keep from gctx. Default=None. 
+		- meta_only (str, must be "row" or "col"): dimension of metadata to return only. 
 
 	Output:
 		- myGCToo 
@@ -82,26 +83,51 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None):
 	# store commonly accessed id-related information in dict for O(1) lookup
 	id_info = make_id_info_dict(rid_dset, cid_dset, rid, cid)
 
-	# Reads data (or specified slice thereof) from input GCTX to pandas DataFrame
-	data_dset = gctx_file[data_node]
-	data_df = parse_data_df(data_dset, id_info)
+	if meta_only == None:
+		# Reads data (or specified slice thereof) from input GCTX to pandas DataFrame
+		data_dset = gctx_file[data_node]
+		data_df = parse_data_df(data_dset, id_info)
 
-	# Reads row metadata (or specified slice thereof) from input GCTX to pandas DataFrame
-	row_group = gctx_file[row_meta_group_node]
-	row_meta_df = make_meta_df("rids", row_group, id_info, convert_neg_666)
+		# Reads row metadata (or specified slice thereof) from input GCTX to pandas DataFrame
+		row_group = gctx_file[row_meta_group_node]
+		row_meta_df = make_meta_df("rids", row_group, id_info, convert_neg_666)
 
-	# Reads col metadata (or specified slice thereof) from input GCTX to pandas DataFrame
-	col_group = gctx_file[col_meta_group_node]
-	col_meta_df = make_meta_df("cids", col_group, id_info, convert_neg_666)
+		# Reads col metadata (or specified slice thereof) from input GCTX to pandas DataFrame
+		col_group = gctx_file[col_meta_group_node]
+		col_meta_df = make_meta_df("cids", col_group, id_info, convert_neg_666)
 
-	# close file 
-	gctx_file.close()
+		# close file 
+		gctx_file.close()
 
-	# make GCToo instance 
-	curr_GCToo = GCToo.GCToo(src=full_path, version=my_version,
-		row_metadata_df=row_meta_df, col_metadata_df=col_meta_df, data_df=data_df)
+		# make GCToo instance 
+		curr_GCToo = GCToo.GCToo(src=full_path, version=my_version,
+			row_metadata_df=row_meta_df, col_metadata_df=col_meta_df, data_df=data_df)
 
-	return curr_GCToo
+		return curr_GCToo
+
+	elif meta_only == "row":
+		# Reads row metadata (or specified slice thereof) from input GCTX to pandas DataFrame
+		row_group = gctx_file[row_meta_group_node]
+		row_meta_df = make_meta_df("rids", row_group, id_info, convert_neg_666)
+
+		# close file 
+		gctx_file.close()
+
+		return row_meta_df
+
+	elif meta_only == "col":
+		# Reads col metadata (or specified slice thereof) from input GCTX to pandas DataFrame
+		col_group = gctx_file[col_meta_group_node]
+		col_meta_df = make_meta_df("cids", col_group, id_info, convert_neg_666)
+
+		# close file 
+		gctx_file.close()
+
+		return col_meta_df	
+
+	else: 
+		logger.error("meta_only argument must be either 'row' or 'col'!")	
+
 
 def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 	"""
