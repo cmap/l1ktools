@@ -18,5 +18,8 @@ class MockClueApiOrm(clue_api_orm.ClueApiOrm):
         else:
             self.run_query_return_values = []
 
-    def run_query(self, resource_name, filter):
+    def run_filter_query(self, resource_name, filter_clause):
+        return self.run_query_return_values
+
+    def run_count_query(self, resource_name, where_clause):
         return self.run_query_return_values
