@@ -1,0 +1,4 @@
+id	det_well	cell_id	pert_id	pert_mfc_desc	pert_type	count_mean	count_cv	qc_f_logp	qc_iqr	qc_slope
+TEST_A375_24H_X1_B20:B01	B01	A375	CMAP-003	PMCF7	lma_x	96.00	13.00	10.1	6.98	60
+TEST_A375_24H_X1_B20:B02	B02	A375	CMAP-002	RMCF7	lma_x	95.00	12.00	8.2	7.99	61
+TEST_A375_24H_X1_B20:B13	B13	A375	BRD-U07805514	AZD0530; SARACATINIB	trt_cp	81.00	15.00	3.8	39.80	69
