@@ -10,7 +10,7 @@ __email__ = "dlahr@broadinstitute.org"
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
-class ClueApiOrm(object):
+class ClueApiClient(object):
     """Basic class for running queries against CLUE api
     """
 

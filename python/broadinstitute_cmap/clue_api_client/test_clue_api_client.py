@@ -1,7 +1,7 @@
 import unittest
 import setup_logger
 import logging
-import clue_api_orm
+import clue_api_client
 import os.path
 import ConfigParser
 
@@ -12,7 +12,7 @@ config_section = "test"
 cao = None
 
 
-class TestClueApiOrm(unittest.TestCase):
+class TestClueApiClient(unittest.TestCase):
     def test_run_query(self):
         #get one gene
         r = cao.run_filter_query("genes", {"where":{"pr_gene_id":5720}})
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     cfg = ConfigParser.RawConfigParser()
     cfg.read(config_filepath)
-    cao = clue_api_orm.ClueApiOrm(base_url=cfg.get(config_section, "clue_api_url"),
+    cao = clue_api_client.ClueApiClient(base_url=cfg.get(config_section, "clue_api_url"),
                                   user_key=cfg.get(config_section, "clue_api_user_key"))
 
     unittest.main()

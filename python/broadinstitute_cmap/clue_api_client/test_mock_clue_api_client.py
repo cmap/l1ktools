@@ -1,15 +1,15 @@
 import unittest
 import setup_logger
 import logging
-import mock_clue_api_orm
+import mock_clue_api_client
 
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
-class TestMockClueApiOrm(unittest.TestCase):
+class TestMockClueApiClient(unittest.TestCase):
     def test_run_filter_query(self):
-        mcao = mock_clue_api_orm.MockClueApiOrm(run_query_return_values=[{"hello":"world"}])
+        mcao = mock_clue_api_client.MockClueApiClient(run_query_return_values=[{"hello":"world"}])
         r = mcao.run_filter_query("fake resource name", {"unused":"filter"})
         self.assertIsNotNone(r)
         logger.debug("r:  {}".format(r))
@@ -20,7 +20,7 @@ class TestMockClueApiOrm(unittest.TestCase):
         self.assertEqual("world", r["hello"])
 
     def test_run_count_query(self):
-        mcao = mock_clue_api_orm.MockClueApiOrm(run_query_return_values=[{"hello":"world"}])
+        mcao = mock_clue_api_client.MockClueApiClient(run_query_return_values=[{"hello":"world"}])
         r = mcao.run_count_query("fake resource name", {"unused":"filter"})
         self.assertIsNotNone(r)
         logger.debug("r:  {}".format(r))
