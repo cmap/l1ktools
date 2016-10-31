@@ -7,9 +7,11 @@ __email__ = "dlahr@broadinstitute.org"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
+resource_name = "perts"
+
 
 def retrieve_pert_id_pert_iname_map(pert_ids, my_clue_api_client):
-    query_result = my_clue_api_client.run_filter_query("perts", {"where":{"pert_id":{"inq":pert_ids}}, "fields":{"pert_id":True, "pert_iname":True}})
+    query_result = my_clue_api_client.run_filter_query(resource_name, {"where":{"pert_id":{"inq":pert_ids}}, "fields":{"pert_id":True, "pert_iname":True}})
     logger.debug("query_result:  {}".format(query_result))
 
     r = _build_map_from_clue_api_result(query_result, "pert_id", "pert_iname")
@@ -17,7 +19,7 @@ def retrieve_pert_id_pert_iname_map(pert_ids, my_clue_api_client):
 
 
 def retrieve_pert_id_pert_type_map(pert_ids, my_clue_api_client):
-    query_result = my_clue_api_client.run_filter_query("perts", {"where":{"pert_id":{"inq":pert_ids}}, "fields":{"pert_id":True, "pert_type":True}})
+    query_result = my_clue_api_client.run_filter_query(resource_name, {"where":{"pert_id":{"inq":pert_ids}}, "fields":{"pert_id":True, "pert_type":True}})
     logger.debug("query_result:  {}".format(query_result))
 
     r = _build_map_from_clue_api_result(query_result, "pert_id", "pert_type")
