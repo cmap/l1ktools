@@ -41,8 +41,7 @@ class ClueApiClient(object):
         r = requests.get(url, data=data, params=params)
         logger.debug("requests.get result r.status_code:  {}".format(r.status_code))
 
-        assert r.status_code == 200, "ClueApiOrm run_query request failed r.status_code:  {}  r.reason:  {}".format(
-            r.status_code, r.reason)
+        ClueApiClient._check_request_response(r)
 
         return r.json()
 
@@ -62,7 +61,11 @@ class ClueApiClient(object):
         r = requests.get(url, data=data, params=params)
         logger.debug("requests.get result r.status_code:  {}".format(r.status_code))
 
-        assert r.status_code == 200, "ClueApiOrm run_query request failed r.status_code:  {}  r.reason:  {}".format(
-            r.status_code, r.reason)
+        ClueApiClient._check_request_response(r)
 
         return r.json()
+
+    @staticmethod
+    def _check_request_response(response):
+        assert response.status_code == 200, "ClueApiClient request failed response.status_code:  {}  response.reason:  {}".format(
+            response.status_code, response.reason)

@@ -3,6 +3,9 @@ import setup_logger
 import logging
 import mock_clue_api_client
 
+__authors__ = "David L. Lahr"
+__email__ = "dlahr@broadinstitute.org"
+
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
