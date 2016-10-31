@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import numpy as np
 import logging
 import setup_GCToo_logger as setup_logger
 
