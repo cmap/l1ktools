@@ -12,7 +12,7 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 class TestMockClueApiClient(unittest.TestCase):
     def test_run(self):
-        mcao = mock_clue_api_client.MockClueApiClient(run_query_return_values=[{"hello":"world"}])
+        mcao = mock_clue_api_client.MockClueApiClient(default_return_values=[{"hello":"world"}])
         method_list = [mcao.run_filter_query, mcao.run_count_query, mcao.run_delete, mcao.run_post, mcao.run_put]
         for ml in method_list:
             if ml == mcao.run_put:
