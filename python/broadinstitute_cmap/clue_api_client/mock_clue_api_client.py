@@ -23,3 +23,12 @@ class MockClueApiClient(clue_api_client.ClueApiClient):
 
     def run_count_query(self, resource_name, where_clause):
         return self.run_query_return_values
+
+    def run_post(self, resource_name, data):
+        return self.run_query_return_values
+
+    def run_delete(self, resource_name, id):
+        return self.run_query_return_values
+
+    def run_put(self, resource_name, id, data):
+        return self.run_query_return_values

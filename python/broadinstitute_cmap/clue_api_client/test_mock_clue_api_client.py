@@ -11,27 +11,22 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
 class TestMockClueApiClient(unittest.TestCase):
-    def test_run_filter_query(self):
+    def test_run(self):
         mcao = mock_clue_api_client.MockClueApiClient(run_query_return_values=[{"hello":"world"}])
-        r = mcao.run_filter_query("fake resource name", {"unused":"filter"})
-        self.assertIsNotNone(r)
-        logger.debug("r:  {}".format(r))
-        self.assertEqual(1, len(r))
-        r = r[0]
-        self.assertEqual(1, len(r))
-        self.assertIn("hello", r)
-        self.assertEqual("world", r["hello"])
+        method_list = [mcao.run_filter_query, mcao.run_count_query, mcao.run_delete, mcao.run_post, mcao.run_put]
+        for ml in method_list:
+            if ml == mcao.run_put:
+                r = ml("fake resource name", {"unused":"filter"}, None)
+            else:
+                r = ml("fake resource name", {"unused":"filter"})
+            self.assertIsNotNone(r)
+            logger.debug("r:  {}".format(r))
+            self.assertEqual(1, len(r))
+            r = r[0]
+            self.assertEqual(1, len(r))
+            self.assertIn("hello", r)
+            self.assertEqual("world", r["hello"])
 
-    def test_run_count_query(self):
-        mcao = mock_clue_api_client.MockClueApiClient(run_query_return_values=[{"hello":"world"}])
-        r = mcao.run_count_query("fake resource name", {"unused":"filter"})
-        self.assertIsNotNone(r)
-        logger.debug("r:  {}".format(r))
-        self.assertEqual(1, len(r))
-        r = r[0]
-        self.assertEqual(1, len(r))
-        self.assertIn("hello", r)
-        self.assertEqual("world", r["hello"])
 
 if __name__ == "__main__":
     setup_logger.setup(verbose=True)
