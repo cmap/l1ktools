@@ -2,6 +2,7 @@ import requests
 import logging
 import setup_logger
 import json
+import copy
 
 __authors__ = "David L. Lahr"
 __email__ = "dlahr@broadinstitute.org"
@@ -23,7 +24,7 @@ class ClueApiClient(object):
         Returns:
         """
         self.base_url = base_url
-        self.user_key = user_key
+        self.data = {"user_key":user_key}
 
     def run_filter_query(self, resource_name, filter_clause):
         """run a query (get) against the CLUE api, using the API and user key fields of self and the fitler_clause provided
@@ -34,11 +35,10 @@ class ClueApiClient(object):
 
         Returns: list of dictionaries containing the results of the query
         """
-        data = {"user_key":self.user_key}
         url = self.base_url + "/" + resource_name
         params = {"filter":json.dumps(filter_clause)}
 
-        r = requests.get(url, data=data, params=params)
+        r = requests.get(url, data=self.data, params=params)
         logger.debug("requests.get result r.status_code:  {}".format(r.status_code))
 
         ClueApiClient._check_request_response(r)
@@ -54,12 +54,45 @@ class ClueApiClient(object):
 
         Returns: dictionary containing the results of the query
         """
-        data = {"user_key":self.user_key}
         url = self.base_url + "/" + resource_name + "/count"
         params = {"where":json.dumps(where_clause)}
 
-        r = requests.get(url, data=data, params=params)
+        r = requests.get(url, data=self.data, params=params)
         logger.debug("requests.get result r.status_code:  {}".format(r.status_code))
+
+        ClueApiClient._check_request_response(r)
+
+        return r.json()
+
+    def run_post(self, resource_name, data):
+        my_data = copy.copy(self.data)
+        my_data.update(data)
+        url = self.base_url + "/" + resource_name
+
+        r = requests.post(url, data=my_data)
+        logger.debug("requests.post result r.status_code:  {}".format(r.status_code))
+
+        ClueApiClient._check_request_response(r)
+
+        return r.json()
+
+    def run_delete(self, resource_name, id):
+        url = self.base_url + "/" + resource_name + "/" + id
+        r = requests.delete(url, data=self.data)
+        logger.debug("requests.delete result r.status_code:  {}".format(r.status_code))
+
+        ClueApiClient._check_request_response(r)
+
+        did_delete = r.json()["count"] == 1
+        return did_delete
+
+    def run_put(self, resource_name, id, data):
+        my_data = copy.copy(self.data)
+        my_data.update(data)
+        url = self.base_url + "/" + resource_name + "/" + id
+
+        r = requests.put(url, data=my_data)
+        logger.debug("requests.put result r.status_code:  {}".format(r.status_code))
 
         ClueApiClient._check_request_response(r)
 

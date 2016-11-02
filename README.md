@@ -1,7 +1,7 @@
 # L1000 Analysis Tools v1.1
 
 
-Copyright 2011-2015 Broad Institute of MIT and Harvard.
+Copyright 2011-2016 Broad Institute of MIT and Harvard.
 
 A collection of software tools to read and analyze data produced from
 the LINCS project. For more information on the project,
@@ -140,23 +140,14 @@ R tools are found under R/cmap
 ---
 ### Python Tools: python/
 
-#### Requirements
+We recently released a major update for reading and writing gct/x files. Key changes include:
 
-1. Python 2.7 (untested under Python 3)
-2. numpy: [http://numpy.scipy.org](http://numpy.scipy.org)
-3. pandas: [http://pandas.pydata.org/](http://pandas.pydata.org/)
-4. requests: [http://docs.python-requests.org/en/latest/](http://docs.python-requests.org/en/latest/)
-5. pytables: [http://www.pytables.org/moin](http://www.pytables.org/moin)
-6. blessings: [http://pypi.python.org/pypi/blessings](http://pypi.python.org/pypi/blessings)
+    * Underlying data stored in pandas dataframe objects instead of SQLite. This will also enable users to take advantage of pandas’ pre-existing tools for data analysis, including slicing, multi-indexing, plotting, and more.
+    * Object oriented class representation of parsed gct/x data, containing data and metadata fields (both separately and as a multi-indexed pandas data frame)
+    * Easy to use methods for parsing, writing, and merging both gct and gctx files 
+    * Extensive testing (meant to also be contributed to) for more robust documentation of and fixes to edge cases as we/users encounter them
 
-#### Setting the Python path
-To run, append l1ktools/python to the `PYTHONPATH` environment variable.
-
-#### Tools
-* **cmap/io/gct.py**: Classes to interact with .gct and .gctx files.
-
-#### Demo
-* **example_methods.py**: To run the demo, change to the folder containing `example_methods.py` and run the script. It will read in a .gctx file, display its contents, and write to disc.
+See [the following README](https://github.com/cmap/l1ktools/tree/8b15a689d9d2c2771f8261fd087a466ba5a29f52/python/broadinstitute_cmap/io/GCToo) for instructions on how to set up your Python environment and how to do some basic operations using the GCToo library.
 
 ---
 ## Common data analysis tasks
@@ -165,19 +156,11 @@ To run, append l1ktools/python to the `PYTHONPATH` environment variable.
 ### Reading .gct and .gctx files
 * **MATLAB**: Use the `parse_gctx` function.
 * **R**: Source the script `l1ktools/R/cmap/io.R`. Then use the `parse.gctx` function.
-* **Python**: Import the module `cmap.io.gct`. Then instantiate a GCT object, and call its `read()` method. For more information, see the documentation on the GCT class.
 * **Java**: See `ReadGctxExample.java` for an example.
 
 ### Creating .gct and .gctx files
 * **MATLAB**: Use the `mkgct` and `mkgctx` functions.
 * **R** Source the script `l1ktools/R/cmap/io.R`. Then use the `write.gctx` or `write.gct` functions.
-* **Python**: Import `cmap.io.gct` and instantiate a GCT object. Then call the `build` method or `build_from_DataFrame` method to assmble a GCT object from a data matrix and optionally row and column annotations. Finally, call the `write` method to write to file as a .gctx.
-  * Please note that a major update for gct/x related parsing and writing is planned for the near future. Key changes include:
-
-    * Underlying data stored in pandas dataframe objects instead of SQLite. This will also enable users to take advantage of pandas’ pre-existing tools for data analysis, including slicing, multi-indexing, plotting, and more.
-    * Object oriented class representation of parsed gct/x data, containing data and metadata fields (both separately and as a multi-indexed pandas data frame)
-    * Easy to use methods for parsing, writing, and merging both gct and gctx files 
-    * Extensive testing (meant to also be contributed to) for more robust documentation of and fixes to edge cases as we/users encounter them
 
 ### Z-Scoring a data set
 * **MATLAB**: Use the `robust_zscore` function. Also see the `example_methods.m` script.
