@@ -1,16 +1,19 @@
-import logging
-import setup_GCToo_logger as setup_logger
-import re
-import warnings
-import tables
+import logging 
+import setup_GCToo_logger as setup_logger 
+import h5py
 import numpy
 import GCToo
-import parse_gctoox
 
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
+
+version_attr = "version"
+src_attr = "src"
+data_matrix_node = "/0/DATA/0/matrix"
+row_meta_group_node = "/0/META/ROW"
+col_meta_group_node = "/0/META/COL"
 
 def write(gctoo_object, out_file_name, convert_back_to_neg_666 = True):
 	"""
@@ -20,30 +23,29 @@ def write(gctoo_object, out_file_name, convert_back_to_neg_666 = True):
 		- gctoo_object (GCToo): A GCToo instance.
 		- out_file_name (str): file name to write gctoo_object to.
 	"""
-	# Note: pyTables throws a Natural Naming warning that needs to be caught
-	with warnings.catch_warnings():
-		warnings.simplefilter("ignore")
+	# make sure out file has a .gctx suffix
+	gctx_out_name = add_gctx_to_out_name(out_file_name)
+	
+	# open an hdf5 file to write to 
+	hdf5_out = h5py.File(gctx_out_name, "w")
 
-		# make sure out file has a .gctx suffix
-		gctx_out_name = add_gctx_to_out_name(out_file_name)
+	# write version
+	write_version(hdf5_out, gctoo_object)
 
-		# open an hdf5 file to write to
-		hdf5_out = tables.openFile(gctx_out_name, mode = "w")
+	# write src 
+	write_src(hdf5_out, gctoo_object, gctx_out_name)
 
-		# write version
-		write_version(hdf5_out, gctoo_object)
+	# write data matrix
+	hdf5_out.create_dataset(data_matrix_node, data=gctoo_object.data_df.transpose().as_matrix())
 
-		# write data matrix
-		write_data_matrix(hdf5_out, gctoo_object)
+	# write col metadata
+	write_metadata(hdf5_out, "col", gctoo_object.col_metadata_df, convert_back_to_neg_666)
 
-		# write col metadata
-		write_metadata(hdf5_out, "col", gctoo_object.col_metadata_df, convert_back_to_neg_666)
+	# write row metadata
+	write_metadata(hdf5_out, "row", gctoo_object.row_metadata_df, convert_back_to_neg_666)
 
-		# write row metadata
-		write_metadata(hdf5_out, "row", gctoo_object.row_metadata_df, convert_back_to_neg_666)
-
-		# close gctx file
-		hdf5_out.close()
+	# close gctx file 
+	hdf5_out.close()
 
 def add_gctx_to_out_name(out_file_name):
 	"""
@@ -60,63 +62,74 @@ def add_gctx_to_out_name(out_file_name):
 		out_file_name = out_file_name + ".gctx"
 	return out_file_name
 
-def write_version(open_hdf5_writer, gctoo_object, version_number="GCTX1.0"):
+def write_src(hdf5_out, gctoo_object, out_file_name):
 	"""
-	Writes version to proper node of gctx out file. 
+	Writes src as attribute of gctx out file. 
 
 	Input:
-		- open_hdf5_writer (hdf5): open hdf5 file (via PyTables) to write to
-		- version_number (str): version of gctx file. Default = 1.0 
+		- hdf5_out (h5py): hdf5 file to write to 
+		- gctoo_object (GCToo): GCToo instance to be written to .gctx
+		- out_file_name (str): name of hdf5 out file. 
+	"""
+	if gctoo_object.src == None:
+		hdf5_out.attrs[src_attr] = out_file_name
+	else:
+		hdf5_out.attrs[src_attr] = gctoo_object.src
 
-	Note: for now version is always 1.0 so this is hardcoded as default
+def write_version(hdf5_out, gctoo_object, version_number = "GCTX1.0"):
+	"""
+	Writes version as attribute of gctx out file. 
+
+	Input:
+		- hdf5_out (h5py): hdf5 file to write to 
+		- gctoo_object (GCToo): GCToo instance to be written to .gctx 
+		- version_number (str; default = "GCTX1.0"): version of .gctx file 
 	"""
 	if gctoo_object.version is None:
-		open_hdf5_writer.setNodeAttr("/", "version", version_number)
+		hdf5_out.attrs[version_attr] = version_number
 	else:
-		open_hdf5_writer.setNodeAttr("/", "version", gctoo_object.version)
+		hdf5_out.attrs[version_attr] = gctoo_object.version 
 
-def write_data_matrix(open_hdf5_writer, gctoo_object):
-	"""
-	Writes data matrix to proper node of gctx out (hdf5) file. 
-
-	Input:
-		- open_hdf5_writer (hdf5): open hdf5 file (via PyTables) to write to
-		- gctoo_object (GCToo): a GCToo instance 
-
-	"""
-	# create a group with proper nesting/headings first
-	open_hdf5_writer.createGroup("/","0")
-	open_hdf5_writer.createGroup("/0/DATA", "0", createparents = True)
-	# write data matrix to expected node
-	# Note: need to re-transpose parsed data matrix to preserve standard format
-	logger.debug("Writing data df to /0/DATA/0/matrix...")
-	logger.debug("Data DF being written's shape: {}".format(gctoo_object.data_df.transpose().as_matrix().shape))
-	open_hdf5_writer.createArray("/0/DATA/0", "matrix", gctoo_object.data_df.transpose().as_matrix())
-
-def write_metadata(open_hdf5_writer, dim, metadata_df, convert_back_to_neg_666):
+def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 	"""
 	Writes either column or row metadata to proper node of gctx out (hdf5) file.
 
-	Input: 
-		- open_hdf5_writer (hdf5): open hdf5 file (via PyTables) to write to
-		- metadata_df (PANDAS DataFrame): metadata data frame to write to node 
+	Input:
+		- hdf5_out (h5py): open hdf5 file to write to
+		- dim (str; must be "row" or "col"): dimension of metadata to write to 
+		- metadata_df (pandas DataFrame): metadata DataFrame to write to file 
+		- convert_back_to_neg_666 (bool): Whether to convert numpy.nans back to "-666",
+				as per CMap metadata null convention 
 	"""
 	if dim == "col":
-		open_hdf5_writer.createGroup("/0/META", "COL", createparents=True)
-		gctx_hdf5_metadata_node_name = "/0/META/COL"
+		hdf5_out.create_group(col_meta_group_node)
+		metadata_node_name = col_meta_group_node
 	elif dim == "row":
-		open_hdf5_writer.createGroup("/0/META", "ROW", createparents=True)
-		gctx_hdf5_metadata_node_name = "/0/META/ROW"
+		hdf5_out.create_group(row_meta_group_node)
+		metadata_node_name = row_meta_group_node
 	else:
-		logger.error("dim parameter must be 'row' or 'col'!")
+		logger.error("'dim' argument must be either 'row' or 'col'!")
+
 	# write id field to expected node
-	open_hdf5_writer.createArray(gctx_hdf5_metadata_node_name, "id", list(metadata_df.index))
-	# if specified, convert NaNs in metadata back to -666
+	hdf5_out.create_dataset(metadata_node_name + "/id", data=list(metadata_df.index))
+
+	metadata_fields = list(metadata_df.columns)
+
+	# if specified, convert numpy.nans in metadata back to -666
 	if convert_back_to_neg_666:
-		for c in list(metadata_df.columns):
+		for c in metadata_fields:
 			metadata_df[[c]] = metadata_df[[c]].replace([numpy.nan], ["-666"])
-	# write metadata columns to their own arrays
-	all_fields = list(metadata_df.columns)	
-	for field in [entry for entry in all_fields if entry != 'ind']:
-		open_hdf5_writer.createArray(gctx_hdf5_metadata_node_name, field,
-			numpy.array(list(metadata_df[field])))
+
+	# write metadata columns to their own arrays 
+	for field in [entry for entry in metadata_fields if entry != "ind"]:
+		hdf5_out.create_dataset(metadata_node_name + "/" + field, 
+			data=numpy.array(list(metadata_df[field])))
+
+
+
+
+
+
+
+
+
