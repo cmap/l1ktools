@@ -46,7 +46,7 @@ More details can be found here:http://conda.pydata.org/docs/using/envs.html#crea
 1. To create the GCToo environment (with appropriate versions of packages), type the following:
 
       ```
-      conda create --name GCToo python=2.7.11 numpy=1.11.2 pandas=0.18 h5py=2.6.0 pytables=3.2
+      conda create --name GCToo python=2.7.11 numpy=1.11.2 pandas=0.18 h5py=2.6.0 
       ```
 
 2. Activate the new environment (GCToo)
