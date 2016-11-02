@@ -1,6 +1,7 @@
 import logging 
 import setup_GCToo_logger as setup_logger 
 import h5py
+import numpy
 import GCToo
 
 __author__ = "Oana Enache"
@@ -8,8 +9,8 @@ __email__ = "oana@broadinstitute.org"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-version_attr = "/version"
-src_attr = "/src"
+version_attr = "version"
+src_attr = "src"
 data_matrix_node = "/0/DATA/0/matrix"
 row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
@@ -122,7 +123,7 @@ def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 	# write metadata columns to their own arrays 
 	for field in [entry for entry in metadata_fields if entry != "ind"]:
 		hdf5_out.create_dataset(metadata_node_name + "/" + field, 
-			data=numpy.array(list(metadata_df)))
+			data=numpy.array(list(metadata_df[field])))
 
 
 
