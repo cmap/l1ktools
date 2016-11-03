@@ -53,28 +53,33 @@ row_header_name = "rhd"
 column_header_name = "chd"
 
 
-def parse(file_path, nan_values=None, rid=None, cid=None):
+def parse(file_path, convert_neg_666=True, rid=None, cid=None):
     """ The main method.
 
     Args:
-        - file_path (string): full path to gctx file you want to parse
-        - nan_values (list of strings): values to be treated as NaN
-            (default below)
+        - file_path (string): full path to gct(x) file you want to parse
+        - convert_neg_666 (bool): whether to convert -666 values to numpy.nan
+            (see Note below for more details). Default = True.
         - rid (list of strings): list of row ids to specifically keep  None keeps all rids
         - cid (list of strings): list of col ids to specifically keep, None keeps all cids
 
     Returns:
         gctoo_obj (GCToo object)
 
-    """
-    # Use default nan values if none given
-    default_nan_values = [
-        "#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN",
-        "nan", "-nan", "#N/A!", "na", "NA", "None", "-666"]
-    # N.B. -666 is a CMap-specific null value
+    Note: why is convert_neg_666 even a thing?
+        In CMap--for somewhat obscure historical reasons--we use "-666" as our null value
+        for metadata. However (so that users can take full advantage of pandas' methods,
+        including those for filtering nan's etc) we provide the option of converting these
+        into numpy.nan values, the pandas default.
 
-    if nan_values is None:
-        nan_values = default_nan_values
+    """
+    nan_values = [
+        "#N/A", "N/A", "NA", "#NA", "NULL", "NaN", "-NaN",
+        "nan", "-nan", "#N/A!", "na", "NA", "None"]
+
+    # Add "-666" to the list of NaN values
+    if convert_neg_666:
+        nan_values.append("-666")
 
     # Verify that the gct path exists
     if not os.path.exists(file_path):
