@@ -1,7 +1,6 @@
 import unittest
 import logging
 import setup_GCToo_logger as setup_logger
-import ConfigParser
 import os
 import numpy as np
 import pandas as pd

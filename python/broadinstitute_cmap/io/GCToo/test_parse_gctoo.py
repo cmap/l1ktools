@@ -4,9 +4,7 @@ import setup_GCToo_logger as setup_logger
 import os
 import pandas as pd
 import numpy as np
-import GCToo as GCToo
 import parse_gctoo as pg
-import write_gctoo as wg
 
 FUNCTIONAL_TESTS_PATH = "functional_tests"
 

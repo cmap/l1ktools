@@ -115,7 +115,7 @@ def get_file_list(wildcard):
     return files
 
 
-def hstack(gctoos, fields_to_remove, reset_sample_ids, sort_headers):
+def hstack(gctoos, fields_to_remove=None, reset_sample_ids=False, sort_headers=False):
     """Horizontally concatenate gctoos.
     Args:
         gctoos (list of gctoo objects)

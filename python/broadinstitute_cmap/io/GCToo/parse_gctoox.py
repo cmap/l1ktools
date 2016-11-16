@@ -75,7 +75,9 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 	gctx_file = h5py.File(full_path, "r", driver = "core")
 
 	# get version
-	my_version = gctx_file.attrs[version_node][0]
+	my_version = gctx_file.attrs[version_node]
+	if type(my_version) == np.ndarray:
+		my_version = my_version[0]
 
 	# get dsets corresponding to rids, cids 
 	rid_dset = gctx_file[rid_node]
