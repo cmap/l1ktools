@@ -15,6 +15,7 @@ cao = None
 
 class TestGeneQueries(unittest.TestCase):
     def test_are_genes_in_api(self):
+        #happy path mix of valid and invalid genes
         r = gq.are_genes_in_api(cao, ["AKT1", "BRAF", "Dave Lahr's fake cell line that never existed"])
         logger.debug("r:  {}".format(r))
         self.assertIsNotNone(r)
@@ -22,6 +23,12 @@ class TestGeneQueries(unittest.TestCase):
         self.assertIn("AKT1", r)
         self.assertIn("BRAF", r)
 
+        #happy path provide genes as set
+        r = gq.are_genes_in_api(cao, {"AKT1"})
+        logger.debug("r:  {}".format(r))
+        self.assertIsNotNone(r)
+        self.assertEqual(1, len(r))
+        self.assertIn("AKT1", r)
 
 
 if __name__ == "__main__":
