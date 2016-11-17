@@ -1,13 +1,3 @@
-import logging
-import setup_GCToo_logger as setup_logger
-import pandas as pd
-import numpy as np
-import os.path
-
-
-__author__ = "Lev Litichevskiy"
-__email__ = "lev@broadinstitute.org"
-
 """ Writes a gctoo object to a gct file.
 
 The main method is write. write_version_and_dims writes the first two
@@ -42,6 +32,15 @@ Example GCT:
 ---------------------------------------------------
 """
 
+import logging
+import setup_GCToo_logger as setup_logger
+import pandas as pd
+import numpy as np
+import os
+
+__author__ = "Lev Litichevskiy"
+__email__ = "lev@broadinstitute.org"
+
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 # Only writes GCT v1.3
@@ -59,28 +58,27 @@ def write(gctoo, out_fname, data_null="NaN", metadata_null="-666", filler_null="
         filler_null (string): what value to fill the top-left filler block with (default = "-666")
         data_float_format (string): how many decimal points to keep in representing data (default = None will keep all digits)
     Returns:
-        nothing
+        None
     """
     # Create handle for output file
     if not out_fname.endswith(".gct"):
-        out_fname = out_fname + ".gct"
+        out_fname += ".gct"
     f = open(out_fname, "wb")
 
     # Write first two lines
-    dims_ints = [gctoo.data_df.shape[0], gctoo.data_df.shape[1],
-                 gctoo.row_metadata_df.shape[1], gctoo.col_metadata_df.shape[1]]
-    dims = [str(dim) for dim in dims_ints]
+    dims = [str(gctoo.data_df.shape[0]), str(gctoo.data_df.shape[1]),
+            str(gctoo.row_metadata_df.shape[1]), str(gctoo.col_metadata_df.shape[1])]
     write_version_and_dims(VERSION, dims, f)
 
-    # Convert 3 component dataframes into correct form
-    full_df = assemble_full_df(
-        gctoo.row_metadata_df, gctoo.col_metadata_df, gctoo.data_df,
-        data_null, metadata_null, filler_null)
+    # Write top half of the gct
+    write_top_half(f, gctoo.row_metadata_df, gctoo.col_metadata_df,
+                   metadata_null, filler_null)
 
-    # Write remainder of gct
-    write_full_df(full_df, f, data_null, data_float_format)
+    # Write bottom half of the gct
+    write_bottom_half(f, gctoo.row_metadata_df, gctoo.data_df,
+                      data_null, data_float_format, metadata_null)
+
     f.close()
-
     logger.info("GCT has been written to {}".format(out_fname))
 
 
@@ -98,76 +96,76 @@ def write_version_and_dims(version, dims, f):
     f.write((dims[0] + "\t" + dims[1] + "\t" + dims[2] + "\t" + dims[3] + "\n"))
 
 
-def assemble_full_df(row_metadata_df, col_metadata_df, data_df, data_null, metadata_null, filler_null):
-    """Assemble 3 component dataframes into the correct form for gct files.
+def write_top_half(f, row_metadata_df, col_metadata_df, metadata_null, filler_null):
+    """ Write the top half of the gct file: top-left filler values, row metadata
+    headers, and top-right column metadata.
 
     Args:
+        f (file handle): handle for output file
         row_metadata_df (pandas df)
         col_metadata_df (pandas df)
-        data_df (pandas df)
-        data_null (string): how to represent missing values in the data
         metadata_null (string): how to represent missing values in the metadata
         filler_null (string): what value to fill the top-left filler block with
 
     Returns:
-        full_df (pandas df): shape = (n_chd + n_rid, 1 + n_rhd + n_cid),
-            header will become the 3rd line of the gct file
+        None
     """
-    # Convert metadata to strings
-    row_metadata_df = row_metadata_df.astype(str)
-    col_metadata_df = col_metadata_df.astype(str)
+    # Initialize the top half of the gct including the third line
+    size_of_top_half_df = (1 + col_metadata_df.shape[1],
+                           1 + row_metadata_df.shape[1] + col_metadata_df.shape[0])
+    top_half_df = pd.DataFrame(np.full(size_of_top_half_df, filler_null, dtype="S8"))
 
-    # Replace missing values in metadata with metadata_null
-    row_metadata_df.replace("nan", value=metadata_null, inplace=True)
-    col_metadata_df.replace("nan", value=metadata_null, inplace=True)
+    # Assemble the third line of the gct: "id", then rhds, then cids
+    top_half_df.iloc[0, :] = np.hstack(("id", row_metadata_df.columns.values, col_metadata_df.index.values))
 
-    # TOP ROW: horz concatenate "id", rhd, and cid
-    rhd_and_cid = np.hstack((row_metadata_df.columns.values, data_df.columns.values))
-    top_row = np.hstack(("id", rhd_and_cid))
+    # Insert the chds
+    top_half_df.iloc[range(1, top_half_df.shape[0]), 0] = col_metadata_df.columns.values
 
-    # Check that it has correct length
-    assert(len(top_row) == (1 + row_metadata_df.shape[1] + data_df.shape[1]))
+    # Insert the column metadata, but first convert to strings and replace NaNs
+    col_metadata_indices = (range(1, top_half_df.shape[0]),
+                            range(1 + row_metadata_df.shape[1], top_half_df.shape[1]))
+    top_half_df.iloc[col_metadata_indices[0], col_metadata_indices[1]] = (
+        col_metadata_df.astype(str).replace("nan", value=metadata_null).T.values)
 
-    # Create nan array to fill the blank top-left quadrant
-    filler = np.full((col_metadata_df.shape[1], row_metadata_df.shape[1]),
-                     filler_null, dtype="S8")
-
-    # TOP HALF: horz concatenate chd, filler, and col_metadata, which must be transposed
-    filler_and_col_metadata = np.hstack((filler, col_metadata_df.T.values))
-    top_half = np.column_stack((col_metadata_df.columns.values, filler_and_col_metadata))
-
-    # BOTTOM HALF: horz concatenate rid, row_metadata, and data
-    row_metadata_and_data = np.hstack((row_metadata_df.values, data_df.values))
-    bottom_half = np.column_stack((data_df.index.values, row_metadata_and_data))
-
-    # Vert concatenate the two halves
-    full_df_values = np.vstack((top_half, bottom_half))
-
-    # Stitch together full_df
-    full_df = pd.DataFrame(full_df_values, columns=top_row)
-
-    # Check that is has correct dims
-    assert (full_df.shape == (
-        (col_metadata_df.shape[1] + data_df.shape[0]),
-        (1 + row_metadata_df.shape[1] + data_df.shape[1])))
-    return full_df
+    # Write top_half_df to file
+    top_half_df.to_csv(f, header=False, index=False, sep="\t")
 
 
-def write_full_df(full_df, f, data_null, data_float_format):
-    """Write the full_df to the gct file.
+def write_bottom_half(f, row_metadata_df, data_df, data_null, data_float_format, metadata_null):
+    """ Write the bottom half of the gct file: row metadata and data.
 
     Args:
-        full_df (pandas df): data and metadata arranged correctly
         f (file handle): handle for output file
+        row_metadata_df (pandas df)
+        data_df (pandas df)
         data_null (string): how to represent missing values in the data
+        metadata_null (string): how to represent missing values in the metadata
         data_float_format (string): how many decimal points to keep in representing data
+
     Returns:
-        nothing
+        None
     """
-    full_df.to_csv(f, header=True, index=False,
-                   sep="\t",
-                   na_rep=data_null,
-                   float_format=data_float_format)
+    # Initialize the bottom half of the gct
+    size_of_bottom_half_df = (row_metadata_df.shape[0],
+                              1 + row_metadata_df.shape[1] + data_df.shape[1])
+    bottom_half_df = pd.DataFrame(np.full(size_of_bottom_half_df, metadata_null, dtype="S8"))
+
+    # Insert the rids
+    bottom_half_df.iloc[:, 0] = row_metadata_df.index.values
+
+    # Insert the row metadata, but first convert to strings and replace NaNs
+    row_metadata_col_indices = range(1, 1 + row_metadata_df.shape[1])
+    bottom_half_df.iloc[:, row_metadata_col_indices] = (
+        row_metadata_df.astype(str).replace("nan", value=metadata_null).values)
+
+    # Insert the data
+    data_col_indices = range(1 + row_metadata_df.shape[1], bottom_half_df.shape[1])
+    bottom_half_df.iloc[:, data_col_indices] = data_df.values
+
+    # Write bottom_half_df to file
+    bottom_half_df.to_csv(f, header=False, index=False, sep="\t",
+                          na_rep=data_null,
+                          float_format=data_float_format)
 
 
 def append_dims_and_file_extension(fname, data_df):
