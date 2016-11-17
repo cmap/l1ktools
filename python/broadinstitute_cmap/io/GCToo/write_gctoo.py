@@ -113,7 +113,7 @@ def write_top_half(f, row_metadata_df, col_metadata_df, metadata_null, filler_nu
     # Initialize the top half of the gct including the third line
     size_of_top_half_df = (1 + col_metadata_df.shape[1],
                            1 + row_metadata_df.shape[1] + col_metadata_df.shape[0])
-    top_half_df = pd.DataFrame(np.full(size_of_top_half_df, filler_null, dtype="S8"))
+    top_half_df = pd.DataFrame(np.full(size_of_top_half_df, filler_null, dtype=object))
 
     # Assemble the third line of the gct: "id", then rhds, then cids
     top_half_df.iloc[0, :] = np.hstack(("id", row_metadata_df.columns.values, col_metadata_df.index.values))
@@ -148,7 +148,7 @@ def write_bottom_half(f, row_metadata_df, data_df, data_null, data_float_format,
     # Initialize the bottom half of the gct
     size_of_bottom_half_df = (row_metadata_df.shape[0],
                               1 + row_metadata_df.shape[1] + data_df.shape[1])
-    bottom_half_df = pd.DataFrame(np.full(size_of_bottom_half_df, metadata_null, dtype="S8"))
+    bottom_half_df = pd.DataFrame(np.full(size_of_bottom_half_df, metadata_null, dtype=object))
 
     # Insert the rids
     bottom_half_df.iloc[:, 0] = row_metadata_df.index.values
