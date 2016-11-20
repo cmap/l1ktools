@@ -141,7 +141,18 @@ def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 		- cid (list): Either a number of cids to subset from full list, or None. 
 
 	Output: 
-		- id_dict (dict)
+		- id_dict (dict): A dictionary containing various fields for lookup in parsing gctx. 
+			Keys in dict:
+				- rids (dict): A dict enumerating...
+					- all rids 
+					- (if user is slicing) id values of rows to keep in slice 
+					- (if user is slicing) indexes of rows to keep in slice 
+				- cids (dict): A dict enumerating...
+					- all cids 
+					- (if user is slicing) id values of cols to keep in slice 
+					- (if user is slicing) indexes of cols to keep in slice 
+				- slice_lengths (dict): If user is slicing the gctx, this is a dict enumerating 
+					the number of elements kept after row and column slicing. 
 	"""
 	id_dict = {}
 
