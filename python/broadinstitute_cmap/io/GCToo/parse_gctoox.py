@@ -62,7 +62,7 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 		- meta_only (str, must be "row" or "col"): dimension of metadata to return only. 
 
 	Output:
-		- myGCToo 
+		- myGCToo (GCToo): A GCToo instance containing content of parsed gctx file 
 
 	Note: why does convert_neg_666 exist? 
 		- In CMap--for somewhat obscure historical reasons--we use "-666" as our null value 
@@ -72,7 +72,7 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 	"""
 	full_path = os.path.expanduser(gctx_file_path)
 	# open file 
-	gctx_file = h5py.File(full_path, "r", driver = "core")
+	gctx_file = h5py.File(full_path, "r")
 
 	# get version
 	my_version = gctx_file.attrs[version_node]
@@ -106,7 +106,6 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 			row_metadata_df=row_meta_df, col_metadata_df=col_meta_df, data_df=data_df)
 
 		return curr_GCToo
-
 	elif meta_only == "row":
 		# Reads row metadata (or specified slice thereof) from input GCTX to pandas DataFrame
 		row_group = gctx_file[row_meta_group_node]
@@ -126,10 +125,10 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 		gctx_file.close()
 
 		return col_meta_df	
-
 	else: 
-		logger.error("meta_only argument must be either 'row' or 'col'!")	
-
+		error_msg = "meta_only argument must be either 'row' or 'col'"
+		logger.error(error_msg)	
+		raise(Exception(error_msg))
 
 def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 	"""
