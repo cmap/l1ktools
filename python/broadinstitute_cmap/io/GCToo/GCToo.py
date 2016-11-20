@@ -64,15 +64,18 @@ class GCToo(object):
         self.multi_index_df = None
         
         # check that data frames actually are dataframes, then check uniqueness
-        for df in [self.row_metadata_df, self.col_metadata_df, self.data_df]:
-            # check it's a data frame
+        for df_field in ["row_metadata_df", "col_metadata_df", "data_df"]:
+            df = self.__dict__[df_field]
+
             if isinstance(df, pd.DataFrame):
                 # check uniqueness of index and columns
                 self.check_uniqueness(df.index)
                 self.check_uniqueness(df.columns)
             else:
-                self.logger.error("{} is not a pandas DataFrame instance!".format(df))
-                
+                msg = "expected Pandas DataFrame, got something else - df_field:  {}  type(df):  {}".format(df_field, type(df))
+                self.logger.error(msg)
+                raise Exception("GCToo GCToo.__init__ " + msg)
+                                
         # check rid matching in data & metadata
         self.rid_consistency_check()
         
