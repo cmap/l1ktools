@@ -6,7 +6,7 @@ import os
 import numpy
 import parse_gctoox
 import write_gctoox
-import functional_tests.mini_gctoo_for_testing as mini_gctoo_for_testing
+import mini_gctoo_for_testing
 
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
