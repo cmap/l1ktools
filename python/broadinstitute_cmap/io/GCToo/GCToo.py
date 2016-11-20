@@ -1,11 +1,3 @@
-import numpy as np
-import pandas as pd
-import logging
-import setup_GCToo_logger as setup_logger
-
-__authors__ = 'Oana Enache, Lev Litichevskiy, Dave Lahr'
-__email__ = 'dlahr@broadinstitute.org'
-
 """
 DATA:
 -----------------------------
@@ -45,6 +37,13 @@ N.B. The df is transposed from how it looks in a gct file.
 N.B. rids, cids, rhds, and chds must be unique.
 """
 
+import numpy as np
+import pandas as pd
+import logging
+import setup_GCToo_logger as setup_logger
+
+__authors__ = 'Oana Enache, Lev Litichevskiy, Dave Lahr'
+__email__ = 'dlahr@broadinstitute.org'
 
 class GCToo(object):
     """Class representing parsed gct(x) objects as pandas dataframes.
@@ -75,7 +74,7 @@ class GCToo(object):
                 msg = "expected Pandas DataFrame, got something else - df_field:  {}  type(df):  {}".format(df_field, type(df))
                 self.logger.error(msg)
                 raise Exception("GCToo GCToo.__init__ " + msg)
-                                
+
         # check rid matching in data & metadata
         self.rid_consistency_check()
         
