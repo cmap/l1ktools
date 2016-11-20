@@ -38,14 +38,11 @@ def build_parser():
 def main(args):
 	in_gctoo = parse_gctoox.parse(args.filename, convert_neg_666=False)
 
-	if args.outname == None:
+	if args.output_filepath == None:
 		out_name = str.split(in_gctoo.src, "/")[-1].split(".")[0]
 	else:
-		out_name = args.outname
-
-	if args.outpath != None:
-		out_name = args.outpath + out_name
-
+		out_name = args.output_filepath
+		
 	write_gctoo.write(in_gctoo, out_name)
 
 
