@@ -155,7 +155,9 @@ def parse_into_3_df(file_path, num_data_rows, num_data_cols, num_row_metadata, n
     # Check that full_df is the size we expect
     assert full_df.shape == (num_col_metadata + num_data_rows + 1,
                              num_row_metadata + num_data_cols + 1), (
-        "The shape of full_df is not as expected. Cannot parse this gct file.")
+                             "The shape of full_df is not as expected:" + 
+                             " data is {} x {} but there are {} row meta fields" + 
+                             "and {} col fields".format(num_data_rows, num_data_cols, num_row_metadata, num_col_metadata))
 
     # Assemble metadata dataframes
     row_metadata = assemble_row_metadata(full_df, num_col_metadata, num_data_rows, num_row_metadata)
