@@ -14,19 +14,9 @@ class TestGCToo(unittest.TestCase):
         # TODO: Add test of only row ids present as metadata
         # TODO: Add test of only col ids present as metadata 
 
-        g = GCToo.GCToo()
-        
-        g.row_metadata_df = pd.DataFrame({"a":range(3)}, index=range(4,7))
-        logger.debug("g.row_metadata_df:  {}".format(g.row_metadata_df))
-
-        g.col_metadata_df = pd.DataFrame({"b":range(7,10)}, index=range(10,13))
-        logger.debug("g.col_metadata_df:  {}".format(g.col_metadata_df))
-
-        g.data_df = pd.DataFrame({10:range(13,16), 11:range(16,19), 12:range(19,22)}, index=range(4,7))
-        logger.debug("g.data_df:  {}".format(g.data_df))
-
-        g.assemble_multi_index_df()
-        logger.debug("g.multi_index_df:  {}".format(g.multi_index_df))
+        g = GCToo.GCToo(data_df = pd.DataFrame({10:range(13,16), 11:range(16,19), 12:range(19,22)}, index=range(4,7)),
+            row_metadata_df=pd.DataFrame({"a":range(3)}, index=range(4,7)),
+            col_metadata_df=pd.DataFrame({"b":range(7,10)}, index=range(10,13)))
 
         assert "a" in g.multi_index_df.index.names, g.multi_index_df.index.names
         assert "rid" in g.multi_index_df.index.names, g.multi_index_df.index.names
@@ -61,12 +51,16 @@ class TestGCToo(unittest.TestCase):
 
         # cids in data_df are not unique
         with self.assertRaises(AssertionError) as e:
-            GCToo.GCToo(data_df=not_unique_data_df)
+            GCToo.GCToo(data_df=not_unique_data_df, 
+                row_metadata_df=pd.DataFrame(index=["A","B"]),
+                col_metadata_df=pd.DataFrame(index=["a","b","c"]))
         self.assertIn("'a' 'b' 'a'", str(e.exception))
 
         # rhds are not unique in row_metadata_df
         with self.assertRaises(AssertionError) as e:
-            GCToo.GCToo(row_metadata_df=not_unique_rhd)
+            GCToo.GCToo(data_df=pd.DataFrame([[1, 2, 3], [4, 5, 6]], index=["A","B"], columns=["a","b","c"]),
+                row_metadata_df=not_unique_rhd,
+                col_metadata_df=pd.DataFrame(index=["a","b","c"]))
         self.assertIn("'rhd1' 'rhd1'", str(e.exception))
 
     def test_rid_consistency_check(self):
@@ -76,7 +70,9 @@ class TestGCToo(unittest.TestCase):
                                          index=["A", "C"], columns=["rhd1", "rhd2"])
         with self.assertRaises(AssertionError) as e:
             GCToo.GCToo.rid_consistency_check(GCToo.GCToo(
-                data_df=data_df, row_metadata_df=inconsistent_rids))
+                data_df=data_df, 
+                row_metadata_df=inconsistent_rids,
+                col_metadata_df=pd.DataFrame(index=["a","b","c"])))
         self.assertIn("The rids are inconsistent", str(e.exception))
 
     def test_cid_consistency_check(self):
@@ -86,7 +82,9 @@ class TestGCToo(unittest.TestCase):
                                          index=["a", "b", "C"], columns=["chd1"])
         with self.assertRaises(AssertionError) as e:
             GCToo.GCToo.cid_consistency_check(GCToo.GCToo(
-                data_df=data_df, col_metadata_df=inconsistent_cids))
+                data_df=data_df, 
+                row_metadata_df=pd.DataFrame(index=["A","B"]),
+                col_metadata_df=inconsistent_cids))
         self.assertIn("The cids are inconsistent", str(e.exception))
 
     def test_multi_index_df_to_component_dfs(self):
