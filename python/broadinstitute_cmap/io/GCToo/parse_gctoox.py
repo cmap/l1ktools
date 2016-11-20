@@ -57,8 +57,8 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 		Optional:
 		- convert_neg_666 (bool): whether to convert -666 values to numpy.nan or not 
 			(see Note below for more details on this). Default = False.
-		- rid (list of strings): list of row ids to specifically keep from gctx. Default=None. 
-		- cid (list of strings): list of col ids to specifically keep from gctx. Default=None. 
+		- rid (list of strings): only read the row ids in this list from the gctx. Default=None. 
+		- cid (list of strings): only read the column ids in this list from the gctx. Default=None. 
 		- meta_only (str, must be "row" or "col"): dimension of metadata to return only. 
 
 	Output:
