@@ -28,10 +28,8 @@ def build_parser():
 	parser.add_argument("-filename", 
 		help=".gctx file that you would like converted to .gct form")
 	# optional
-	parser.add_argument("-outpath", 
-		help="(optional) path for output gct file", default=None)
-	parser.add_argument("-outname", 
-		help ="(optional) different name for output gct file", default=None)
+	parser.add_argument("-output_filepath", 
+		help="(optional) out path/name for output gctx file", default=None)
 	parser.add_argument("-verbose", "-v", 
 		help="Whether to print a bunch of output.", action="store_true", default=False)
 	return parser
