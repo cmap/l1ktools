@@ -29,10 +29,8 @@ def build_parser():
 	parser.add_argument("-filename", 
 		help=".gct file that you would like converted to .gctx form")
 	# optional
-	parser.add_argument("-outpath", 
-		help="(optional) path for output gctx file", default=None)
-	parser.add_argument("-outname", 
-		help ="(optional) different name for output gctx file", default=None)
+	parser.add_argument("-output_filepath", 
+		help="(optional) out path/name for output gctx file", default=None)
 	parser.add_argument("-verbose", "-v", 
 		help="Whether to print a bunch of output.", action="store_true", default=False)
 	return parser
@@ -41,13 +39,10 @@ def main(args):
 	in_gctoo = parse_gctoo.parse(args.filename, convert_neg_666=False)
 	logger.debug("Original out name: {}".format(in_gctoo.src))
 
-	if args.outname == None:
+	if args.output_filepath == None:
 		out_name = str.split(in_gctoo.src, "/")[-1].split(".")[0]
 	else:
-		out_name = args.outname
-
-	if args.outpath != None:
-		out_name = args.outpath + out_name
+		out_name = args.output_filepath
 
 	write_gctoox.write(in_gctoo, out_name)
 

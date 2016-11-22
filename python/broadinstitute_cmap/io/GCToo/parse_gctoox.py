@@ -57,12 +57,12 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 		Optional:
 		- convert_neg_666 (bool): whether to convert -666 values to numpy.nan or not 
 			(see Note below for more details on this). Default = False.
-		- rid (list of strings): list of row ids to specifically keep from gctx. Default=None. 
-		- cid (list of strings): list of col ids to specifically keep from gctx. Default=None. 
+		- rid (list of strings): only read the row ids in this list from the gctx. Default=None. 
+		- cid (list of strings): only read the column ids in this list from the gctx. Default=None. 
 		- meta_only (str, must be "row" or "col"): dimension of metadata to return only. 
 
 	Output:
-		- myGCToo 
+		- myGCToo (GCToo): A GCToo instance containing content of parsed gctx file 
 
 	Note: why does convert_neg_666 exist? 
 		- In CMap--for somewhat obscure historical reasons--we use "-666" as our null value 
@@ -72,7 +72,7 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 	"""
 	full_path = os.path.expanduser(gctx_file_path)
 	# open file 
-	gctx_file = h5py.File(full_path, "r", driver = "core")
+	gctx_file = h5py.File(full_path, "r")
 
 	# get version
 	my_version = gctx_file.attrs[version_node]
@@ -106,7 +106,6 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 			row_metadata_df=row_meta_df, col_metadata_df=col_meta_df, data_df=data_df)
 
 		return curr_GCToo
-
 	elif meta_only == "row":
 		# Reads row metadata (or specified slice thereof) from input GCTX to pandas DataFrame
 		row_group = gctx_file[row_meta_group_node]
@@ -126,10 +125,10 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 		gctx_file.close()
 
 		return col_meta_df	
-
 	else: 
-		logger.error("meta_only argument must be either 'row' or 'col'!")	
-
+		error_msg = "meta_only argument must be either 'row' or 'col'"
+		logger.error(error_msg)	
+		raise(Exception(error_msg))
 
 def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 	"""
@@ -142,7 +141,18 @@ def make_id_info_dict(rid_dset, cid_dset, rid, cid):
 		- cid (list): Either a number of cids to subset from full list, or None. 
 
 	Output: 
-		- id_dict (dict)
+		- id_dict (dict): A dictionary containing various fields for lookup in parsing gctx. 
+			Keys in dict:
+				- rids (dict): A dict enumerating...
+					- all rids 
+					- (if user is slicing) id values of rows to keep in slice 
+					- (if user is slicing) indexes of rows to keep in slice 
+				- cids (dict): A dict enumerating...
+					- all cids 
+					- (if user is slicing) id values of cols to keep in slice 
+					- (if user is slicing) indexes of cols to keep in slice 
+				- slice_lengths (dict): If user is slicing the gctx, this is a dict enumerating 
+					the number of elements kept after row and column slicing. 
 	"""
 	id_dict = {}
 

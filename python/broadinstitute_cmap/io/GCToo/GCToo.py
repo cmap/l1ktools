@@ -1,11 +1,3 @@
-import numpy as np
-import pandas as pd
-import logging
-import setup_GCToo_logger as setup_logger
-
-__authors__ = 'Oana Enache, Lev Litichevskiy, Dave Lahr'
-__email__ = 'dlahr@broadinstitute.org'
-
 """
 DATA:
 -----------------------------
@@ -45,14 +37,21 @@ N.B. The df is transposed from how it looks in a gct file.
 N.B. rids, cids, rhds, and chds must be unique.
 """
 
+import numpy as np
+import pandas as pd
+import logging
+import setup_GCToo_logger as setup_logger
+
+__authors__ = 'Oana Enache, Lev Litichevskiy, Dave Lahr'
+__email__ = 'dlahr@broadinstitute.org'
 
 class GCToo(object):
-    """Class representing parsed gct/gctx file as pandas dataframes.
+    """Class representing parsed gct(x) objects as pandas dataframes.
     Contains 3 component dataframes (row_metadata_df, column_metadata_df,
-    and data_df) as well as an assembly of these 3 into a multi index dataframe
+    and data_df) as well as an assembly of these 3 into a multi index df
     that provides an alternate way of selecting data.
     """
-    def __init__(self, data_df=None, row_metadata_df=None, col_metadata_df=None,
+    def __init__(self, data_df, row_metadata_df, col_metadata_df,
                  src=None, version=None, logger_name=setup_logger.LOGGER_NAME):
         self.logger = logging.getLogger(logger_name)
 
@@ -66,53 +65,39 @@ class GCToo(object):
         # check that data frames actually are dataframes, then check uniqueness
         for df_field in ["row_metadata_df", "col_metadata_df", "data_df"]:
             df = self.__dict__[df_field]
-            if df is not None:
-                # check it's a data frame
-                if isinstance(df, pd.DataFrame):
-                    # check uniqueness of index and columns
-                    self.check_uniqueness(df.index)
-                    self.check_uniqueness(df.columns)
-                else:
-                    msg = "expected Pandas DataFrame, got something else - df_field:  {}  type(df):  {}".format(df_field, type(df))
-                    self.logger.error(msg)
-                    raise Exception("GCToo GCToo.__init__ " + msg)
+
+            if isinstance(df, pd.DataFrame):
+                # check uniqueness of index and columns
+                self.check_uniqueness(df.index)
+                self.check_uniqueness(df.columns)
+            else:
+                msg = "expected Pandas DataFrame, got something else - df_field:  {}  type(df):  {}".format(df_field, type(df))
+                self.logger.error(msg)
+                raise Exception("GCToo GCToo.__init__ " + msg)
 
         # check rid matching in data & metadata
-        if ((self.data_df is not None) and (self.row_metadata_df is not None)):
-            self.rid_consistency_check()
+        self.rid_consistency_check()
 
         # check cid matching in data & metadata
-        if (self.data_df is not None) and (self.col_metadata_df is not None):
-            self.cid_consistency_check()
+        self.cid_consistency_check()
 
         # If all three component dataframes exist, assemble multi_index_df
-        if ((self.row_metadata_df is not None) and
-                (self.col_metadata_df is not None) and
-                (self.data_df is not None)):
-            self.assemble_multi_index_df()
+        self.assemble_multi_index_df()
 
     def __str__(self):
         """Prints a string representation of a GCToo object."""
         version = "GCT v{}\n".format(self.version)
         source = "src: {}\n".format(self.src)
 
-        if self.data_df is not None:
-            data = "data_df: [{} rows x {} columns]\n".format(
-            self.data_df.shape[0], self.data_df.shape[1])
-        else:
-            data = "data_df: None\n"
 
-        if self.row_metadata_df is not None:
-            row_meta = "row_metadata_df: [{} rows x {} columns]\n".format(
-            self.row_metadata_df.shape[0], self.row_metadata_df.shape[1])
-        else:
-            row_meta = "row_metadata_df: None\n"
+        data = "data_df: [{} rows x {} columns]\n".format(
+        self.data_df.shape[0], self.data_df.shape[1])
 
-        if self.col_metadata_df is not None:
-            col_meta = "col_metadata_df: [{} rows x {} columns]".format(
-            self.col_metadata_df.shape[0], self.col_metadata_df.shape[1])
-        else:
-            col_meta = "col_metadata_df: None\n"
+        row_meta = "row_metadata_df: [{} rows x {} columns]\n".format(
+        self.row_metadata_df.shape[0], self.row_metadata_df.shape[1])
+
+        col_meta = "col_metadata_df: [{} rows x {} columns]".format(
+        self.col_metadata_df.shape[0], self.col_metadata_df.shape[1])
 
         full_string = (version + source + data + row_meta + col_meta)
         return full_string

@@ -7,13 +7,9 @@ assemble_multi_index_df method in GCToo.py assembles them.
 N.B. Only supports v1.3 gct files.
 
 Example GCT:
+----- start of file ------
 #1.3
-96  36  9 15
-
-96 = number of data rows
-36 = number of data columns
-9 = number of row metadata fields (+1 for the 'id' column -- first column)
-15 = number of col metadata fields (+1 for the 'id' row -- first row)
+96 36 9 15
 ---------------------------------------------------
 |id|        rhd          |          cid           |
 ---------------------------------------------------
@@ -29,9 +25,17 @@ Example GCT:
 |d |                     |                        |
 |  |                     |                        |
 ---------------------------------------------------
+----- end of file ------
 
-N.B. col_metadata_df is stored as the transpose of how it looks in the gct file.
-That is, col_metadata_df.shape = (num_cid, num_chd).
+Notes:
+- line 1 of file ("#1.3") refers to the version number 
+- line 2 of file ("96 36 9 15") refers to the following:
+        -96 = number of data rows       
+        -36 = number of data columns       
+        -9 = number of row metadata fields (+1 for the 'id' column -- first column)        
+        -15 = number of col metadata fields (+1 for the 'id' row -- first row)
+- Once read into a DataFrame, col_metadata_df is stored as the transpose of how it looks in the gct file.
+        That is, col_metadata_df.shape = (num_cid, num_chd).
 """
 
 import logging
@@ -151,7 +155,9 @@ def parse_into_3_df(file_path, num_data_rows, num_data_cols, num_row_metadata, n
     # Check that full_df is the size we expect
     assert full_df.shape == (num_col_metadata + num_data_rows + 1,
                              num_row_metadata + num_data_cols + 1), (
-        "The shape of full_df is not as expected. Cannot parse this gct file.")
+                             "The shape of full_df is not as expected:" + 
+                             " data is {} x {} but there are {} row meta fields" + 
+                             "and {} col fields".format(num_data_rows, num_data_cols, num_row_metadata, num_col_metadata))
 
     # Assemble metadata dataframes
     row_metadata = assemble_row_metadata(full_df, num_col_metadata, num_data_rows, num_row_metadata)
