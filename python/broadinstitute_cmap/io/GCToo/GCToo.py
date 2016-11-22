@@ -47,9 +47,9 @@ N.B. rids, cids, rhds, and chds must be unique.
 
 
 class GCToo(object):
-    """Class representing parsed gct(x) objects as pandas dataframes.
+    """Class representing parsed gct/gctx file as pandas dataframes.
     Contains 3 component dataframes (row_metadata_df, column_metadata_df,
-    and data_df) as well as an assembly of these 3 into a multi index df
+    and data_df) as well as an assembly of these 3 into a multi index dataframe
     that provides an alternate way of selecting data.
     """
     def __init__(self, data_df=None, row_metadata_df=None, col_metadata_df=None,
@@ -62,9 +62,10 @@ class GCToo(object):
         self.col_metadata_df = col_metadata_df
         self.data_df = data_df
         self.multi_index_df = None
-        
+
         # check that data frames actually are dataframes, then check uniqueness
-        for df in [self.row_metadata_df, self.col_metadata_df, self.data_df]:
+        for df_field in ["row_metadata_df", "col_metadata_df", "data_df"]:
+            df = self.__dict__[df_field]
             if df is not None:
                 # check it's a data frame
                 if isinstance(df, pd.DataFrame):
@@ -72,12 +73,14 @@ class GCToo(object):
                     self.check_uniqueness(df.index)
                     self.check_uniqueness(df.columns)
                 else:
-                    self.logger.error("{} is not a pandas DataFrame instance!".format(df))
-                
+                    msg = "expected Pandas DataFrame, got something else - df_field:  {}  type(df):  {}".format(df_field, type(df))
+                    self.logger.error(msg)
+                    raise Exception("GCToo GCToo.__init__ " + msg)
+
         # check rid matching in data & metadata
         if ((self.data_df is not None) and (self.row_metadata_df is not None)):
             self.rid_consistency_check()
-        
+
         # check cid matching in data & metadata
         if (self.data_df is not None) and (self.col_metadata_df is not None):
             self.cid_consistency_check()
@@ -87,7 +90,7 @@ class GCToo(object):
                 (self.col_metadata_df is not None) and
                 (self.data_df is not None)):
             self.assemble_multi_index_df()
-            
+
     def __str__(self):
         """Prints a string representation of a GCToo object."""
         version = "GCT v{}\n".format(self.version)
@@ -150,8 +153,8 @@ class GCToo(object):
     def check_uniqueness(self, field):
         """
         Checks that elements contained within a given field are unique.
-        
-        Input: 
+
+        Input:
             - field (pandas.core.index): Either the index or columns of a pandas DataFrame instance
         """
         assert field.is_unique, (
@@ -166,10 +169,10 @@ class GCToo(object):
             ("The rids are inconsistent between data_df and row_metadata_df.\n" +
              "self.data_df.index.values:\n{}\nself.row_metadata_df.index.values:\n{}").format(
                 self.data_df.index.values, self.row_metadata_df.index.values))
-                
+
     def cid_consistency_check(self):
         """
-        Checks that cids are consistent between data_df and col_metadata_df. 
+        Checks that cids are consistent between data_df and col_metadata_df.
         """
         assert self.data_df.columns.equals(self.col_metadata_df.index), (
             ("The cids are inconsistent between data_df and col_metadata_df.\n" +

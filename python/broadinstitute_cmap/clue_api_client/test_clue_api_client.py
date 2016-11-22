@@ -84,6 +84,8 @@ class TestClueApiClient(unittest.TestCase):
         self.assertIn("brew_prefix", r)
         self.assertEqual(data["brew_prefix"], r["brew_prefix"])
         self.assertIn("id", r)
+        #check that user key has not been added to entry
+        self.assertNotIn("user_key", r)
 
         #clean up
         r = cao.run_delete("macchiato", r["id"])
@@ -114,6 +116,7 @@ class TestClueApiClient(unittest.TestCase):
         logger.debug("r:  {}".format(r))
         self.assertIn("status", r)
         self.assertEqual(expected_status, r["status"])
+        self.assertNotIn("user_key", r)
 
 
 def build_clue_api_client_from_default_test_config():

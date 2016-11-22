@@ -24,7 +24,7 @@ class ClueApiClient(object):
         Returns:
         """
         self.base_url = base_url
-        self.data = {"user_key":user_key}
+        self.headers = {"user_key":user_key}
 
     def run_filter_query(self, resource_name, filter_clause):
         """run a query (get) against the CLUE api, using the API and user key fields of self and the fitler_clause provided
@@ -38,7 +38,7 @@ class ClueApiClient(object):
         url = self.base_url + "/" + resource_name
         params = {"filter":json.dumps(filter_clause)}
 
-        r = requests.get(url, data=self.data, params=params)
+        r = requests.get(url, headers=self.headers, params=params)
         logger.debug("requests.get result r.status_code:  {}".format(r.status_code))
 
         ClueApiClient._check_request_response(r)
@@ -57,7 +57,7 @@ class ClueApiClient(object):
         url = self.base_url + "/" + resource_name + "/count"
         params = {"where":json.dumps(where_clause)}
 
-        r = requests.get(url, data=self.data, params=params)
+        r = requests.get(url, headers=self.headers, params=params)
         logger.debug("requests.get result r.status_code:  {}".format(r.status_code))
 
         ClueApiClient._check_request_response(r)
@@ -65,11 +65,9 @@ class ClueApiClient(object):
         return r.json()
 
     def run_post(self, resource_name, data):
-        my_data = copy.copy(self.data)
-        my_data.update(data)
         url = self.base_url + "/" + resource_name
 
-        r = requests.post(url, data=my_data)
+        r = requests.post(url, data=data, headers=self.headers)
         logger.debug("requests.post result r.status_code:  {}".format(r.status_code))
 
         ClueApiClient._check_request_response(r)
@@ -78,7 +76,7 @@ class ClueApiClient(object):
 
     def run_delete(self, resource_name, id):
         url = self.base_url + "/" + resource_name + "/" + id
-        r = requests.delete(url, data=self.data)
+        r = requests.delete(url, headers=self.headers)
         logger.debug("requests.delete result r.status_code:  {}".format(r.status_code))
 
         ClueApiClient._check_request_response(r)
@@ -87,11 +85,9 @@ class ClueApiClient(object):
         return did_delete
 
     def run_put(self, resource_name, id, data):
-        my_data = copy.copy(self.data)
-        my_data.update(data)
         url = self.base_url + "/" + resource_name + "/" + id
 
-        r = requests.put(url, data=my_data)
+        r = requests.put(url, data=data, headers=self.headers)
         logger.debug("requests.put result r.status_code:  {}".format(r.status_code))
 
         ClueApiClient._check_request_response(r)
