@@ -279,7 +279,7 @@ def parse_data_df(data_dset, id_dict):
 			cids = id_dict["cids"]["slice_values"]
 	else: # slice no columns 
 		# empty numpy array to populate w/data dset values
-		data_array = np.empty(data_dset.shape, dtype = np.float64) 
+		data_array = np.empty(data_dset.shape, dtype = np.float32) 
 		data_dset.read_direct(data_array)
 
 	data_df = pd.DataFrame(data_array.transpose(), index = rids, columns = cids)

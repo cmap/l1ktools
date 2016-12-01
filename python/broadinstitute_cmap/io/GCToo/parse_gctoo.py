@@ -41,6 +41,7 @@ Notes:
 import logging
 import setup_GCToo_logger as setup_logger
 import pandas as pd
+import numpy as np 
 import os.path
 import GCToo
 import slice_gct
@@ -231,17 +232,17 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
 
     # Convert from str to float
     try:
-        data = data.astype(float)
+        data = data.astype(np.float32)
     except:
 
         # If that fails, return the first value that could not be converted
         for col in data:
             try:
-                data[col].astype(float)
+                data[col].astype(np.float32)
             except:
                 for row_idx, val in enumerate(data[col]):
                     try:
-                        float(val)
+                        np.float32(val)
                     except:
                         bad_row_label = data[col].index[row_idx]
                         err_msg = ("First instance of value that could not be converted: " +

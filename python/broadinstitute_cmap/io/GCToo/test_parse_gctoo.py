@@ -51,14 +51,14 @@ class TestParseGCToo(unittest.TestCase):
                                                                   e_dims[0], e_dims[1]))
 
         # Type-check the data
-        self.assertTrue(isinstance(data.iloc[0, 0], float), "The data should be a float, not a string.")
+        self.assertTrue(isinstance(data.iloc[0, 0], np.float32), "The data should be a float32, not {}".format(type(data.iloc[0, 0])))
 
         # Check a few values
-        correct_val = 11.3819
+        correct_val = np.float32(11.3818998337)
         self.assertTrue(data.iloc[0, 0] == correct_val,
                         ("The first value in the data matrix should be " +
-                         str(correct_val) + " not {}").format(data.iloc[0, 0]))
-        correct_val = 5.1256
+                         "{} not {}").format(correct_val, data.iloc[0, 0]))
+        correct_val = np.float32(5.1256)
         self.assertTrue(data.iloc[e_dims[0] - 1, e_dims[1] - 1] == correct_val,
                         ("The last value in the data matrix should be " +
                          str(correct_val) + " not {}").format(data.iloc[e_dims[0] - 1, e_dims[1] - 1]))
@@ -134,7 +134,7 @@ class TestParseGCToo(unittest.TestCase):
         full_df_dims = [2, 2, 2, 3]
         e_data_df = pd.DataFrame([[0.3, 0.2], [np.nan, 0.9]],
                                  index=["rid1", "rid2"],
-                                 columns=["cid1", "cid2"])
+                                 columns=["cid1", "cid2"], dtype = np.float32)
         data_df = pg.assemble_data(full_df, full_df_dims[3], full_df_dims[0],
                                    full_df_dims[2], full_df_dims[1])
         self.assertTrue(data_df.equals(e_data_df))
@@ -145,7 +145,7 @@ class TestParseGCToo(unittest.TestCase):
         l1000_gct = pg.parse(l1000_file_path)
 
         # Check a few values
-        correct_val = 11.3819
+        correct_val = np.float32(11.3818998337)
         self.assertTrue(l1000_gct.data_df.iloc[0, 0] == correct_val,
                         ("The first value in the data matrix should be " +
                          "{} not {}").format(str(correct_val), l1000_gct.data_df.iloc[0, 0]))
@@ -163,7 +163,7 @@ class TestParseGCToo(unittest.TestCase):
         p100_gct = pg.parse(p100_file_path)
 
         # Check a few values
-        correct_val = 0.918157217057044
+        correct_val = np.float32(0.918157217057044)
         self.assertTrue(p100_gct.data_df.iloc[0, 0] == correct_val,
                         ("The first value in the data matrix should be " +
                          "{} not {}").format(str(correct_val), p100_gct.data_df.iloc[0, 0]))
