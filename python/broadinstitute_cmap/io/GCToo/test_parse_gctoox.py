@@ -32,7 +32,7 @@ col_meta_group_node = "/0/META/COL"
 #		self.assertEqual(str(context.exception), "expected exception message")
 
 
-class TestAltParseGCToox(unittest.TestCase):
+class TestParseGCToox(unittest.TestCase):
 	def test_get_all_id_values(self):
 		# expected content
 		expected_cid_keys = ['LJP005_A375_24H:DMSO:-666', 'LJP005_A375_24H:BRD-K76908866:10']
@@ -161,7 +161,10 @@ class TestAltParseGCToox(unittest.TestCase):
 		data_dset = mini_hdf5[data_node]
 
 		# case 1: full data frame
-		full_df1 = pd.DataFrame(np.array([[-0.283359,0.011270],[0.304119, 1.921061],[0.398655,-0.144652]]), index = ["200814_at", "218597_s_at", "217140_s_at"], columns = ["LJP005_A375_24H:DMSO:-666", "LJP005_A375_24H:BRD-K76908866:10"])
+		full_df1 = pd.DataFrame(np.array([[-0.283359,0.011270],[0.304119, 1.921061],[0.398655,-0.144652]]), 
+			index = ["200814_at", "218597_s_at", "217140_s_at"], 
+			columns = ["LJP005_A375_24H:DMSO:-666", "LJP005_A375_24H:BRD-K76908866:10"],
+			dtype = np.float32)
 		full_df1.index.name = "rid"
 		full_df1.columns.name = "cid"
 		id_dict1 = parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
