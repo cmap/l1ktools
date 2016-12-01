@@ -13,7 +13,7 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 cao = None
 
 
-class TestGeneQueries(unittest.TestCase):
+class TestGenesQueries(unittest.TestCase):
     def test_are_genes_in_api(self):
         #happy path mix of valid and invalid genes
         r = gq.are_genes_in_api(cao, ["AKT1", "BRAF", "Dave Lahr's fake cell line that never existed"])
@@ -30,6 +30,11 @@ class TestGeneQueries(unittest.TestCase):
         self.assertEqual(1, len(r))
         self.assertIn("AKT1", r)
 
+    def test_are_genes_in_api_no_genes_provided(self):
+        r = gq.are_genes_in_api(cao, set())
+        logger.debug("r:  {}".format(r))
+        self.assertIsNotNone(r)
+        self.assertEqual(0, len(r))
 
 if __name__ == "__main__":
     setup_logger.setup(verbose=True)
