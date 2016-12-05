@@ -16,20 +16,20 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 class TestWriteGCToo(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         # Create dfs to be used by tests
-        self.data_df = pd.DataFrame(
+        cls.data_df = pd.DataFrame(
             [[1, 2, 3], [5, 7, np.nan], [13, 17, -19], [0, 23, 29]],
             index=pd.Index(["rid1", "rid2", "rid3", "rid4"], name="rid"),
             columns=pd.Index(["cid1", "cid2", "cid3"], name="cid"), dtype=float)
-        self.row_metadata_df = pd.DataFrame(
+        cls.row_metadata_df = pd.DataFrame(
             [["Analyte 11", 11, "dp52"],
              ["Analyte 12", 12, "dp52"],
              ["Analyte 13", 13, "dp53"],
              ["Analyte 14", 14, "dp54"]],
             index=pd.Index(["rid1", "rid2", "rid3", "rid4"], name="rid"),
             columns=pd.Index(["pr_analyte_id", "pr_analyte_num", "pr_bset_id"], name="rhd"))
-        self.col_metadata_df = pd.DataFrame(
+        cls.col_metadata_df = pd.DataFrame(
             [[8.38, np.nan, "DMSO", "24 h"],
              [7.7, np.nan, "DMSO", "24 h"],
              [8.18, np.nan, "DMSO", "24 h"]],
