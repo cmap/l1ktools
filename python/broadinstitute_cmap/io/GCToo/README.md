@@ -105,7 +105,7 @@ For all of these, don't forget to activate your GCToo conda environment first!
 From an active python session in your local GCToo directory (adjust import statements accordingly if not):
 
 ```python
-import parse
+from broadinstitute_cmap.io.GCToo import parse
 
 # works for either .gct or .gctx files
 # Note: suggestions welcome for names! We think "parse.parse" sounds a little goofy. 
@@ -117,7 +117,7 @@ my_gctoo = parse.parse("something.gctx")
 Say your GCTX file is too big (and so you don't want to read the entire thing into memory), and/or you know you only want certain rids/cids but need to find what those are. Returns a pandas DataFrame of row or column metadata as specified. 
 
 ```python
-import parse
+from broadinstitute_cmap.io.GCToo import parse
 
 # read in row metadata only
 my_row_metadata = parse.parse("something.gctx", meta_only = "row")
@@ -133,7 +133,7 @@ Notes:
 - You'll need to have a list of desired rids and/or cids already (can be obtained from doing Use Case 2)
   
 ```python
-import parse
+from broadinstitute_cmap.io.GCToo import parse
 
 my_rids = ['200814_at', '218597_s_at', '217140_s_at']
 my_cids = ['LJP005_MCF7_24H_X1_B17:A03', 'LJP005_MCF7_24H_X1_B17:A04', 'LJP005_MCF7_24H_X1_B17:A05']
@@ -157,7 +157,7 @@ python ~/code/l1ktools/python/broadinstitute_cmap/io/GCToo/slice_gct.py -i path/
 From an active python session (assume you've already parsed in a file and have an instance of GCToo called `my_gctoo`). For this use case, you'll need to have a list of desired and/or undesired rids and/or cids already (can be obtained from doing Use Case 2 or by other means)
 
 ```python
-import slice_gct
+from broadinstitute_cmap.io.GCToo import slice_gct
 
 interesting_rids = ['200814_at', '218597_s_at']
 boring_rids = ['217140_s_at']
@@ -171,20 +171,20 @@ Assume you're in an active python session in your local GCToo directory and have
 
 To write to a GCT file: 
 ```python
-import write_gctoo 
+from broadinstitute_cmap.io.GCToo import write_gctoo 
 
 write_gctoo.write(my_gctoo, "some/path/to/my_gctoo.gct")  
 ```
      
 To write to a GCTX file: 
 ```python
-import write_gctoox
+from broadinstitute_cmap.io.GCToo import write_gctoox
 
 write_gctoox.write(my_gctoo, "some/path/to/my_gctoo.gctx")  
 ```
 
 ### Use Case 6: From your own DataFrames of expression values and/or metadata, create a GCToo instance
-Say you have 3 pandas DataFrames consisting of a data matrix, row metadata values, and col metadata values. For this, you'll need to `import GCToo`.
+Say you have 3 pandas DataFrames consisting of a data matrix, row metadata values, and col metadata values. For this, you'll need to call `from broadinstitute_cmap.io.GCToo import GCToo`.
 
 *NOTE* To create a valid GCToo instance, these DataFrames must satisfy the following requirements (the GCToo constructor will also check for these):
 - data matrix DF (call it `my_data`): index are unique rids that map to corresponding row metadata values, columns are unique cids that map to corresponding col metadata values 
@@ -192,7 +192,7 @@ Say you have 3 pandas DataFrames consisting of a data matrix, row metadata value
 - col metadata DF (call it `my_col_metadata`): index are unique cids that map to corresponding numerical values in data matrix; columns are unique descriptive headers
 
 ```python
-import GCToo
+from broadinstitute_cmap.io.GCToo import GCToo
 
 my_GCToo = GCToo.GCToo(data_df=my_data, row_metadata_df=my_row_metadata, col_metadata_df=my_col_metadata)
 ```
@@ -243,7 +243,7 @@ python /Users/some_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo/concat
 C. You have 2 GCToo objects in memory that you want to concatenate. hstack is the method in concat_gctoo.py that actually does the concatenation. From within the Python console or script where you have your 2 GCToos (gct1 & gct2), type the following:
 
 ```python
-import broadinstitute_cmap.io.GCToo.concat_gctoo as cg
+from broadinstitute_cmap.io.GCToo import concat_gctoo as cg
 concated = cg.hstack([gct1, gct2])
 ```
 
