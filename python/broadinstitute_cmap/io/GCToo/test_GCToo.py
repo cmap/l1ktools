@@ -49,22 +49,27 @@ class TestGCToo(unittest.TestCase):
                                           index=["A", "B"], columns=["a", "b", "a"])
         not_unique_rhd = pd.DataFrame([["rhd_A", "rhd_B"], ["rhd_C", "rhd_D"]],
                                        index=["A", "B"], columns=["rhd1", "rhd1"])
+        """
+        # case 3: row subsetting - sample subset > og # of samples
+        with self.assertRaises(AssertionError) as context:
+            random_slice.make_specified_size_gctoo(mini_gctoo, 30, "row")
+        self.assertTrue("number of entries must be smaller than dimension being subsetted " in str(context.exception))
 
+        """
         # cids in data_df are not unique
-        with self.assertRaises() as e:
-            print(str(e.exception.message))
+        with self.assertRaises(Exception) as context:
             GCToo.GCToo(data_df=not_unique_data_df, 
                 row_metadata_df=pd.DataFrame(index=["A","B"]),
                 col_metadata_df=pd.DataFrame(index=["a","b","c"]))
             print(str(not_unique_data_df.columns))
-            self.assertIn(str(not_unique_data_df.columns), str(e.exception))
+            self.assertTrue(str(not_unique_data_df.columns) in str(context.exception))
 
         # rhds are not unique in row_metadata_df
-        with self.assertRaises(AssertionError) as e:
+        with self.assertRaises(Exception) as context:
             GCToo.GCToo(data_df=pd.DataFrame([[1, 2, 3], [4, 5, 6]], index=["A","B"], columns=["a","b","c"]),
                 row_metadata_df=not_unique_rhd,
                 col_metadata_df=pd.DataFrame(index=["a","b","c"]))
-            self.assertIn("'rhd1' 'rhd1'", str(e.exception))
+            self.assertTrue("'rhd1' 'rhd1'" in str(context.exception))
 
     def test_multi_index_df_to_component_dfs(self):
         mi_df_index = pd.MultiIndex.from_arrays(
