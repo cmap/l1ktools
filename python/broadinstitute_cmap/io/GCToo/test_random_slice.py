@@ -31,7 +31,7 @@ class TestRandomSlice(unittest.TestCase):
 		# case 3: row subsetting - sample subset > og # of samples
 		with self.assertRaises(AssertionError) as context:
 			random_slice.make_specified_size_gctoo(mini_gctoo, 30, "row")
-		self.assertEqual(str(context.exception), "number of samples must be subset of original file sample size")
+		self.assertTrue("number of entries must be smaller than dimension being subsetted " in str(context.exception))
 
 		# case 4: col subsetting - happy
 		col_subset = random_slice.make_specified_size_gctoo(mini_gctoo, 3, "col")
@@ -45,12 +45,7 @@ class TestRandomSlice(unittest.TestCase):
 		# case 5: col subsetting - sample subset > og # of samples
 		with self.assertRaises(AssertionError) as context:
 			random_slice.make_specified_size_gctoo(mini_gctoo, 7, "col")
-		self.assertEqual(str(context.exception), "number of samples must be subset of original file sample size")
-
-	def test_generate_specified_length_unique_ids(self):
-		sample_list = random_slice.generate_specified_length_unique_ids(10)
-		self.assertEqual(len(sample_list), 10, "Length of unique ids generated is incorrect")
-		self.assertEqual(len(set(sample_list)), 10, "Ids generated are not unique!")
+		self.assertTrue("number of entries must be smaller than dimension being subsetted " in str(context.exception))
 
 if __name__ == "__main__":
 	

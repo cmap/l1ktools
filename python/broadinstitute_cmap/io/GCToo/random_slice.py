@@ -3,19 +3,16 @@ Slices a random subset of a GCToo instance of a user-specified size.
 """
 import logging
 import setup_GCToo_logger as setup_logger
-import argparse
-import sys
-import pandas
+import numpy
 import GCToo
-import uuid
-import random
+
 
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-def make_specified_size_gctoo(og_gctoo, num_entries, dim, use_uuids=False):
+def make_specified_size_gctoo(og_gctoo, num_entries, dim):
 	"""
 	Subsets a GCToo instance along either rows or columns to obtain a specified size.
 
@@ -46,10 +43,10 @@ def make_specified_size_gctoo(og_gctoo, num_entries, dim, use_uuids=False):
 		columns = og_gctoo.data_df.columns.values
 
 	new_data_df = og_gctoo.data_df.loc[rows, columns]
-	new_row_meta = og_gctoo.row_metadata_df.loc[rows, columns]
-	new_col_meta = og_gctoo.col_metadata_df.loc[rows, columns]
+	new_row_meta = og_gctoo.row_metadata_df.loc[rows]
+	new_col_meta = og_gctoo.col_metadata_df.loc[columns]
 	
-	logger.debug("after slice - new_col_meta.shape: {}  new_row_meta.shape:  {}".format(new_col_meta.shape))
+	logger.debug("after slice - new_col_meta.shape: {}  new_row_meta.shape:  {}".format(new_col_meta.shape, new_row_meta.shape))
 
 	# make & return new gctoo instance
 	new_gctoo = GCToo.GCToo(data_df=new_data_df, row_metadata_df=new_row_meta, col_metadata_df=new_col_meta)
