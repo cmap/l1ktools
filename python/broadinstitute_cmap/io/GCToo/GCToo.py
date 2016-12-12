@@ -84,8 +84,7 @@ class GCToo(object):
 
 	def __setattr__(self, name, value):
 		if "_initialized" in self.__dict__ and self._initialized == True:
-		# if self.__initialized:
-			if name not in ["src", "version"]:
+			if name not in ["src", "version", "multi_index_df"]:
 				if self.check_df(value):
 					if ((name == "row_metadata_df" and self.id_match_check(self.data_df, value, "row"))
 						or (name == "col_metadata_df" and self.id_match_check(self.data_df, value, "col"))):
@@ -96,12 +95,14 @@ class GCToo(object):
 						# the same as the new data_df 
 						super(GCToo, self).__setattr__("row_metadata_df", self.row_metadata_df.reindex(value.index))
 						super(GCToo, self).__setattr__("col_metadata_df", self.col_metadata_df.reindex(value.index))
-					elif name == "multi_index_df":
-						msg = ("Cannot reassign value of multi_index_df attribute; "  +
-							"if you'd like a new multiindex df, please create a new GCToo instance" +
-							"with appropriate data_df, row_metadata_df, and col_metadata_df fields.")
-						self.logger.error(msg)
-			super(GCToo, self).__setattr__(name, value)
+			elif name == "multi_index_df":
+				msg = ("Cannot reassign value of multi_index_df attribute; "  +
+					"if you'd like a new multiindex df, please create a new GCToo instance" +
+					"with appropriate data_df, row_metadata_df, and col_metadata_df fields.")
+				self.logger.error(msg)
+				raise Exception("GCToo.__setattr__: " + msg)
+			else:
+				super(GCToo, self).__setattr__(name, value)
 		else: # for init we first want to set everything 
 			super(GCToo, self).__setattr__(name, value)
 
@@ -140,7 +141,7 @@ class GCToo(object):
 				return True 
 			else: 
 				msg = ("The cids are inconsistent between data_df and col_metadata_df.\n" +
-				 "data_df.index.values:\n{}\ncol_metadata_df.index.values:\n{}").format(data_df.index.values, meta_df.index.values)
+				 "data_df.columns.values:\n{}\ncol_metadata_df.index.values:\n{}").format(data_df.columns.values, meta_df.index.values)
 				self.logger.error(msg)
 				raise Exception("GCToo GCToo.id_match_check " + msg)
 	  

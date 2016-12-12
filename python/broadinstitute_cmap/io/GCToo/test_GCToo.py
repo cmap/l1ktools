@@ -43,23 +43,14 @@ class TestGCToo(unittest.TestCase):
         col_metadata_df = pd.DataFrame(["chd_a", "chd_b", "chd_c"],
                                        index=["a", "b", "c"], columns=["chd1"])
 
-        import pdb
-        pdb.set_trace()
-
         ## happy path, no multi-index 
         my_gctoo1 = GCToo.GCToo(data_df=data_df, row_metadata_df=row_metadata_df,
                     col_metadata_df=col_metadata_df)
                     
         ## reset row_metadata_df: happy case
-        new_row_meta1 = my_gctoo1.row_metadata_df
+        new_row_meta1 = my_gctoo1.row_metadata_df.copy()
 
-        # TODO: just write out index 
-        new_rid_order = list(new_row_meta1.index)
-        shuffle(new_rid_order)
-
-        # new index order should have same contents as original, but in different order
-        self.assertTrue(set(new_rid_order) == set(my_gctoo1.row_metadata_df.index),
-            "Contents of new_rid_order rids and my_gctoo1 row_meta rids should be the same but aren't")
+        new_rid_order = ["B", "A"]
    
         new_row_meta1.index = new_rid_order
         # shouldn't have any problems re-setting row_meta 
@@ -73,7 +64,7 @@ class TestGCToo(unittest.TestCase):
         self.assertTrue("expected Pandas DataFrame, got something else" in str(context.exception))     
 
         ## reset row_metadata_df: non-matching index values 
-        new_row_meta3 = my_gctoo1.row_metadata_df 
+        new_row_meta3 = my_gctoo1.row_metadata_df.copy()
         new_row_meta3.index = ["thing1", "thing2"]
 
         with self.assertRaises(Exception) as context:
@@ -81,55 +72,84 @@ class TestGCToo(unittest.TestCase):
         self.assertTrue("The rids are inconsistent between data_df and row_metadata_df" in str(context.exception))
 
         ## reset row_metadata_df: not unique index values 
-        new_row_meta4 = my_gctoo1.row_metadata_df
+        new_row_meta4 = my_gctoo1.row_metadata_df.copy()
         new_row_meta4.index = ["A", "A"]
 
         with self.assertRaises(Exception) as context:
             my_gctoo1.row_metadata_df = new_row_meta4
         self.assertTrue("Index values must be unique but aren't" in str(context.exception))
 
+        my_gctoo2 = GCToo.GCToo(data_df=data_df, row_metadata_df=row_metadata_df,
+                    col_metadata_df=col_metadata_df)
+
         ## reset col_metadata_df: happy case
-        new_col_meta1 = my_gctoo1.col_metadata_df
+        new_col_meta1 = my_gctoo2.col_metadata_df.copy()
 
-        new_cid_order = list(new_col_meta1.index)
-        shuffle(new_cid_order)
+        new_cid_order = ["c", "a", "b"]
+        new_col_meta1.index = new_cid_order
 
-        self.assertTrue(set(new_cid_order) == set(my_gctoo1.col_metadata_df.index),
-            "Contents of new_cid_order cids and my_gctoo1 col_meta cids should be the same but aren't")
-
+        # shouldn't have any problems
+        my_gctoo2.col_metadata_df = new_col_meta1
+        
         ## reset col_metadata_df: to not a DF 
         new_col_meta2 = "this is my new col metadata"
 
         with self.assertRaises(Exception) as context:
-            my_gctoo1.col_metadata_df = new_col_meta2 
+            my_gctoo2.col_metadata_df = new_col_meta2 
         self.assertTrue("expected Pandas DataFrame, got something else" in str(context.exception))     
        
         ## reset col_metadata_df: non-matching index values 
-        new_col_meta3 = my_gctoo1.col_metadata_df 
+        new_col_meta3 = my_gctoo2.col_metadata_df.copy()
         new_col_meta3.index = ["thing1", "thing2", "thing3"]
 
         with self.assertRaises(Exception) as context:
-            my_gctoo1.col_metadata_df = new_col_meta3
+            my_gctoo2.col_metadata_df = new_col_meta3
         self.assertTrue("The cids are inconsistent between data_df and col_metadata_df" in str(context.exception))
 
         ## reset col_metadata_df: not unique index values 
-        new_col_meta4 = my_gctoo1.col_metadata_df
+        new_col_meta4 = my_gctoo2.col_metadata_df.copy()
         new_col_meta4.index = ["a", "b", "a"]
 
         with self.assertRaises(Exception) as context:
-            my_gctoo1.col_metadata_df = new_col_meta4
+            my_gctoo2.col_metadata_df = new_col_meta4
         self.assertTrue("Index values must be unique but aren't" in str(context.exception))
 
-        ## reset data_df: happy case
+        my_gctoo3 = GCToo.GCToo(data_df=data_df, row_metadata_df=row_metadata_df,
+                    col_metadata_df=col_metadata_df)
 
+        ## reset data_df: happy case
+        new_data_df1 = my_gctoo3.data_df.copy() 
+        new_data_df1.index = ["B","A"]
+        new_data_df1.columns = ["c", "b", "a"]
+
+        # shouldn't have problems 
+        my_gctoo3.data_df = new_data_df1
 
         ## reset data_df: row_meta doesn't match
+        new_data_df2 = my_gctoo3.data_df.copy()
+        new_data_df2.index = ["blah", "boop"]
 
+        with self.assertRaises(Exception) as context:
+            my_gctoo3.data_df = new_data_df2
+        self.assertTrue("The rids are inconsistent between data_df and row_metadata_df" in str(context.exception))
 
         ## reset data_df: col_meta doesn't match 
+        new_data_df3 = my_gctoo3.data_df.copy()
+        new_data_df3.columns = ["x", "y", "z"]
 
+        with self.assertRaises(Exception) as context:
+            my_gctoo3.data_df = new_data_df3
+        self.assertTrue("The cids are inconsistent between data_df and col_metadata_df" in str(context.exception))
+
+        my_gctoo4 = GCToo.GCToo(data_df=data_df, row_metadata_df=row_metadata_df,
+                    col_metadata_df=col_metadata_df, make_multiindex= True)
 
         ## try to reset multi-index (shouldn't work)
+        new_multi_index = my_gctoo4.multi_index_df.copy()
+
+        with self.assertRaises(Exception) as context:
+            my_gctoo1.multi_index_df = new_multi_index
+        self.assertTrue("Cannot reassign value of multi_index_df attribute;" in str(context.exception))
 
         ## reset src 
         my_gctoo1.src = "other_src"
