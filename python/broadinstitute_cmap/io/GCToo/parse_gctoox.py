@@ -138,7 +138,12 @@ def parse_metadata_df(dim, meta_group, convert_neg_666):
 	meta_df.set_index("id", inplace = True)
 
 	# set index and columns appropriately 
-	meta_df = set_metadata_index_and_column_names(dim, meta_df)
+	set_metadata_index_and_column_names(dim, meta_df)
+
+	# Convert metadata to numeric if possible, after converting everything to string first 
+	# Note: This conversion first to string is to ensure consistent behavior between
+	#	the gctx and gct parser (which by default reads the entire text file into a string)
+	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
 
 	# if specified, convert "-666" to np.nan
 	if convert_neg_666:
@@ -182,6 +187,7 @@ def parse_data_df(data_dset, ridx, cidx, row_meta, col_meta):
 	if len(ridx) == len(row_meta.index) and len(cidx) == len(col_meta.index): # no slice
 		data_array = np.empty(data_dset.shape, dtype = np.float32) 
 		data_dset.read_direct(data_array)
+		data_array = data_array.transpose()
 	elif len(ridx) <= len(cidx):
 		first_slice = data_dset[:, ridx].astype(np.float32)
 		data_array = first_slice[cidx, :].transpose()
@@ -189,7 +195,7 @@ def parse_data_df(data_dset, ridx, cidx, row_meta, col_meta):
 		first_slice = data_dset[cidx, :]
 		data_array = first_slice[:, ridx].transpose()
 	# make DataFrame instance
-	data_df = pandas.DataFrame(data_array, index = row_meta.index[ridx], columns = col_meta.index[cidx])
+	data_df = pd.DataFrame(data_array, index = row_meta.index[ridx], columns = col_meta.index[cidx])
 	return data_df 
 
 def get_column_metadata(gctx_file_path, convert_neg_666=True):

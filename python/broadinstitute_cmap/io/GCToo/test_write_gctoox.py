@@ -34,7 +34,7 @@ col_metadata_suffix = "COL"
 cid_suffix = "id" 
 rid_suffix = "id"
 
-class TestParseGCTooX(unittest.TestCase):
+class TestWriteGCTooX(unittest.TestCase):
 	def test_add_gctx_to_out_name(self):
 		name1 = "my_cool_file"
 		name2 = "my_other_cool_file.gctx"
@@ -103,18 +103,9 @@ class TestParseGCTooX(unittest.TestCase):
 		logger.debug("Wrote mini_gctoo_metadata.gctx to {}".format(os.path.join(FUNCTIONAL_TESTS_PATH, "mini_gctoo_metadata.gctx")))
 
 		# read in written metadata, then close and delete file
-		open_mini_gctoo_metadata = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", "r", driver = "core")	
-		# get dsets corresponding to rids, cids 
-		rid_dset = open_mini_gctoo_metadata[rid_node]
-		cid_dset = open_mini_gctoo_metadata[cid_node]
-		id_info = parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
-		row_meta_group = open_mini_gctoo_metadata[row_meta_group_node]
-		mini_gctoo_row_metadata =  parse_gctoox.make_meta_df("rids", row_meta_group, id_info, False)
+		mini_gctoo_col_metadata = parse_gctoox.get_column_metadata(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", convert_neg_666=False)
+		mini_gctoo_row_metadata = parse_gctoox.get_row_metadata(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", convert_neg_666=False)
 
-		col_meta_group = open_mini_gctoo_metadata[col_meta_group_node]
-		mini_gctoo_col_metadata =  parse_gctoox.make_meta_df("cids", col_meta_group, id_info, False)
-
-		open_mini_gctoo_metadata.close()
 		os.remove(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx")
 
 		# check row metadata
@@ -127,7 +118,7 @@ class TestParseGCTooX(unittest.TestCase):
 			logger.debug("C1: populated values: {}".format(set(mini_gctoo_row_metadata[c])))
 			logger.debug("C1: mini_gctoo values: {}".format(set(mini_gctoo.row_metadata_df[c])))
 			self.assertTrue(set(mini_gctoo.row_metadata_df[c]) == set(mini_gctoo_row_metadata[c]), 
-				"Values in column {} differ between expected metadata and written row metadata!".format(c))
+				"Values in column {} differ between expected metadata and written row metadata: {} vs {}".format(c, set(mini_gctoo.row_metadata_df[c]), set(mini_gctoo_row_metadata[c])))
 
 		# check col metadata
 		self.assertTrue(set(mini_gctoo.col_metadata_df.columns) == set(mini_gctoo_col_metadata.columns),
@@ -156,18 +147,10 @@ class TestParseGCTooX(unittest.TestCase):
 		hdf5_writer.close()
 
 		# read in written metadata, then close and delete file
-		open_mini_gctoo_metadata = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", "r", driver = "core")	
-		# get dsets corresponding to rids, cids 
-		rid_dset = open_mini_gctoo_metadata[rid_node]
-		cid_dset = open_mini_gctoo_metadata[cid_node]
-		id_info = parse_gctoox.make_id_info_dict(rid_dset, cid_dset, None, None)
-		row_meta_group = open_mini_gctoo_metadata[row_meta_group_node]
-		col_meta_group = open_mini_gctoo_metadata[col_meta_group_node]
+		mini_gctoo_col_metadata = parse_gctoox.get_column_metadata(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", convert_neg_666=False)
+		mini_gctoo_row_metadata = parse_gctoox.get_row_metadata(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", convert_neg_666=False)
 
-		mini_gctoo_row_metadata =  parse_gctoox.make_meta_df("rids", row_meta_group, id_info, False)
-		mini_gctoo_col_metadata = parse_gctoox.make_meta_df("cids", col_meta_group, id_info, False)		
 
-		open_mini_gctoo_metadata.close()
 		os.remove(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx")
 
 		# check row metadata
