@@ -54,37 +54,37 @@ class GCToo(object):
 	and data_df) as well as an assembly of these 3 into a multi index df
 	that provides an alternate way of selecting data.
 	"""
-	__initialized = False
+	#__initialized = False
 	def __init__(self, data_df, row_metadata_df, col_metadata_df,
 				 src=None, version=None, make_multiindex=False, logger_name=setup_logger.LOGGER_NAME):
-		try:
-			self.logger = logging.getLogger(logger_name)
 
-			self.src = src
-			self.version = version
-			self.row_metadata_df = row_metadata_df
-			self.col_metadata_df = col_metadata_df
-			self.data_df = data_df
-			self.multi_index_df = None
+		self.logger = logging.getLogger(logger_name)
 
-			for df_field in ["row_metadata_df", "col_metadata_df", "data_df"]:
-				df = self.__dict__[df_field]
-				self.check_df(df)
+		self.src = src
+		self.version = version
+		self.row_metadata_df = row_metadata_df
+		self.col_metadata_df = col_metadata_df
+		self.data_df = data_df
+		self.multi_index_df = None
 
-			# check rids match in data & meta 
-			self.id_match_check(self.data_df, self.row_metadata_df, "row")
+		for df_field in ["row_metadata_df", "col_metadata_df", "data_df"]:
+			df = self.__dict__[df_field]
+			self.check_df(df)
 
-			# check cids match in data & meta 
-			self.id_match_check(self.data_df, self.col_metadata_df, "col")
+		# check rids match in data & meta 
+		self.id_match_check(self.data_df, self.row_metadata_df, "row")
 
+		# check cids match in data & meta 
+		self.id_match_check(self.data_df, self.col_metadata_df, "col")
 
-			if make_multiindex:
-				self.assemble_multi_index_df()
-		finally:
-			self.__initialized = True
+		if make_multiindex:
+			self.assemble_multi_index_df()
+
+		self._initialized = True
 
 	def __setattr__(self, name, value):
-		if self.__initialized:
+		if "_initialized" in self.__dict__ and self._initialized == True:
+		# if self.__initialized:
 			if name not in ["src", "version"]:
 				if self.check_df(value):
 					if ((name == "row_metadata_df" and self.id_match_check(self.data_df, value, "row"))
@@ -112,17 +112,17 @@ class GCToo(object):
 		"""
 		if isinstance(df, pd.DataFrame):
 			if not df.index.is_unique:
-				msg = "Index values of {} must be unique but aren't".format(df.index)
+				msg = "Index values must be unique but aren't".format(df.index)
 				self.logger.error(msg)
 				raise Exception("GCToo GCToo.check_df " + msg)
 			if not df.columns.is_unique:
-				msg = "Columns values of {} must be unique but aren't".format(df.columns)
+				msg = "Columns values must be unique but aren't".format(df.columns)
 				self.logger.error(msg)
 				raise Exception("GCToo GCToo.check_df " + msg)
 			else: 
 				return True 
 		else:
-			msg = "expected Pandas DataFrame, got something else - df_field:  {}  type(df):  {}".format(df_field, type(df))
+			msg = "expected Pandas DataFrame, got something else:  {}  of type:  {}".format(df, type(df))
 			self.logger.error(msg)
 			raise Exception("GCToo GCToo.check_df " + msg)
 
@@ -131,7 +131,7 @@ class GCToo(object):
 			if len(data_df.index) == len(meta_df.index) and set(data_df.index) == set(meta_df.index):
 				return True
 			else:
-				msg = ("The rids are inconsistent data_df and row_metadata_df.\n" +
+				msg = ("The rids are inconsistent between data_df and row_metadata_df.\n" +
 				 "data_df.index.values:\n{}\nrow_metadata_df.index.values:\n{}").format(data_df.index.values, meta_df.index.values)
 				self.logger.error(msg)
 				raise Exception("GCToo GCToo.id_match_check " + msg)
@@ -139,7 +139,7 @@ class GCToo(object):
 			if len(data_df.columns) == len(meta_df.index) and set(data_df.columns) == set(meta_df.index):
 				return True 
 			else: 
-				msg = ("The rids are inconsistent data_df and col_metadata_df.\n" +
+				msg = ("The cids are inconsistent between data_df and col_metadata_df.\n" +
 				 "data_df.index.values:\n{}\ncol_metadata_df.index.values:\n{}").format(data_df.index.values, meta_df.index.values)
 				self.logger.error(msg)
 				raise Exception("GCToo GCToo.id_match_check " + msg)

@@ -46,7 +46,8 @@ data_node = "/0/DATA/0/matrix"
 row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
 
-def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=None): 
+def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, 
+		ridx=None, cidx=None, meta_only=False): 
 	"""
 	Primary method of script. Reads in path to a gctx file and parses into GCToo object.
 
@@ -59,10 +60,12 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, meta_only=No
 			(see Note below for more details on this). Default = False.
 		- rid (list of strings): only read the row ids in this list from the gctx. Default=None. 
 		- cid (list of strings): only read the column ids in this list from the gctx. Default=None. 
-		- meta_only (str, must be "row" or "col"): dimension of metadata to return only. 
+		- meta_only (bool): Whether to load data + metadata (if True), or just row/column metadata (if false)
 
 	Output:
-		- myGCToo (GCToo): A GCToo instance containing content of parsed gctx file 
+		- myGCToo (GCToo): A GCToo instance containing content of parsed gctx file. Note: if meta_only = True,
+			this will be a GCToo instance where the data_df is empty, i.e. data_df = pd.DataFrame(index=rids, 
+			columns = cids)
 
 	Note: why does convert_neg_666 exist? 
 		- In CMap--for somewhat obscure historical reasons--we use "-666" as our null value 
