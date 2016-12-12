@@ -178,20 +178,18 @@ def get_ordered_idx(id_list, meta_df):
 def parse_data_df(data_dset, ridx, cidx, row_meta, col_meta):
 	"""
 	TODO 
-
-	Note. KNOWN ISSUE: (to my knowledge), h5py slicing reads to dtype np.float64, not np.float32
 	"""
 	if len(ridx) == len(row_meta.index) and len(cidx) == len(col_meta.index): # no slice
 		data_array = np.empty(data_dset.shape, dtype = np.float32) 
 		data_dset.read_direct(data_array)
 	elif len(ridx) <= len(cidx):
-		first_slice = data_dset[:, ridx]
+		first_slice = data_dset[:, ridx].astype(np.float32)
 		data_array = first_slice[cidx, :].transpose()
 	elif len(cidx) < len(ridx):
 		first_slice = data_dset[cidx, :]
 		data_array = first_slice[:, ridx].transpose()
 	# make DataFrame instance
-	data_df = pandas.DataFrame(data_array.astype(np.float32), index = row_meta.index[ridx], columns = col_meta.index[cidx])
+	data_df = pandas.DataFrame(data_array, index = row_meta.index[ridx], columns = col_meta.index[cidx])
 	return data_df 
 
 def get_column_metadata(gctx_file_path, convert_neg_666=True):
