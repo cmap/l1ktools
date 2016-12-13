@@ -89,25 +89,22 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 		src = full_path, version=my_version)
 	return my_gctoo
 
-
 def check_id_inputs(rid, ridx, cid, cidx):
-	row_list = check_id_idx_exclusivity(rid, ridx, "row")
-	col_list = check_id_idx_exclusivity(cid, cidx, "col")
+	row_list = check_id_idx_exclusivity(rid, ridx)
+	col_list = check_id_idx_exclusivity(cid, cidx)
 
-	if (len(row_list) != 0 and len(col_list) != 0 and type(row_list[0]) != type(col_list[0])):
-		msg = ("Please specify ids to subset in a consistent manner: " + 
-			"rids are specified by {} while cids are specified" + 
-			"by {}".format(row_id_type, col_id_type))
-		self.logger.error(msg)
+	if ((len(row_list) != 0 and len(col_list) != 0) and type(row_list[0]) != type(col_list[0])):
+		msg = "Please specify ids to subset in a consistent manner"
+		logger.error(msg)
 		raise Exception("parse_gctoox.id_inputs_ok: " + msg)
 	else:
 		return (row_list, col_list) 
 
-def check_id_idx_exclusivity(id, idx, dim):
+def check_id_idx_exclusivity(id, idx):
 	if (id != None and idx != None):
-		msg = ("Parsing in {} dimension: 'id' and 'idx' fields can't both not be None," +
+		msg = ("'id' and 'idx' fields can't both not be None," +
 			" please specify slice in only one of these fields")
-		self.logger.error(msg)
+		logger.error(msg)
 		raise Exception("parse_gctoox.check_id_idx_exclusivity: " + msg)
 	elif id != None:
 		return id 
@@ -192,7 +189,7 @@ def parse_data_df(data_dset, ridx, cidx, row_meta, col_meta):
 		first_slice = data_dset[:, ridx].astype(np.float32)
 		data_array = first_slice[cidx, :].transpose()
 	elif len(cidx) < len(ridx):
-		first_slice = data_dset[cidx, :]
+		first_slice = data_dset[cidx, :].astype(np.float32)
 		data_array = first_slice[:, ridx].transpose()
 	# make DataFrame instance
 	data_df = pd.DataFrame(data_array, index = row_meta.index[ridx], columns = col_meta.index[cidx])
