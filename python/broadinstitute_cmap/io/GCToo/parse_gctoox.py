@@ -90,6 +90,18 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 	return my_gctoo
 
 def check_id_inputs(rid, ridx, cid, cidx):
+	"""
+	Makes sure that (if entered) id inputs entered are of one type (string id or index)
+
+	Input:
+		- rid (list or None): if not None, a list of rids 
+		- ridx (list or None): if not None, a list of indexes 
+		- cid (list or None): if not None, a list of cids
+		- cidx (list or None): if not None, a list of indexes 
+
+	Output:
+		- a tuple of either the (rid/x, cid/x) specified or None for either field that's not
+	"""
 	row_list = check_id_idx_exclusivity(rid, ridx)
 	col_list = check_id_idx_exclusivity(cid, cidx)
 
@@ -101,6 +113,16 @@ def check_id_inputs(rid, ridx, cid, cidx):
 		return (row_list, col_list) 
 
 def check_id_idx_exclusivity(id, idx):
+	"""
+	Makes sure user didn't provide both ids and idx values to slice by.
+
+	Input:
+		- id (list or None): if not None, a list of string id names
+		- idx (list or None): if not None, a list of integer id indexes 
+
+	Output: 
+		- a list: Either id, idx, or [] depending on input 
+	"""
 	if (id != None and idx != None):
 		msg = ("'id' and 'idx' fields can't both not be None," +
 			" please specify slice in only one of these fields")
@@ -115,11 +137,13 @@ def check_id_idx_exclusivity(id, idx):
 	
 def parse_metadata_df(dim, meta_group, convert_neg_666):
 	"""
-	Reads in all metadata from .gctx file to pandas DataFrame. 
+	Reads in all metadata from .gctx file to pandas DataFrame 
+	with proper GCToo specifications. 
 
 	Input:
 		- dim (str): Dimension of metadata; either "row" or "column"
 		- meta_group (HDF5 group): Group from which to read metadata values 
+		- convert_neg_666 (bool): whether to convert "-666" values to np.nan or not 
 
 	Output:
 		- meta_df (pandas DataFrame): data frame corresponding to metadata fields 
@@ -179,7 +203,16 @@ def get_ordered_idx(id_list, meta_df):
 
 def parse_data_df(data_dset, ridx, cidx, row_meta, col_meta):
 	"""
-	TODO 
+	Parses in data_df from hdf5, slicing if specified. 
+
+	Input:
+		-data_dset (h5py dset): HDF5 dataset from which to read data_df
+		-ridx (list): list of indexes to slice from data_df
+			(may be all of them if no slicing)
+		-cidx (list): list of indexes to slice from data_df
+			(may be all of them if no slicing)
+		-row_meta (pandas DataFrame): the parsed in row metadata
+		-col_meta (pandas DataFrame): the parsed in col metadata 
 	"""
 	if len(ridx) == len(row_meta.index) and len(cidx) == len(col_meta.index): # no slice
 		data_array = np.empty(data_dset.shape, dtype = np.float32) 
@@ -196,6 +229,19 @@ def parse_data_df(data_dset, ridx, cidx, row_meta, col_meta):
 	return data_df 
 
 def get_column_metadata(gctx_file_path, convert_neg_666=True):
+	"""
+	Opens .gctx file and returns only column metadata 
+
+	Input:
+		Mandatory:
+		- gctx_file_path (str): full path to gctx file you want to parse. 
+		
+		Optional:
+		- convert_neg_666 (bool): whether to convert -666 values to num
+
+	Output:
+		- col_meta (pandas DataFrame): a DataFrame of all column metadata values. 
+	"""
 	full_path = os.path.expanduser(gctx_file_path)
 	# open file 
 	gctx_file = h5py.File(full_path, "r")
@@ -205,6 +251,19 @@ def get_column_metadata(gctx_file_path, convert_neg_666=True):
 	return col_meta
 
 def get_row_metadata(gctx_file_path, convert_neg_666=True):
+	"""
+	Opens .gctx file and returns only row metadata 
+
+	Input:
+		Mandatory:
+		- gctx_file_path (str): full path to gctx file you want to parse. 
+		
+		Optional:
+		- convert_neg_666 (bool): whether to convert -666 values to num
+
+	Output:
+		- row_meta (pandas DataFrame): a DataFrame of all row metadata values. 
+	"""
 	full_path = os.path.expanduser(gctx_file_path)
 	# open file 
 	gctx_file = h5py.File(full_path, "r")
