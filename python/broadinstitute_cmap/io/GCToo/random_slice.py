@@ -27,7 +27,7 @@ def make_specified_size_gctoo(og_gctoo, num_entries, dim):
 	assert dim in ["row", "col"], "dim specified must be either 'row' or 'col'"
 
 	dim_index = 0 if "row" == dim else 1
-	assert num_entries < og_gctoo.data_df.shape[dim_index], ("number of entries must be smaller than dimension being "
+	assert num_entries <= og_gctoo.data_df.shape[dim_index], ("number of entries must be smaller than dimension being "
 		"subsetted - num_entries:  {}  dim:  {}  dim_index:  {}  og_gctoo.data_df.shape[dim_index]:  {}".format(
 		num_entries, dim, dim_index, og_gctoo.data_df.shape[dim_index]))
 
