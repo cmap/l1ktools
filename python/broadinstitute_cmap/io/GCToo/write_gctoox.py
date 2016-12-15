@@ -125,7 +125,7 @@ def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 		hdf5_out.create_dataset(metadata_node_name + "/" + field, 
 			data=numpy.array(list(metadata_df[field])))
 
-
+		# TODO: try metadata_df[field].values 
 
 
 
