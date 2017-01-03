@@ -86,9 +86,9 @@ def write_version(hdf5_out, gctoo_object, version_number = "GCTX1.0"):
 		- version_number (str; default = "GCTX1.0"): version of .gctx file 
 	"""
 	if gctoo_object.version is None:
-		hdf5_out.attrs[version_attr] = version_number
+		hdf5_out.attrs[version_attr] = numpy.string_(version_number)
 	else:
-		hdf5_out.attrs[version_attr] = gctoo_object.version 
+		hdf5_out.attrs[version_attr] = numpy.string_(gctoo_object.version) 
 
 def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 	"""
