@@ -54,7 +54,6 @@ class GCToo(object):
 	and data_df) as well as an assembly of these 3 into a multi index df
 	that provides an alternate way of selecting data.
 	"""
-	#__initialized = False
 	def __init__(self, data_df, row_metadata_df, col_metadata_df,
 				 src=None, version=None, make_multiindex=False, logger_name=setup_logger.LOGGER_NAME):
 
@@ -83,8 +82,8 @@ class GCToo(object):
 		self._initialized = True
 
 	def __setattr__(self, name, value):
-		if "_initialized" in self.__dict__ and self._initialized == True:
-			if name not in ["src", "version", "multi_index_df"]:
+		if "_initialized" in self.__dict__:
+			if name in ["data_df", "row_metadata_df", "col_metadata_df"]:
 				if self.check_df(value):
 					if ((name == "row_metadata_df" and self.id_match_check(self.data_df, value, "row"))
 						or (name == "col_metadata_df" and self.id_match_check(self.data_df, value, "col"))):
@@ -113,11 +112,11 @@ class GCToo(object):
 		"""
 		if isinstance(df, pd.DataFrame):
 			if not df.index.is_unique:
-				msg = "Index values must be unique but aren't".format(df.index)
+				msg = "Index values must be unique but aren't. Index vals: {}".format(df.index)
 				self.logger.error(msg)
 				raise Exception("GCToo GCToo.check_df " + msg)
 			if not df.columns.is_unique:
-				msg = "Columns values must be unique but aren't".format(df.columns)
+				msg = "Columns values must be unique but aren't. Index vals: {}".format(df.columns)
 				self.logger.error(msg)
 				raise Exception("GCToo GCToo.check_df " + msg)
 			else: 
@@ -128,6 +127,11 @@ class GCToo(object):
 			raise Exception("GCToo GCToo.check_df " + msg)
 
 	def id_match_check(self, data_df, meta_df, dim):
+		"""
+		Verifies that id values match between:
+			- row case: index of data_df & index of row metadata 
+			- col case: columns of data_df & index of column metadata
+		"""
 		if dim == "row":
 			if len(data_df.index) == len(meta_df.index) and set(data_df.index) == set(meta_df.index):
 				return True
