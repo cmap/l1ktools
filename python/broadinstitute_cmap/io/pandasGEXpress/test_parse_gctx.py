@@ -69,7 +69,7 @@ class TestParseGCToox(unittest.TestCase):
 		mini_row_meta = mini_gctoo.row_metadata_df.replace([-666, "-666", -666.0], 
 			[np.nan, np.nan, np.nan])
 
-		gctx_file = h5py.File("mini_gctoo_for_testing.gctx", "r")
+		gctx_file = h5py.File("functional_tests/mini_gctoo_for_testing.gctx", "r")
 		row_dset = gctx_file[row_meta_group_node]
 		col_dset = gctx_file[col_meta_group_node]
 
