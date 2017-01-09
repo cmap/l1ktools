@@ -33,7 +33,8 @@ import pandas as pd
 
 import GCToo 
 import parse
-import write_gctoo 
+import write_gct 
+import write_gctx
 
 __author__ = "Lev Litichevskiy"
 __email__ = "lev@broadinstitute.org"
@@ -53,7 +54,12 @@ def build_parser():
               "(make sure to surround in quotes if calling from command line!)"))
 
     # Optional args
-    parser.add_argument("--full_out_name", "-o", type=str, default="concated.gct",
+    out_type_group = parser.add_mutually_exclusive_group()
+    out_type_group.add_argument('-gctx', action='store_const', dest='out_type', const="gctx")
+    out_type_group.add_argument('-gct', action='store_const', dest='out_type', const="gct")
+    parser.set_defaults(out_type="gctx")
+
+    parser.add_argument("--full_out_name", "-o", type=str, default="concated.gctx",
         help="what to name the output file (full path)")
     parser.add_argument("--fields_to_remove", "-ftr", nargs="+",
         help="fields to remove from the row metadata headers before concatenating")
@@ -98,10 +104,13 @@ def main(args):
 
     # Write out_gctoo to file
     logger.info("Write to file...")
-    write_gctoo.write(out_gctoo, args.full_out_name,
-                      filler_null=args.filler_null,
-                      metadata_null= args.metadata_null,
-                      data_null=args.data_null)
+    if args.out_type == "gctx":
+        write_gctx.write(out_gctoo, args.full_out_name)    
+    elif args.out_type == "gct":
+        write_gct.write(out_gctoo, args.full_out_name,
+                          filler_null=args.filler_null,
+                          metadata_null= args.metadata_null,
+                          data_null=args.data_null)
 
 def get_file_list(wildcard):
     """Search for files to be concatenated. Currently very basic, but could
