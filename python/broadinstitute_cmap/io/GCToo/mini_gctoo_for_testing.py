@@ -59,10 +59,17 @@ def make():
 	# instantiate & assign attributes of GCToo instance
 	mini_version = "GCTX1.0"
 	mini_src = "mini_gctoo.gctx"
+
 	mini_row_metadata_df = mini_row_metadata
 	mini_row_metadata_df.set_index("id", inplace = True)
+	mini_row_metadata.index.name = "rid"
+	mini_row_metadata_df.columns.name = "rhd"
+
 	mini_col_metadata_df = mini_col_metadata
 	mini_col_metadata_df.set_index("id", inplace = True)
+	mini_col_metadata.index.name = "cid"
+	mini_col_metadata_df.columns.name = "chd"
+	
 	mini_data_df = mini_data_mat
 	mini_data_df.index.name = "rid"
 	mini_data_df.columns.name = "cid"
