@@ -9,8 +9,8 @@ Note: Only supports v1.3 .gct files and v1.0 .gctx files.
 
 import logging
 import setup_GCToo_logger as setup_logger
-import parse_gctoo
-import parse_gctoox
+import parse_gct
+import parse_gctx
 
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
@@ -46,9 +46,9 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None, nan_values=None, 
 		into numpy.NaN values, the pandas default. 
 	""" 
 	if file_path.endswith(".gct"):
-		curr = parse_gctoo.parse(file_path, convert_neg_666, rid, cid)
+		curr = parse_gct.parse(file_path, convert_neg_666, rid, cid)
 	elif file_path.endswith(".gctx"):
-		curr = parse_gctoox.parse(file_path, convert_neg_666, rid, cid, meta_only)
+		curr = parse_gctx.parse(file_path, convert_neg_666, rid, cid, meta_only)
 	else:
 		logger.error("File to parse must be .gct or .gctx!")
 	return curr 
