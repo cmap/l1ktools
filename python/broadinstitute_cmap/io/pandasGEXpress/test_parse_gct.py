@@ -13,22 +13,42 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 class TestParseGCToo(unittest.TestCase):
     def test_read_version_and_dims(self):
-        version = "1.3"
-        dims = ["10", "15", "3", "4"]
-        fname = "testing_testing"
+        ### v1.3 case 
+        version1 = "1.3"
+        dims1 = ["10", "15", "3", "4"]
+        fname1 = "testing_testing1"
 
-        f = open(fname, "wb")
-        f.write(("#" + version + "\n"))
-        f.write((dims[0] + "\t" + dims[1] + "\t" + dims[2] + "\t" + dims[3] + "\n"))
-        f.close()
+        f1 = open(fname1, "wb")
+        f1.write(("#" + version + "\n"))
+        f1.write((dims[0] + "\t" + dims1[1] + "\t" + dims1[2] + "\t" + dims1[3] + "\n"))
+        f1.close()
 
-        (actual_version, n_rows, n_cols, n_rhd, n_chd) = pg.read_version_and_dims(fname)
-        self.assertEqual(actual_version, version)
-        self.assertEqual(n_rows, int(dims[0]))
-        self.assertEqual(n_chd, int(dims[3]))
+        (actual_version, n_rows, n_cols, n_rhd, n_chd) = pg.read_version_and_dims(fname1)
+        self.assertEqual(actual_version, version1)
+        self.assertEqual(n_rows, int(dims1[0]))
+        self.assertEqual(n_chd, int(dims1[3]))
 
-        # Remove the file I created
+        # Remove the file created
         os.remove(fname)
+
+        ### v1.2 case 
+        version2 = "1.2"
+        dims2 = ["10", "15"]
+        fname2 = "testing_testing2"
+
+        f2 = open(fname2, "wb")
+        f2.write(("#" + version + "\n"))
+        f2.write((dims[0] + "\t" + dims2[1] + "\t" + dims2[2] + "\t" + dims2[3] + "\n"))
+        f2.close()
+
+        (actual_version, n_rows, n_cols, n_rhd, n_chd) = pg.read_version_and_dims(fname2)
+        self.assertEqual(actual_version, version2)
+        self.assertEqual(n_rows, int(dims2[0]))
+        self.assertEqual(n_chd, int(dims2[3]))
+
+        # Remove the file created
+        os.remove(fname2)
+
 
     def test_parse_into_3_df(self):
         gct_filepath = os.path.join(FUNCTIONAL_TESTS_PATH, "test_l1000.gct")
