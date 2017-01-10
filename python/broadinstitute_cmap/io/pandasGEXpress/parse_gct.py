@@ -156,8 +156,12 @@ def read_version_and_dims(file_path):
     f.close()
 
     # Check that the second row is what we expect
-    if len(dims) not in [2, 4]:
-        err_msg = "The second row of the GCT file should only have 2 (v1.2) or 4 (v1.3) entries. dims: {}"
+    if version == "1.2" & len(dims) != 2:
+        error_msg = "GCT v1.2 should only have 2 dimension-related entries in row 2. dims: {}"
+        logger.error(err_msg.format(dims))
+        raise(Exception(error_msg.format(dims)))
+    elif version == "1.3" & len(dims) != 4: 
+        err_msg = "GCT v1.3 should have only 4 dimension-related entries in row 2. dims: {}"
         logger.error(err_msg.format(dims))
         raise(Exception(err_msg.format(dims)))
 
