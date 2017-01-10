@@ -141,7 +141,6 @@ def read_version_and_dims(file_path):
 
     # Get version from the first line
     version = f.readline().strip().lstrip("#")
-    print("VERSION:" + version)
 
     if version not in ["1.3", "1.2"]:
         err_msg = ("Only GCT v1.2 and v1.3 are supported. The first row of the GCT " +
@@ -156,11 +155,11 @@ def read_version_and_dims(file_path):
     f.close()
 
     # Check that the second row is what we expect
-    if version == "1.2" & len(dims) != 2:
+    if version == "1.2" and len(dims) != 2:
         error_msg = "GCT v1.2 should only have 2 dimension-related entries in row 2. dims: {}"
         logger.error(err_msg.format(dims))
         raise(Exception(error_msg.format(dims)))
-    elif version == "1.3" & len(dims) != 4: 
+    elif version == "1.3" and len(dims) != 4: 
         err_msg = "GCT v1.3 should have only 4 dimension-related entries in row 2. dims: {}"
         logger.error(err_msg.format(dims))
         raise(Exception(err_msg.format(dims)))
@@ -207,34 +206,45 @@ def assemble_row_metadata(full_df, num_col_metadata, num_data_rows, num_row_meta
     row_metadata_row_inds = range(num_col_metadata + 1, num_col_metadata + num_data_rows + 1)
     row_metadata_col_inds = range(1, num_row_metadata + 1)
     row_metadata = full_df.iloc[row_metadata_row_inds, row_metadata_col_inds]
+
     # Create index from the first column of full_df (after the filler block)
     row_metadata.index = full_df.iloc[row_metadata_row_inds, 0]
+
     # Create columns from the top row of full_df (before cids start)
     row_metadata.columns = full_df.iloc[0, row_metadata_col_inds]
+
     # Rename the index name and columns name
     row_metadata.index.name = row_index_name
     row_metadata.columns.name = row_header_name
+
     # Convert metadata to numeric if possible
     row_metadata = row_metadata.apply(lambda x: pd.to_numeric(x, errors="ignore"))
+
     return row_metadata
 
-
 def assemble_col_metadata(full_df, num_col_metadata, num_row_metadata, num_data_cols):
+
     # Extract values
     col_metadata_row_inds = range(1, num_col_metadata + 1)
     col_metadata_col_inds = range(num_row_metadata + 1, num_row_metadata + num_data_cols + 1)
     col_metadata = full_df.iloc[col_metadata_row_inds, col_metadata_col_inds]
+
     # Transpose so that samples are the rows and headers are the columns
     col_metadata = col_metadata.T
+
     # Create index from the top row of full_df (after the filler block)
     col_metadata.index = full_df.iloc[0, col_metadata_col_inds]
+
     # Create columns from the first column of full_df (before rids start)
     col_metadata.columns = full_df.iloc[col_metadata_row_inds, 0]
+
     # Rename the index name and columns name
     col_metadata.index.name = column_index_name
     col_metadata.columns.name = column_header_name
+
     # Convert metadata to numeric if possible
     col_metadata = col_metadata.apply(lambda x: pd.to_numeric(x, errors="ignore"))
+
     return col_metadata
 
 
@@ -243,10 +253,13 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
     data_row_inds = range(num_col_metadata + 1, num_col_metadata + num_data_rows + 1)
     data_col_inds = range(num_row_metadata + 1, num_row_metadata + num_data_cols + 1)
     data = full_df.iloc[data_row_inds, data_col_inds]
+
     # Create index from the first column of full_df (after the filler block)
     data.index = full_df.iloc[data_row_inds, 0]
+
     # Create columns from the top row of full_df (after the filler block)
     data.columns = full_df.iloc[0, data_col_inds]
+
     # Convert from str to float
     try:
         data = data.astype(np.float32)
@@ -266,13 +279,16 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
                                    "for this value to be considered NaN.").format(bad_row_label, col, val)
                         logger.error(err_msg)
                         raise(Exception(err_msg))
+
     # Rename the index name and columns name
     data.index.name = row_index_name
     data.columns.name = column_index_name
+
     return data
 
 
 def create_gctoo_obj(file_path, version, row_metadata_df, col_metadata_df, data_df):
+
     # Move dataframes into GCToo object
     gctoo_obj = GCToo.GCToo(src=file_path,
                             version=version,

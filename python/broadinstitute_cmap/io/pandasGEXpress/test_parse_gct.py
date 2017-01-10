@@ -19,8 +19,8 @@ class TestParseGCToo(unittest.TestCase):
         fname1 = "testing_testing1"
 
         f1 = open(fname1, "wb")
-        f1.write(("#" + version + "\n"))
-        f1.write((dims[0] + "\t" + dims1[1] + "\t" + dims1[2] + "\t" + dims1[3] + "\n"))
+        f1.write(("#" + version1 + "\n"))
+        f1.write((dims1[0] + "\t" + dims1[1] + "\t" + dims1[2] + "\t" + dims1[3] + "\n"))
         f1.close()
 
         (actual_version, n_rows, n_cols, n_rhd, n_chd) = pg.read_version_and_dims(fname1)
@@ -29,7 +29,7 @@ class TestParseGCToo(unittest.TestCase):
         self.assertEqual(n_chd, int(dims1[3]))
 
         # Remove the file created
-        os.remove(fname)
+        os.remove(fname1)
 
         ### v1.2 case 
         version2 = "1.2"
@@ -37,14 +37,14 @@ class TestParseGCToo(unittest.TestCase):
         fname2 = "testing_testing2"
 
         f2 = open(fname2, "wb")
-        f2.write(("#" + version + "\n"))
-        f2.write((dims[0] + "\t" + dims2[1] + "\t" + dims2[2] + "\t" + dims2[3] + "\n"))
+        f2.write(("#" + version2 + "\n"))
+        f2.write((dims2[0] + "\t" + dims2[1] + "\n"))
         f2.close()
 
         (actual_version, n_rows, n_cols, n_rhd, n_chd) = pg.read_version_and_dims(fname2)
         self.assertEqual(actual_version, version2)
         self.assertEqual(n_rows, int(dims2[0]))
-        self.assertEqual(n_chd, int(dims2[3]))
+        self.assertEqual(n_cols, int(dims2[1]))
 
         # Remove the file created
         os.remove(fname2)
