@@ -4,8 +4,6 @@ The main method is parse. parse_into_3_dfs creates the row
 metadata, column metadata, and data dataframes, while the
 assemble_multi_index_df method in GCToo.py assembles them.
 
-N.B. Only supports v1.3 gct files.
-
 1) Example GCT v1.3:
         ----- start of file ------
         #1.3
@@ -143,10 +141,13 @@ def read_version_and_dims(file_path):
     version = f.readline().strip().lstrip("#")
 
     if version not in ["1.3", "1.2"]:
-        err_msg = ("Only GCT v1.2 and v1.3 are supported. The first row of the GCT " +
+        err_msg = ("Only GCT1.2 and 1.3 are supported. The first row of the GCT " +
                    "file must simply be (without quotes) '#1.3' or '#1.2'")
         logger.error(err_msg.format(version))
-        raise(Exception(err_msg.format(version)))        
+        raise(Exception(err_msg.format(version)))
+
+    # Convert version to a string
+    version_as_string = "GCT" + str(version)
 
     # Read dimensions from the second line
     dims = f.readline().strip().split("\t")
@@ -156,13 +157,13 @@ def read_version_and_dims(file_path):
 
     # Check that the second row is what we expect
     if version == "1.2" and len(dims) != 2:
-        error_msg = "GCT v1.2 should only have 2 dimension-related entries in row 2. dims: {}"
-        logger.error(err_msg.format(dims))
+        error_msg = "GCT1.2 should have 2 dimension-related entries in row 2. dims: {}"
+        logger.error(error_msg.format(dims))
         raise(Exception(error_msg.format(dims)))
     elif version == "1.3" and len(dims) != 4: 
-        err_msg = "GCT v1.3 should have only 4 dimension-related entries in row 2. dims: {}"
-        logger.error(err_msg.format(dims))
-        raise(Exception(err_msg.format(dims)))
+        error_msg = "GCT1.3 should have 4 dimension-related entries in row 2. dims: {}"
+        logger.error(error_msg.format(dims))
+        raise(Exception(error_msg.format(dims)))
 
     # Explicitly define each dimension
     num_data_rows = int(dims[0])
@@ -175,7 +176,7 @@ def read_version_and_dims(file_path):
         num_col_metadata = 0 
 
     # Return version and dimensions
-    return version, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata
+    return version_as_string, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata
 
 
 def parse_into_3_df(file_path, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata, nan_values):

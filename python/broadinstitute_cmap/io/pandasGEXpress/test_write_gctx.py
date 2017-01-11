@@ -34,7 +34,7 @@ col_metadata_suffix = "COL"
 cid_suffix = "id" 
 rid_suffix = "id"
 
-class TestWriteGCTooX(unittest.TestCase):
+class TestWriteGCTX(unittest.TestCase):
 	def test_add_gctx_to_out_name(self):
 		name1 = "my_cool_file"
 		name2 = "my_other_cool_file.gctx"

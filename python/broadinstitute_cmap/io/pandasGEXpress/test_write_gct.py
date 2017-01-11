@@ -11,7 +11,7 @@ FUNCTIONAL_TESTS_PATH = "functional_tests"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-class TestWriteGCToo(unittest.TestCase):
+class TestWriteGCT(unittest.TestCase):
     def test_write_version_and_dims(self):
         # Write
         fname = "test_file.gct"

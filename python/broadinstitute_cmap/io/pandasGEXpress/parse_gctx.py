@@ -11,8 +11,6 @@ __email__ = "oana@broadinstitute.org"
 
 #instantiate logger
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
-# when not in debug mode, probably best to set verbose=False
-setup_logger.setup(verbose = False)
 
 version_node = "version"
 rid_node = "/0/META/ROW/id"
