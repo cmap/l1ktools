@@ -6,36 +6,59 @@ assemble_multi_index_df method in GCToo.py assembles them.
 
 N.B. Only supports v1.3 gct files.
 
-Example GCT:
------ start of file ------
-#1.3
-96 36 9 15
----------------------------------------------------
-|id|        rhd          |          cid           |
----------------------------------------------------
-|  |                     |                        |
-|c |                     |                        |
-|h |      (blank)        |      col_metadata      |
-|d |                     |                        |
-|  |                     |                        |
----------------------------------------------------
-|  |                     |                        |
-|r |                     |                        |
-|i |    row_metadata     |          data          |
-|d |                     |                        |
-|  |                     |                        |
----------------------------------------------------
------ end of file ------
+1) Example GCT v1.3:
+        ----- start of file ------
+        #1.3
+        96 36 9 15
+        ---------------------------------------------------
+        |id|        rhd          |          cid           |
+        ---------------------------------------------------
+        |  |                     |                        |
+        |c |                     |                        |
+        |h |      (blank)        |      col_metadata      |
+        |d |                     |                        |
+        |  |                     |                        |
+        ---------------------------------------------------
+        |  |                     |                        |
+        |r |                     |                        |
+        |i |    row_metadata     |          data          |
+        |d |                     |                        |
+        |  |                     |                        |
+        ---------------------------------------------------
+        ----- end of file ------
 
-Notes:
-- line 1 of file ("#1.3") refers to the version number 
-- line 2 of file ("96 36 9 15") refers to the following:
-        -96 = number of data rows       
-        -36 = number of data columns       
-        -9 = number of row metadata fields (+1 for the 'id' column -- first column)        
-        -15 = number of col metadata fields (+1 for the 'id' row -- first row)
-- Once read into a DataFrame, col_metadata_df is stored as the transpose of how it looks in the gct file.
-        That is, col_metadata_df.shape = (num_cid, num_chd).
+        Notes:
+        - line 1 of file ("#1.3") refers to the version number 
+        - line 2 of file ("96 36 9 15") refers to the following:
+                -96 = number of data rows       
+                -36 = number of data columns       
+                -9 = number of row metadata fields (+1 for the 'id' column -- first column)        
+                -15 = number of col metadata fields (+1 for the 'id' row -- first row)
+        - Once read into a DataFrame, col_metadata_df is stored as the transpose of how it looks in the gct file.
+                That is, col_metadata_df.shape = (num_cid, num_chd).
+
+2) Example GCT v1.2
+
+        ----- start of file ------
+        #1.2
+        96 36 
+        -----------------------------------------------
+        |"NAME" |"Description"|          cid           |
+        -----------------------------------------------
+        |   r   |             |                        |
+        |   i   |             |                        |
+        |   d   |row_metadata |         data           |
+        |       |             |                        |
+        |       |             |                        |
+        -----------------------------------------------
+
+        ----- end of file ------
+        Notes:
+        - line 1 of file ("#1.3") refers to the version number 
+        - line 2 of file ("96 36 9 15") refers to the following:
+                -96 = number of data rows   
+                -36 = number of data columns   
+
 """
 
 import logging
@@ -46,7 +69,7 @@ import os.path
 import GCToo
 import slice_gct
 
-__author__ = "Lev Litichevskiy"
+__author__ = "Lev Litichevskiy, Oana Enache"
 __email__ = "lev@broadinstitute.org"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
@@ -119,12 +142,11 @@ def read_version_and_dims(file_path):
     # Get version from the first line
     version = f.readline().strip().lstrip("#")
 
-    # Check that the version is 1.3
-    if version != "1.3":
-        err_msg = ("Only GCT v1.3 is supported. The first row of the GCT " +
-                   "file must simply be (without quotes) '#1.3'")
+    if version not in ["1.3", "1.2"]:
+        err_msg = ("Only GCT v1.2 and v1.3 are supported. The first row of the GCT " +
+                   "file must simply be (without quotes) '#1.3' or '#1.2'")
         logger.error(err_msg.format(version))
-        raise(Exception(err_msg.format(version)))
+        raise(Exception(err_msg.format(version)))        
 
     # Read dimensions from the second line
     dims = f.readline().strip().split("\t")
@@ -133,16 +155,24 @@ def read_version_and_dims(file_path):
     f.close()
 
     # Check that the second row is what we expect
-    if len(dims) != 4:
-        err_msg = "The second row of the GCT file should only have 4 entries. dims: {}"
+    if version == "1.2" and len(dims) != 2:
+        error_msg = "GCT v1.2 should only have 2 dimension-related entries in row 2. dims: {}"
+        logger.error(err_msg.format(dims))
+        raise(Exception(error_msg.format(dims)))
+    elif version == "1.3" and len(dims) != 4: 
+        err_msg = "GCT v1.3 should have only 4 dimension-related entries in row 2. dims: {}"
         logger.error(err_msg.format(dims))
         raise(Exception(err_msg.format(dims)))
 
     # Explicitly define each dimension
     num_data_rows = int(dims[0])
     num_data_cols = int(dims[1])
-    num_row_metadata = int(dims[2])
-    num_col_metadata = int(dims[3])
+    if len(dims) == 4:
+        num_row_metadata = int(dims[2])
+        num_col_metadata = int(dims[3])
+    else: 
+        num_row_metadata = 1
+        num_col_metadata = 0 
 
     # Return version and dimensions
     return version, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata
@@ -151,14 +181,14 @@ def read_version_and_dims(file_path):
 def parse_into_3_df(file_path, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata, nan_values):
     # Read the gct file beginning with line 3
     full_df = pd.read_csv(file_path, sep="\t", header=None, skiprows=2,
-                          dtype=str, na_values=nan_values, keep_default_na=False)
+                      dtype=str, na_values=nan_values, keep_default_na=False)
 
     # Check that full_df is the size we expect
     assert full_df.shape == (num_col_metadata + num_data_rows + 1,
-                             num_row_metadata + num_data_cols + 1), (
-                             "The shape of full_df is not as expected:" + 
-                             " data is {} x {} but there are {} row meta fields" + 
-                             "and {} col fields".format(num_data_rows, num_data_cols, num_row_metadata, num_col_metadata))
+                         num_row_metadata + num_data_cols + 1), (
+                         "The shape of full_df is not as expected:" + 
+                         " data is {} x {} but there are {} row meta fields" + 
+                         "and {} col fields".format(num_data_rows, num_data_cols, num_row_metadata, num_col_metadata))
 
     # Assemble metadata dataframes
     row_metadata = assemble_row_metadata(full_df, num_col_metadata, num_data_rows, num_row_metadata)
@@ -192,8 +222,8 @@ def assemble_row_metadata(full_df, num_col_metadata, num_data_rows, num_row_meta
 
     return row_metadata
 
-
 def assemble_col_metadata(full_df, num_col_metadata, num_row_metadata, num_data_cols):
+
     # Extract values
     col_metadata_row_inds = range(1, num_col_metadata + 1)
     col_metadata_col_inds = range(num_row_metadata + 1, num_row_metadata + num_data_cols + 1)
@@ -234,7 +264,6 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
     try:
         data = data.astype(np.float32)
     except:
-
         # If that fails, return the first value that could not be converted
         for col in data:
             try:
@@ -259,6 +288,7 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
 
 
 def create_gctoo_obj(file_path, version, row_metadata_df, col_metadata_df, data_df):
+
     # Move dataframes into GCToo object
     gctoo_obj = GCToo.GCToo(src=file_path,
                             version=version,
