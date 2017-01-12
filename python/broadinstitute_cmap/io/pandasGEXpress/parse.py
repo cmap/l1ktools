@@ -4,7 +4,7 @@ Generic parse method to parse either a .gct or a .gctx.
 Takes in a file path corresponding to either a .gct or .gctx, 
 	and parses to a GCToo instance accordingly.
 
-Note: Only supports v1.3 .gct files and v1.0 .gctx files. 
+Note: Supports GCT1.2, GCT1.3, and GCTX1.0 files. 
 """
 
 import logging
@@ -17,8 +17,6 @@ __email__ = "oana@broadinstitute.org"
 
 # instantiate logger
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
-# when not in debug mode, probably best to set verbose=False
-setup_logger.setup(verbose = True)
 
 def parse(file_path, convert_neg_666=True, rid=None, cid=None, nan_values=None, meta_only=None):
 	""" 
