@@ -129,9 +129,9 @@ setMethod("initialize",
           signature = "GCT",
           definition = function(.Object, src, rid = NULL, cid = NULL, set_annot_rownames = T) {
               # check to make sure it's either .gct or .gctx
-              if (! (grepl(".gct$", src) || grepl(".gctx$", src) ))
+              if (! (grepl(".gct(\\.gz)?$", src) || grepl(".gctx(\\.gz)?$", src) ))
                   stop("Either a .gct or .gctx file must be given")
-              if (grepl(".gct$", src)) {
+              if (grepl(".gct(\\.gz)?$", src)) {
                   if ( ! is.null(rid) || !is.null(cid) )
                       stop("rid and cid values may only be given for .gctx files, not .gct files")
                   # parse the .gct
