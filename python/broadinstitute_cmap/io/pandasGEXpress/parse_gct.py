@@ -79,7 +79,7 @@ row_header_name = "rhd"
 column_header_name = "chd"
 
 
-def parse(file_path, convert_neg_666=True, rid=None, cid=None):
+def parse(file_path, convert_neg_666=True, rid=None, cid=None, make_multiindex=False):
     """ The main method.
 
     Args:
@@ -88,6 +88,8 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None):
             (see Note below for more details). Default = True.
         - rid (list of strings): list of row ids to specifically keep  None keeps all rids
         - cid (list of strings): list of col ids to specifically keep, None keeps all cids
+        - make_multiindex (bool): whether to create a multi-index df combining
+            the 3 component dfs
 
     Returns:
         gctoo_obj (GCToo object)
@@ -124,7 +126,8 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None):
         num_row_metadata, num_col_metadata, nan_values)
 
     # Create the gctoo object and assemble 3 component dataframes
-    gctoo_obj = create_gctoo_obj(file_path, version, row_metadata, col_metadata, data)
+    gctoo_obj = create_gctoo_obj(file_path, version,
+        row_metadata, col_metadata, data, make_multiindex)
    
     # If requested, slice gctoo
     if (rid is not None) or (cid is not None):
@@ -288,13 +291,13 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
     return data
 
 
-def create_gctoo_obj(file_path, version, row_metadata_df, col_metadata_df, data_df):
+def create_gctoo_obj(file_path, version, row_metadata_df, col_metadata_df, data_df, make_multiindex):
 
     # Move dataframes into GCToo object
     gctoo_obj = GCToo.GCToo(src=file_path,
                             version=version,
                             row_metadata_df=row_metadata_df,
                             col_metadata_df=col_metadata_df,
-                            data_df=data_df)
+                            data_df=data_df, make_multiindex=make_multiindex)
     return gctoo_obj
 
