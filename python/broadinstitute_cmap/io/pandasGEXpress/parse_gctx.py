@@ -104,7 +104,6 @@ def check_id_inputs(rid, ridx, cid, cidx):
 	"""
 	row_list = check_id_idx_exclusivity(rid, ridx)
 	col_list = check_id_idx_exclusivity(cid, cidx)
-
 	if ((len(row_list) != 0 and len(col_list) != 0) and type(row_list[0]) != type(col_list[0])):
 		msg = "Please specify ids to subset in a consistent manner"
 		logger.error(msg)
@@ -150,29 +149,27 @@ def parse_metadata_df(dim, meta_group, convert_neg_666):
 			of dimension specified.
 	"""
 	# read values from hdf5 & make a DataFrame
-	meta_values = {}
+	header_names = []
+	meta_array = np.empty((len(meta_group.keys()), meta_group[meta_group.keys()[0]].shape[0]), dtype = "S50")
+	array_index = 0
 	for k in meta_group.keys():
-		with meta_group[k].astype("S50"):
-			curr_meta = list(meta_group[k])
-			meta_values[k] = [str(elem).strip() for elem in curr_meta]
-	meta_df = pd.DataFrame.from_dict(meta_values)
+		curr_dset = meta_group[k]
+		curr_dset.read_direct(meta_array, dest_sel=np.s_[array_index])
+		header_names.append(str(k))
+		array_index = array_index + 1
+	meta_df = pd.DataFrame(meta_array.transpose(), columns = header_names)
 	meta_df.set_index("id", inplace = True)
-
 	# set index and columns appropriately 
 	set_metadata_index_and_column_names(dim, meta_df)
-
 	# Convert metadata to numeric if possible, after converting everything to string first 
 	# Note: This conversion first to string is to ensure consistent behavior between
 	#	the gctx and gct parser (which by default reads the entire text file into a string)
 	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
-
 	# if specified, convert "-666" to np.nan
 	if convert_neg_666:
 		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
 	else:
 		meta_df = meta_df.replace([-666, -666.0], ["-666", "-666"])
-
-
 	return meta_df 
 
 def set_metadata_index_and_column_names(dim, meta_df):	
