@@ -107,7 +107,7 @@ def check_id_inputs(rid, ridx, cid, cidx):
 	if ((len(row_list) != 0 and len(col_list) != 0) and type(row_list[0]) != type(col_list[0])):
 		msg = "Please specify ids to subset in a consistent manner"
 		logger.error(msg)
-		raise Exception("parse_gctoox.id_inputs_ok: " + msg)
+		raise Exception("parse_gctx.id_inputs_ok: " + msg)
 	else:
 		return (row_list, col_list) 
 
@@ -126,7 +126,7 @@ def check_id_idx_exclusivity(id, idx):
 		msg = ("'id' and 'idx' fields can't both not be None," +
 			" please specify slice in only one of these fields")
 		logger.error(msg)
-		raise Exception("parse_gctoox.check_id_idx_exclusivity: " + msg)
+		raise Exception("parse_gctx.check_id_idx_exclusivity: " + msg)
 	elif id != None:
 		return id 
 	elif idx != None:
@@ -149,15 +149,17 @@ def parse_metadata_df(dim, meta_group, convert_neg_666):
 			of dimension specified.
 	"""
 	# read values from hdf5 & make a DataFrame
-	header_names = []
-	meta_array = np.empty((len(meta_group.keys()), meta_group[meta_group.keys()[0]].shape[0]), dtype = "S50")
+	header_values = {}
 	array_index = 0
 	for k in meta_group.keys():
-		curr_dset = meta_group[k]
-		curr_dset.read_direct(meta_array, dest_sel=np.s_[array_index])
-		header_names.append(str(k))
+		curr_dset = meta_group[k] 
+		temp_array = np.empty(curr_dset.shape, dtype = curr_dset.dtype)
+		curr_dset.read_direct(temp_array)
+		header_values[str(k)] = temp_array
 		array_index = array_index + 1
-	meta_df = pd.DataFrame(meta_array.transpose(), columns = header_names)
+	# need to temporarily make dtype of all values str so that to_numeric
+	# works consistently with gct vs gctx parser. Also, from_dict requires an "index" arg
+	meta_df = pd.DataFrame.from_dict(header_values).astype(str)
 	meta_df.set_index("id", inplace = True)
 	# set index and columns appropriately 
 	set_metadata_index_and_column_names(dim, meta_df)
