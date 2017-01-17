@@ -4,8 +4,6 @@ The main method is parse. parse_into_3_dfs creates the row
 metadata, column metadata, and data dataframes, while the
 assemble_multi_index_df method in GCToo.py assembles them.
 
-N.B. Only supports v1.3 gct files.
-
 1) Example GCT v1.3:
         ----- start of file ------
         #1.3
@@ -81,7 +79,7 @@ row_header_name = "rhd"
 column_header_name = "chd"
 
 
-def parse(file_path, convert_neg_666=True, rid=None, cid=None):
+def parse(file_path, convert_neg_666=True, rid=None, cid=None, make_multiindex=False):
     """ The main method.
 
     Args:
@@ -90,6 +88,8 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None):
             (see Note below for more details). Default = True.
         - rid (list of strings): list of row ids to specifically keep  None keeps all rids
         - cid (list of strings): list of col ids to specifically keep, None keeps all cids
+        - make_multiindex (bool): whether to create a multi-index df combining
+            the 3 component dfs
 
     Returns:
         gctoo_obj (GCToo object)
@@ -126,7 +126,8 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None):
         num_row_metadata, num_col_metadata, nan_values)
 
     # Create the gctoo object and assemble 3 component dataframes
-    gctoo_obj = create_gctoo_obj(file_path, version, row_metadata, col_metadata, data)
+    gctoo_obj = create_gctoo_obj(file_path, version,
+        row_metadata, col_metadata, data, make_multiindex)
    
     # If requested, slice gctoo
     if (rid is not None) or (cid is not None):
@@ -143,10 +144,13 @@ def read_version_and_dims(file_path):
     version = f.readline().strip().lstrip("#")
 
     if version not in ["1.3", "1.2"]:
-        err_msg = ("Only GCT v1.2 and v1.3 are supported. The first row of the GCT " +
+        err_msg = ("Only GCT1.2 and 1.3 are supported. The first row of the GCT " +
                    "file must simply be (without quotes) '#1.3' or '#1.2'")
         logger.error(err_msg.format(version))
-        raise(Exception(err_msg.format(version)))        
+        raise(Exception(err_msg.format(version)))
+
+    # Convert version to a string
+    version_as_string = "GCT" + str(version)
 
     # Read dimensions from the second line
     dims = f.readline().strip().split("\t")
@@ -156,13 +160,13 @@ def read_version_and_dims(file_path):
 
     # Check that the second row is what we expect
     if version == "1.2" and len(dims) != 2:
-        error_msg = "GCT v1.2 should only have 2 dimension-related entries in row 2. dims: {}"
-        logger.error(err_msg.format(dims))
+        error_msg = "GCT1.2 should have 2 dimension-related entries in row 2. dims: {}"
+        logger.error(error_msg.format(dims))
         raise(Exception(error_msg.format(dims)))
     elif version == "1.3" and len(dims) != 4: 
-        err_msg = "GCT v1.3 should have only 4 dimension-related entries in row 2. dims: {}"
-        logger.error(err_msg.format(dims))
-        raise(Exception(err_msg.format(dims)))
+        error_msg = "GCT1.3 should have 4 dimension-related entries in row 2. dims: {}"
+        logger.error(error_msg.format(dims))
+        raise(Exception(error_msg.format(dims)))
 
     # Explicitly define each dimension
     num_data_rows = int(dims[0])
@@ -175,7 +179,7 @@ def read_version_and_dims(file_path):
         num_col_metadata = 0 
 
     # Return version and dimensions
-    return version, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata
+    return version_as_string, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata
 
 
 def parse_into_3_df(file_path, num_data_rows, num_data_cols, num_row_metadata, num_col_metadata, nan_values):
@@ -287,13 +291,13 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
     return data
 
 
-def create_gctoo_obj(file_path, version, row_metadata_df, col_metadata_df, data_df):
+def create_gctoo_obj(file_path, version, row_metadata_df, col_metadata_df, data_df, make_multiindex):
 
     # Move dataframes into GCToo object
     gctoo_obj = GCToo.GCToo(src=file_path,
                             version=version,
                             row_metadata_df=row_metadata_df,
                             col_metadata_df=col_metadata_df,
-                            data_df=data_df)
+                            data_df=data_df, make_multiindex=make_multiindex)
     return gctoo_obj
 

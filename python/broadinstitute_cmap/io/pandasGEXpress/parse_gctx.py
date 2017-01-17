@@ -11,8 +11,6 @@ __email__ = "oana@broadinstitute.org"
 
 #instantiate logger
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
-# when not in debug mode, probably best to set verbose=False
-setup_logger.setup(verbose = False)
 
 version_node = "version"
 rid_node = "/0/META/ROW/id"
@@ -22,7 +20,7 @@ row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
 
 def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, 
-		ridx=None, cidx=None, meta_only=False): 
+		ridx=None, cidx=None, meta_only=False, make_multiindex=False):
 	"""
 	Primary method of script. Reads in path to a gctx file and parses into GCToo object.
 
@@ -36,6 +34,8 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 		- rid (list of strings): only read the row ids in this list from the gctx. Default=None. 
 		- cid (list of strings): only read the column ids in this list from the gctx. Default=None. 
 		- meta_only (bool): Whether to load data + metadata (if True), or just row/column metadata (if false)
+		- make_multiindex (bool): whether to create a multi-index df combining
+			the 3 component dfs
 
 	Output:
 		- myGCToo (GCToo): A GCToo instance containing content of parsed gctx file. Note: if meta_only = True,
@@ -85,8 +85,8 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 	gctx_file.close()
 
 	# make GCToo instance 
-	my_gctoo = GCToo.GCToo(data_df=data_df, row_metadata_df = row_meta, col_metadata_df = col_meta,
-		src = full_path, version=my_version)
+	my_gctoo = GCToo.GCToo(data_df=data_df, row_metadata_df=row_meta, col_metadata_df=col_meta,
+		src=full_path, version=my_version, make_multiindex=make_multiindex)
 	return my_gctoo
 
 def check_id_inputs(rid, ridx, cid, cidx):

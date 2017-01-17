@@ -77,7 +77,7 @@ class TestGCToo(unittest.TestCase):
 
         with self.assertRaises(Exception) as context:
             my_gctoo1.row_metadata_df = new_row_meta4
-        self.assertTrue("Index values must be unique but aren't" in str(context.exception))
+        self.assertTrue("Index values must be unique" in str(context.exception))
 
         my_gctoo2 = GCToo.GCToo(data_df=data_df, row_metadata_df=row_metadata_df,
                     col_metadata_df=col_metadata_df)
@@ -112,7 +112,7 @@ class TestGCToo(unittest.TestCase):
 
         with self.assertRaises(Exception) as context:
             my_gctoo2.col_metadata_df = new_col_meta4
-        self.assertTrue("Index values must be unique but aren't" in str(context.exception))
+        self.assertTrue("Index values must be unique" in str(context.exception))
 
         my_gctoo3 = GCToo.GCToo(data_df=data_df, row_metadata_df=row_metadata_df,
                     col_metadata_df=col_metadata_df)

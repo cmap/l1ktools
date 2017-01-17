@@ -8,7 +8,7 @@ import os.path
 __author__ = "Lev Litichevskiy"
 __email__ = "lev@broadinstitute.org"
 
-""" Writes a gctoo object to a gct file.
+""" Writes a GCToo object to a gct file.
 
 The main method is write. write_version_and_dims writes the first two
 lines of the gct file, assemble_full_df assembles 3 component dfs

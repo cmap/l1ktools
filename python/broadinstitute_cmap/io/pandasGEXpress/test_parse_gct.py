@@ -11,10 +11,11 @@ FUNCTIONAL_TESTS_PATH = "functional_tests"
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
-class TestParseGCToo(unittest.TestCase):
+class TestParseGCT(unittest.TestCase):
     def test_read_version_and_dims(self):
         ### v1.3 case 
         version1 = "1.3"
+        version1_as_string = "GCT1.3"
         dims1 = ["10", "15", "3", "4"]
         fname1 = "testing_testing1"
 
@@ -24,7 +25,7 @@ class TestParseGCToo(unittest.TestCase):
         f1.close()
 
         (actual_version, n_rows, n_cols, n_rhd, n_chd) = pg.read_version_and_dims(fname1)
-        self.assertEqual(actual_version, version1)
+        self.assertEqual(actual_version, version1_as_string)
         self.assertEqual(n_rows, int(dims1[0]))
         self.assertEqual(n_chd, int(dims1[3]))
 
@@ -33,6 +34,7 @@ class TestParseGCToo(unittest.TestCase):
 
         ### v1.2 case 
         version2 = "1.2"
+        version2_as_string = "GCT1.2"
         dims2 = ["10", "15"]
         fname2 = "testing_testing2"
 
@@ -42,7 +44,7 @@ class TestParseGCToo(unittest.TestCase):
         f2.close()
 
         (actual_version, n_rows, n_cols, n_rhd, n_chd) = pg.read_version_and_dims(fname2)
-        self.assertEqual(actual_version, version2)
+        self.assertEqual(actual_version, version2_as_string)
         self.assertEqual(n_rows, int(dims2[0]))
         self.assertEqual(n_cols, int(dims2[1]))
 
@@ -165,36 +167,44 @@ class TestParseGCToo(unittest.TestCase):
         l1000_gct = pg.parse(l1000_file_path)
 
         # Check a few values
-        correct_val = np.float32(11.3818998337)
-        self.assertTrue(l1000_gct.data_df.iloc[0, 0] == correct_val,
-                        ("The first value in the data matrix should be " +
-                         "{} not {}").format(str(correct_val), l1000_gct.data_df.iloc[0, 0]))
-        correct_val = 58
-        self.assertTrue(l1000_gct.col_metadata_df.iloc[0, 0] == correct_val,
-                        ("The first value in the column metadata should be " +
-                         "{} not {}").format(str(correct_val), l1000_gct.col_metadata_df.iloc[0, 0]))
-        correct_val = "Analyte 11"
-        self.assertTrue(l1000_gct.row_metadata_df.iloc[0, 0] == correct_val,
-                        ("The first value in the row metadata should be " +
-                         "{} not {}").format(str(correct_val), l1000_gct.row_metadata_df.iloc[0, 0]))
+        self.assertAlmostEqual(l1000_gct.data_df.iloc[0, 0], 11.3819, places=4,
+                        msg=("The first value in the data matrix should be " +
+                             "{} not {}").format("11.3819", l1000_gct.data_df.iloc[0, 0]))
+        self.assertEqual(l1000_gct.col_metadata_df.iloc[0, 0], 58,
+                        msg=("The first value in the column metadata should be " +
+                             "{} not {}").format("58", l1000_gct.col_metadata_df.iloc[0, 0]))
+        self.assertEqual(l1000_gct.row_metadata_df.iloc[0, 0], "Analyte 11",
+                        msg=("The first value in the row metadata should be " +
+                             "{} not {}").format("Analyte 11", l1000_gct.row_metadata_df.iloc[0, 0]))
 
         # P100 gct
         p100_file_path = os.path.join(FUNCTIONAL_TESTS_PATH, "test_p100.gct")
         p100_gct = pg.parse(p100_file_path)
 
         # Check a few values
-        correct_val = np.float32(0.918157217057044)
-        self.assertTrue(p100_gct.data_df.iloc[0, 0] == correct_val,
-                        ("The first value in the data matrix should be " +
-                         "{} not {}").format(str(correct_val), p100_gct.data_df.iloc[0, 0]))
-        correct_val = "MCF7"
-        self.assertTrue(p100_gct.col_metadata_df.iloc[0, 0] == correct_val,
-                        ("The first value in the column metadata should be " +
-                         "{} not {}").format(str(correct_val), p100_gct.col_metadata_df.iloc[0, 0]))
-        correct_val = 1859
-        self.assertTrue(p100_gct.row_metadata_df.iloc[0, 0] == correct_val,
-                        ("The first value in the row metadata should be " +
-                         "{} not {}").format(str(correct_val), p100_gct.row_metadata_df.iloc[0, 0]))
+        self.assertAlmostEqual(p100_gct.data_df.iloc[0, 0], 0.9182, places=4,
+                        msg=("The first value in the data matrix should be " +
+                             "{} not {}").format("0.9182", p100_gct.data_df.iloc[0, 0]))
+        self.assertEqual(p100_gct.col_metadata_df.iloc[0, 0], "MCF7",
+                        msg=("The first value in the column metadata should be " +
+                             "{} not {}").format("MCF7", p100_gct.col_metadata_df.iloc[0, 0]))
+        self.assertEqual(p100_gct.row_metadata_df.iloc[0, 0], 1859,
+                        msg=("The first value in the row metadata should be " +
+                             "{} not {}").format("1859", p100_gct.row_metadata_df.iloc[0, 0]))
+
+        # GCT1.2
+        gct_v1point2_path = os.path.join(FUNCTIONAL_TESTS_PATH, "test_v1point2_n5x10.gct")
+        gct_v1point2 = pg.parse(gct_v1point2_path)
+
+        # Check a few values
+        self.assertAlmostEqual(
+            gct_v1point2.data_df.loc["217140_s_at", "LJP005_A375_24H_X1_B19:A06"],
+            6.9966, places=4)
+        self.assertEqual(gct_v1point2.row_metadata_df.loc["203627_at", "Description"], "IGF1R")
+
+        # Make sure col_metadata_df is empty
+        self.assertEqual(gct_v1point2.col_metadata_df.size, 0,
+                         "col_metadata_df should be empty.")
 
 
 if __name__ == "__main__":
