@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import GCToo
 import h5py
-import parse_gctoox
+import parse_gctx
 import mini_gctoo_for_testing
 from pandas.util.testing import assert_frame_equal
 
@@ -32,18 +32,18 @@ class TestParseGCToox(unittest.TestCase):
 		cid = ["l", "m", "n", "o"]
 
 		# case 1: row and col lists are populated and same type
-		self.assertEqual((ridx, cidx), parse_gctoox.check_id_inputs(ridx, None, cidx, None))
+		self.assertEqual((ridx, cidx), parse_gctx.check_id_inputs(ridx, None, cidx, None))
 
 		# case 2: row list and col lists are populated different types
 		with self.assertRaises(Exception) as context:
-			parse_gctoox.check_id_inputs(None, ridx, cid, None)
+			parse_gctx.check_id_inputs(None, ridx, cid, None)
 		self.assertTrue("Please specify ids to subset in a consistent manner" in str(context.exception))
 
 		# case 3: row list and col lists are both None 
-		self.assertEqual(([], []), parse_gctoox.check_id_inputs(None, None, None, None))
+		self.assertEqual(([], []), parse_gctx.check_id_inputs(None, None, None, None))
 
 		# case 4: row list is populated, col list is None 
-		self.assertEqual((rid, []), parse_gctoox.check_id_inputs(rid, None, None, None))
+		self.assertEqual((rid, []), parse_gctx.check_id_inputs(rid, None, None, None))
 
 	def test_check_id_idx_exclusivity(self):
 		ids = ["a", "b", "c"]
@@ -51,17 +51,17 @@ class TestParseGCToox(unittest.TestCase):
 
 		# case 1: id != None and idx != None
 		with self.assertRaises(Exception) as context:
-			parse_gctoox.check_id_idx_exclusivity(ids, idx)
+			parse_gctx.check_id_idx_exclusivity(ids, idx)
 		self.assertTrue("'id' and 'idx' fields can't both not be None" in str(context.exception))
 
 		# case 2: id != None
-		self.assertEqual(ids, parse_gctoox.check_id_idx_exclusivity(ids, None))
+		self.assertEqual(ids, parse_gctx.check_id_idx_exclusivity(ids, None))
 
 		# case 3: idx != None
-		self.assertEqual(idx, parse_gctoox.check_id_idx_exclusivity(None, idx))
+		self.assertEqual(idx, parse_gctx.check_id_idx_exclusivity(None, idx))
 
 		# case 4: id == None & idx == None 	
-		self.assertEqual([], parse_gctoox.check_id_idx_exclusivity(None, None))	
+		self.assertEqual([], parse_gctx.check_id_idx_exclusivity(None, None))	
 
 	def test_parse_metadata_df(self):
 		mini_gctoo = mini_gctoo_for_testing.make()
@@ -69,16 +69,16 @@ class TestParseGCToox(unittest.TestCase):
 		mini_row_meta = mini_gctoo.row_metadata_df.replace([-666, "-666", -666.0], 
 			[np.nan, np.nan, np.nan])
 
-		gctx_file = h5py.File("mini_gctoo_for_testing.gctx", "r")
+		gctx_file = h5py.File("functional_tests/mini_gctoo_for_testing.gctx", "r")
 		row_dset = gctx_file[row_meta_group_node]
 		col_dset = gctx_file[col_meta_group_node]
 
 		# with convert_neg_666
-		row_df = parse_gctoox.parse_metadata_df("row", row_dset, True)
+		row_df = parse_gctx.parse_metadata_df("row", row_dset, True)
 		assert_frame_equal(mini_row_meta, row_df)
 
 		# no convert_neg_666
-		col_df = parse_gctoox.parse_metadata_df("col", col_dset, False)
+		col_df = parse_gctx.parse_metadata_df("col", col_dset, False)
 		assert_frame_equal(mini_gctoo.col_metadata_df, col_df)
 
 	def test_set_metadata_index_and_column_names(self):
@@ -89,12 +89,12 @@ class TestParseGCToox(unittest.TestCase):
 		mini_gctoo.col_metadata_df.columns.name = None 
 
 		# case 1: dim == "row"
-		parse_gctoox.set_metadata_index_and_column_names("row", mini_gctoo.row_metadata_df)
+		parse_gctx.set_metadata_index_and_column_names("row", mini_gctoo.row_metadata_df)
 		self.assertEqual(mini_gctoo.row_metadata_df.index.name, "rid")
 		self.assertEqual(mini_gctoo.row_metadata_df.columns.name, "rhd")
 
 		# case 2: dim == "col"
-		parse_gctoox.set_metadata_index_and_column_names("col", mini_gctoo.col_metadata_df)
+		parse_gctx.set_metadata_index_and_column_names("col", mini_gctoo.col_metadata_df)
 		self.assertEqual(mini_gctoo.col_metadata_df.index.name, "cid")
 		self.assertEqual(mini_gctoo.col_metadata_df.columns.name, "chd")
 
@@ -104,7 +104,7 @@ class TestParseGCToox(unittest.TestCase):
 		# case 1 : len(id_list) == 0
 		id_list1 = []
 		expected_sorted_idx_list1 = range(0, len(list(mini_gctoo.col_metadata_df.index)))
-		sorted_idx_list1 = parse_gctoox.get_ordered_idx(id_list1, mini_gctoo.col_metadata_df)
+		sorted_idx_list1 = parse_gctx.get_ordered_idx(id_list1, mini_gctoo.col_metadata_df)
 		self.assertEqual(expected_sorted_idx_list1, sorted_idx_list1, 
 			"Expected idx list {} but found {}".format(expected_sorted_idx_list1, 
 				sorted_idx_list1))
@@ -114,7 +114,7 @@ class TestParseGCToox(unittest.TestCase):
 		id_list2 = ["LJP007_MCF10A_24H:TRT_CP:BRD-K93918653:3.33", 
 			"MISC003_A375_24H:TRT_CP:BRD-K93918653:3.33"]
 		expected_sorted_idx_list2 = [list(mini_gctoo.col_metadata_df.index).index(i) for i in id_list2]
-		sorted_idx_list2 = parse_gctoox.get_ordered_idx(id_list2, mini_gctoo.col_metadata_df)
+		sorted_idx_list2 = parse_gctx.get_ordered_idx(id_list2, mini_gctoo.col_metadata_df)
 		self.assertEqual(expected_sorted_idx_list2, sorted_idx_list2, 
 			"Expected idx list {} but found {}".format(expected_sorted_idx_list2, 
 				sorted_idx_list2))
@@ -122,7 +122,7 @@ class TestParseGCToox(unittest.TestCase):
 		# case 3: idx list is supplied 
 		id_list3 = [1,0]
 		expected_sorted_idx_list3 = [0, 1]
-		sorted_idx_list3 = parse_gctoox.get_ordered_idx(id_list3, mini_gctoo.col_metadata_df)
+		sorted_idx_list3 = parse_gctx.get_ordered_idx(id_list3, mini_gctoo.col_metadata_df)
 		self.assertEqual(expected_sorted_idx_list3, sorted_idx_list3, 
 			"Expected idx list {} but found {}".format(expected_sorted_idx_list3, 
 				sorted_idx_list3))
@@ -140,27 +140,27 @@ class TestParseGCToox(unittest.TestCase):
 		data_dset = mini_gctx[data_node]
 
 		# get relevant metadata fields
-		col_meta = parse_gctoox.get_column_metadata("functional_tests/mini_gctx_with_metadata_n2x3.gctx")
-		row_meta = parse_gctoox.get_row_metadata("functional_tests/mini_gctx_with_metadata_n2x3.gctx")
+		col_meta = parse_gctx.get_column_metadata("functional_tests/mini_gctx_with_metadata_n2x3.gctx")
+		row_meta = parse_gctx.get_row_metadata("functional_tests/mini_gctx_with_metadata_n2x3.gctx")
 
 		# case 1: no slicing
-		data_df1 = parse_gctoox.parse_data_df(data_dset, [0,1,2], [0,1], row_meta, col_meta)
+		data_df1 = parse_gctx.parse_data_df(data_dset, [0,1,2], [0,1], row_meta, col_meta)
 		# note: checks to 3 decimal places 
 		assert_frame_equal(mini_data_df, data_df1, 
 			check_exact=False, check_less_precise = True)
 
 		# case 2: slice; ridx < cidx 
-		data_df2 = parse_gctoox.parse_data_df(data_dset, [0], [0,1], row_meta, col_meta)
+		data_df2 = parse_gctx.parse_data_df(data_dset, [0], [0,1], row_meta, col_meta)
 		assert_frame_equal(mini_data_df.iloc[[0],[0,1]], data_df2, 
 			check_exact=False, check_less_precise = True)
 
 		# case 3: slice; ridx == cidx 
-		data_df3 = parse_gctoox.parse_data_df(data_dset, [0],[0], row_meta, col_meta)
+		data_df3 = parse_gctx.parse_data_df(data_dset, [0],[0], row_meta, col_meta)
 		assert_frame_equal(mini_data_df.iloc[[0],[0]], data_df3, 
 			check_exact=False, check_less_precise = True)
 
 		# case 4: slice; ridx > cidx 
-		data_df4 = parse_gctoox.parse_data_df(data_dset, [0,1,2],[0], row_meta, col_meta)
+		data_df4 = parse_gctx.parse_data_df(data_dset, [0,1,2],[0], row_meta, col_meta)
 		assert_frame_equal(mini_data_df.iloc[[0,1,2],[0]], data_df4, 
 			check_exact=False, check_less_precise = True)
 	

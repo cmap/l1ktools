@@ -16,8 +16,8 @@ import re
 
 import setup_GCToo_logger as setup_logger
 import GCToo
-import parse_gctoo as pg
-import write_gctoo as wg
+import parse_gct as pg
+import write_gct as wg
 
 __author__ = "Lev Litichevskiy"
 __email__ = "lev@broadinstitute.org"

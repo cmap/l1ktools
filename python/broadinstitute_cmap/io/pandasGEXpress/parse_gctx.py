@@ -11,8 +11,6 @@ __email__ = "oana@broadinstitute.org"
 
 #instantiate logger
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
-# when not in debug mode, probably best to set verbose=False
-setup_logger.setup(verbose = False)
 
 version_node = "version"
 rid_node = "/0/META/ROW/id"
@@ -22,7 +20,7 @@ row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
 
 def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None, 
-		ridx=None, cidx=None, meta_only=False): 
+		ridx=None, cidx=None, meta_only=False, make_multiindex=False):
 	"""
 	Primary method of script. Reads in path to a gctx file and parses into GCToo object.
 
@@ -36,6 +34,8 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 		- rid (list of strings): only read the row ids in this list from the gctx. Default=None. 
 		- cid (list of strings): only read the column ids in this list from the gctx. Default=None. 
 		- meta_only (bool): Whether to load data + metadata (if True), or just row/column metadata (if false)
+		- make_multiindex (bool): whether to create a multi-index df combining
+			the 3 component dfs
 
 	Output:
 		- myGCToo (GCToo): A GCToo instance containing content of parsed gctx file. Note: if meta_only = True,
@@ -85,8 +85,8 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 	gctx_file.close()
 
 	# make GCToo instance 
-	my_gctoo = GCToo.GCToo(data_df=data_df, row_metadata_df = row_meta, col_metadata_df = col_meta,
-		src = full_path, version=my_version)
+	my_gctoo = GCToo.GCToo(data_df=data_df, row_metadata_df=row_meta, col_metadata_df=col_meta,
+		src=full_path, version=my_version, make_multiindex=make_multiindex)
 	return my_gctoo
 
 def check_id_inputs(rid, ridx, cid, cidx):
@@ -104,11 +104,10 @@ def check_id_inputs(rid, ridx, cid, cidx):
 	"""
 	row_list = check_id_idx_exclusivity(rid, ridx)
 	col_list = check_id_idx_exclusivity(cid, cidx)
-
 	if ((len(row_list) != 0 and len(col_list) != 0) and type(row_list[0]) != type(col_list[0])):
 		msg = "Please specify ids to subset in a consistent manner"
 		logger.error(msg)
-		raise Exception("parse_gctoox.id_inputs_ok: " + msg)
+		raise Exception("parse_gctx.id_inputs_ok: " + msg)
 	else:
 		return (row_list, col_list) 
 
@@ -127,7 +126,7 @@ def check_id_idx_exclusivity(id, idx):
 		msg = ("'id' and 'idx' fields can't both not be None," +
 			" please specify slice in only one of these fields")
 		logger.error(msg)
-		raise Exception("parse_gctoox.check_id_idx_exclusivity: " + msg)
+		raise Exception("parse_gctx.check_id_idx_exclusivity: " + msg)
 	elif id != None:
 		return id 
 	elif idx != None:
@@ -150,29 +149,29 @@ def parse_metadata_df(dim, meta_group, convert_neg_666):
 			of dimension specified.
 	"""
 	# read values from hdf5 & make a DataFrame
-	meta_values = {}
+	header_values = {}
+	array_index = 0
 	for k in meta_group.keys():
-		with meta_group[k].astype("S50"):
-			curr_meta = list(meta_group[k])
-			meta_values[k] = [str(elem).strip() for elem in curr_meta]
-	meta_df = pd.DataFrame.from_dict(meta_values)
+		curr_dset = meta_group[k] 
+		temp_array = np.empty(curr_dset.shape, dtype = curr_dset.dtype)
+		curr_dset.read_direct(temp_array)
+		header_values[str(k)] = temp_array
+		array_index = array_index + 1
+	# need to temporarily make dtype of all values str so that to_numeric
+	# works consistently with gct vs gctx parser. Also, from_dict requires an "index" arg
+	meta_df = pd.DataFrame.from_dict(header_values).astype(str)
 	meta_df.set_index("id", inplace = True)
-
 	# set index and columns appropriately 
 	set_metadata_index_and_column_names(dim, meta_df)
-
 	# Convert metadata to numeric if possible, after converting everything to string first 
 	# Note: This conversion first to string is to ensure consistent behavior between
 	#	the gctx and gct parser (which by default reads the entire text file into a string)
 	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
-
 	# if specified, convert "-666" to np.nan
 	if convert_neg_666:
 		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
 	else:
 		meta_df = meta_df.replace([-666, -666.0], ["-666", "-666"])
-
-
 	return meta_df 
 
 def set_metadata_index_and_column_names(dim, meta_df):	

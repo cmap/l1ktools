@@ -4,14 +4,14 @@ import setup_GCToo_logger as setup_logger
 import os
 import numpy as np
 import pandas as pd
-import parse_gctoo
-import write_gctoo as wg
+import parse_gct
+import write_gct as wg
 
 FUNCTIONAL_TESTS_PATH = "functional_tests"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-class TestWriteGCToo(unittest.TestCase):
+class TestWriteGCT(unittest.TestCase):
     def test_write_version_and_dims(self):
         # Write
         fname = "test_file.gct"
@@ -107,11 +107,11 @@ class TestWriteGCToo(unittest.TestCase):
         l1000_out_path = os.path.join(FUNCTIONAL_TESTS_PATH, "test_l1000_writing.gct")
 
         # Read in original gct file
-        l1000_in_gct = parse_gctoo.parse(l1000_in_path)
+        l1000_in_gct = parse_gct.parse(l1000_in_path)
 
         # Read in new gct file
         wg.write(l1000_in_gct, l1000_out_path)
-        l1000_out_gct = parse_gctoo.parse(l1000_out_path)
+        l1000_out_gct = parse_gct.parse(l1000_out_path)
 
         self.assertTrue(l1000_in_gct.data_df.equals(l1000_out_gct.data_df))
         self.assertTrue(l1000_in_gct.row_metadata_df.equals(l1000_out_gct.row_metadata_df))
@@ -125,11 +125,11 @@ class TestWriteGCToo(unittest.TestCase):
         p100_out_path = os.path.join(FUNCTIONAL_TESTS_PATH, "test_p100_writing.gct")
 
         # Read in original gct file
-        p100_in_gct = parse_gctoo.parse(p100_in_path)
+        p100_in_gct = parse_gct.parse(p100_in_path)
 
         # Read in new gct file
         wg.write(p100_in_gct, p100_out_path)
-        p100_out_gct = parse_gctoo.parse(p100_out_path)
+        p100_out_gct = parse_gct.parse(p100_out_path)
 
         self.assertTrue(p100_in_gct.data_df.equals(p100_out_gct.data_df))
         self.assertTrue(p100_in_gct.row_metadata_df.equals(p100_out_gct.row_metadata_df))

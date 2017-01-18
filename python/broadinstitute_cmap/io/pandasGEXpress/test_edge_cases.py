@@ -8,8 +8,8 @@ import logging
 import setup_GCToo_logger as setup_logger
 import pandas
 import numpy
-import parse_gctoo
-import parse_gctoox
+import parse_gct
+import parse_gctx
 from pandas.util.testing import assert_series_equal
 
 FUNCTIONAL_TESTS_PATH = "functional_tests"
@@ -26,8 +26,8 @@ class TestEdgeCases(unittest.TestCase):
 		gctoox_path = FUNCTIONAL_TESTS_PATH + "/both_metadata_example_n1476x978.gctx"
 
 		# parse files
-		c1_gctoo = parse_gctoo.parse(gctoo_path)
-		c1_gctoox = parse_gctoox.parse(gctoox_path)
+		c1_gctoo = parse_gct.parse(gctoo_path)
+		c1_gctoox = parse_gctx.parse(gctoox_path)
 
 		#check rows and columns: data_df
 		self.assertTrue(set(list(c1_gctoo.data_df.index)) == set(list(c1_gctoox.data_df.index)),
@@ -80,8 +80,8 @@ class TestEdgeCases(unittest.TestCase):
 		gctoox_path = FUNCTIONAL_TESTS_PATH + "/row_meta_only_example_n2x1203.gctx"
 
 		# parse files
-		c2_gctoo = parse_gctoo.parse(gctoo_path)
-		c2_gctoox = parse_gctoox.parse(gctoox_path)
+		c2_gctoo = parse_gct.parse(gctoo_path)
+		c2_gctoox = parse_gctx.parse(gctoox_path)
 
 		#check rows and columns: data_df
 		self.assertTrue(set(list(c2_gctoo.data_df.index)) == set(list(c2_gctoox.data_df.index)),
@@ -129,8 +129,8 @@ class TestEdgeCases(unittest.TestCase):
 		gctoox_path = FUNCTIONAL_TESTS_PATH + "/col_meta_only_example_n355x355.gctx"
 
 				# parse files
-		c3_gctoo = parse_gctoo.parse(gctoo_path)
-		c3_gctoox = parse_gctoox.parse(gctoox_path)
+		c3_gctoo = parse_gct.parse(gctoo_path)
+		c3_gctoox = parse_gctx.parse(gctoox_path)
 
 		#check rows and columns: data_df
 		self.assertTrue(set(list(c3_gctoo.data_df.index)) == set(list(c3_gctoox.data_df.index)),

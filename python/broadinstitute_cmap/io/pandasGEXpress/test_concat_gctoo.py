@@ -6,7 +6,7 @@ import pandas as pd
 
 import setup_GCToo_logger as setup_logger
 import concat_gctoo as cg
-import parse_gctoo as pg
+import parse_gct as pg
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 

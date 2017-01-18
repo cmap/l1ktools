@@ -13,8 +13,8 @@ import setup_GCToo_logger as setup_logger
 import argparse
 import sys
 import GCToo
-import parse_gctoo
-import write_gctoox
+import parse_gct
+import write_gctx
 
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
@@ -36,7 +36,7 @@ def build_parser():
 	return parser
 
 def main(args):
-	in_gctoo = parse_gctoo.parse(args.filename, convert_neg_666=False)
+	in_gctoo = parse_gct.parse(args.filename, convert_neg_666=False)
 	logger.debug("Original out name: {}".format(in_gctoo.src))
 
 	if args.output_filepath == None:
@@ -44,7 +44,7 @@ def main(args):
 	else:
 		out_name = args.output_filepath
 
-	write_gctoox.write(in_gctoo, out_name)
+	write_gctx.write(in_gctoo, out_name)
 
 
 if __name__ == "__main__":
