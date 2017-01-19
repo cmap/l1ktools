@@ -175,5 +175,5 @@ class TestWriteGCTX(unittest.TestCase):
 				"Values in column {} differ between expected metadata and written col metadata!".format(c))
 
 if __name__ == "__main__":
-	setup_logger.setup(verbose = True)
+	setup_logger.setup(verbose=True)
 	unittest.main()
