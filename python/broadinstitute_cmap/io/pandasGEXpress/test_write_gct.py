@@ -4,14 +4,61 @@ import setup_GCToo_logger as setup_logger
 import os
 import numpy as np
 import pandas as pd
-import parse_gct
+import GCToo as GCToo
+import parse_gct as pg
 import write_gct as wg
 
 FUNCTIONAL_TESTS_PATH = "functional_tests"
-
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
+
 class TestWriteGCT(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        # Create dfs to be used by tests
+        cls.data_df = pd.DataFrame(
+            [[1, 2, 3], [5, 7, np.nan], [13, 17, -19], [0, 23, 29]],
+            index=pd.Index(["rid1", "rid2", "rid3", "rid4"], name="rid"),
+            columns=pd.Index(["cid1", "cid2", "cid3"], name="cid"), dtype=np.float32)
+        cls.row_metadata_df = pd.DataFrame(
+            [["Analyte 11", 11, "dp52"],
+             ["Analyte 12", 12, "dp52"],
+             ["Analyte 13", 13, "dp53"],
+             ["Analyte 14", 14, "dp54"]],
+            index=pd.Index(["rid1", "rid2", "rid3", "rid4"], name="rid"),
+            columns=pd.Index(["pr_analyte_id", "pr_analyte_num", "pr_bset_id"], name="rhd"))
+        cls.col_metadata_df = pd.DataFrame(
+            [[8.38, np.nan, "DMSO", "24 h"],
+             [7.7, np.nan, "DMSO", "24 h"],
+             [8.18, np.nan, "DMSO", "24 h"]],
+            index=pd.Index(["cid1", "cid2", "cid3"], name="cid"),
+            columns=pd.Index(["qc_iqr", "pert_idose", "pert_iname", "pert_itime"], name="chd"))
+
+    def test_main(self):
+        out_name = os.path.join(FUNCTIONAL_TESTS_PATH, "test_main_out.gct")
+
+        gctoo = GCToo.GCToo(data_df=self.data_df,
+                            row_metadata_df=self.row_metadata_df,
+                            col_metadata_df=self.col_metadata_df)
+        wg.write(gctoo, out_name, data_null="NaN",
+                 metadata_null="-666", filler_null="-666")
+
+        # Read in the gct and verify that it's the same as gctoo
+        new_gct = pg.parse(out_name)
+
+        pd.util.testing.assert_frame_equal(new_gct.data_df, gctoo.data_df)
+        pd.util.testing.assert_frame_equal(new_gct.row_metadata_df, gctoo.row_metadata_df)
+        pd.util.testing.assert_frame_equal(new_gct.col_metadata_df, gctoo.col_metadata_df)
+
+        # Also check that missing values were written to the file as expected
+        in_df = pd.read_csv(out_name, sep="\t", skiprows=2, keep_default_na=False)
+        self.assertEqual(in_df.iloc[0, 1], "-666")
+        self.assertEqual(in_df.iloc[5, 6], "NaN")
+
+        # Cleanup
+        os.remove(out_name)
+
     def test_write_version_and_dims(self):
         # Write
         fname = "test_file.gct"
@@ -30,64 +77,39 @@ class TestWriteGCT(unittest.TestCase):
         self.assertEqual(version_string, "#1.3")
         self.assertEqual(dims, ["1", "2", "3", "4"])
 
-    def test_assemble_full_df(self):
-        row_meta_df = pd.DataFrame([["Analyte 11", 11, "dp52"],
-                                    ["Analyte 12", 12, "dp52"]],
-                                   index=["200814_at", "218597_s_at"],
-                                   columns=["pr_analyte_id", "pr_analyte_num", "pr_bset_id"])
-        col_meta_df = pd.DataFrame([[8.38, np.nan, "DMSO", "24 h"],
-                                    [7.7, np.nan, "DMSO", "24 h"],
-                                    [8.18, np.nan, "DMSO", "24 h"]],
-                                   index=["LJP005_A375_24H_X1_B19:A03",
-                                          "LJP005_A375_24H_X1_B19:A04",
-                                          "LJP005_A375_24H_X1_B19:A05"],
-                                   columns=["qc_iqr", "pert_idose", "pert_iname", "pert_itime"])
-        data_df = pd.DataFrame([[11.3819, 11.3336, 11.4486],
-                                [10.445, 10.445, 10.3658]],
-                               index=["200814_at", "218597_s_at"],
-                               columns=["LJP005_A375_24H_X1_B19:A03",
-                                        "LJP005_A375_24H_X1_B19:A04",
-                                        "LJP005_A375_24H_X1_B19:A05"])
-        e_df = pd.DataFrame(
-            [['qc_iqr', '-666', '-666', '-666', '8.38', '7.7', '8.18'],
-             ['pert_idose', '-666', '-666', '-666', '-666', '-666', '-666'],
-             ['pert_iname', '-666', '-666', '-666', 'DMSO', 'DMSO', 'DMSO'],
-             ['pert_itime', '-666', '-666', '-666', '24 h', '24 h', '24 h'],
-             ['200814_at', 'Analyte 11', '11', 'dp52', 11.3819, 11.3336, 11.4486],
-             ['218597_s_at', 'Analyte 12', '12', 'dp52', 10.445, 10.445, 10.3658]],
-            columns=['id', 'pr_analyte_id', 'pr_analyte_num', 'pr_bset_id',
-                     'LJP005_A375_24H_X1_B19:A03', 'LJP005_A375_24H_X1_B19:A04',
-                     'LJP005_A375_24H_X1_B19:A05'])
-        full_df = wg.assemble_full_df(row_meta_df, col_meta_df, data_df, "NaN", "-666", "-666")
-
-        self.assertTrue(full_df.equals(e_df))
-        self.assertEqual(full_df.columns.values[0], "id")
-        self.assertEqual(full_df.iloc[4, 0], "200814_at")
-        self.assertEqual(full_df.ix[2, "pr_bset_id"], "-666")
-
-    def test_write_full_df(self):
-        full_df = pd.DataFrame(
-            [['qc_iqr', '-666', '-666', '-666', '8.38', '7.7', '8.18'],
-             ['pert_idose', '-666', '-666', '-666', '-666', '-666', '-666'],
-             ['pert_iname', '-666', '-666', '-666', 'DMSO', 'DMSO', 'DMSO'],
-             ['pert_itime', '-666', '-666', '-666', '24 h', '24 h', '24 h'],
-             ['200814_at', 'Analyte 11', '11', 'dp52', 11.3819, 11.3336, 11.4486],
-             ['218597_s_at', 'Analyte 12', '12', 'dp52', 9.5063, 10.445, 10.3658]],
-            columns=['id', 'pr_analyte_id', 'pr_analyte_num', 'pr_bset_id',
-                     'LJP005_A375_24H_X1_B19:A03', 'LJP005_A375_24H_X1_B19:A04',
-                     'LJP005_A375_24H_X1_B19:A05'])
-
-        fname = "test_file.gct"
+    def test_write_top_half(self):
+        # Write
+        fname = "test_write_top_half.tsv"
         f = open(fname, "wb")
-        wg.write_full_df(full_df, f, "NaN", None)
+        wg.write_top_half(f, self.row_metadata_df, self.col_metadata_df, "-666", "-666")
         f.close()
+
+        # Compare what was written to what was expected
+        e_top_half = pd.DataFrame(
+            [["id", "pr_analyte_id", "pr_analyte_num", "pr_bset_id", "cid1", "cid2", "cid3"],
+             ["qc_iqr", "-666", "-666", "-666", "8.38", "7.7", "8.18"],
+             ["pert_idose", "-666", "-666", "-666", "-666", "-666", "-666"],
+             ["pert_iname", "-666", "-666", "-666", "DMSO", "DMSO", "DMSO"],
+             ["pert_itime", "-666", "-666", "-666", "24 h", "24 h", "24 h"]])
+        top_half = pd.read_csv(fname, sep="\t", header=None)
+        pd.util.testing.assert_frame_equal(top_half, e_top_half)
         os.remove(fname)
 
-        f2 = open(fname, "wb")
-        f2.write("#1.3\n")
-        f2.write("1\t2\t3\t4\n")
-        wg.write_full_df(full_df, f2, "NaN", None)
-        f2.close()
+    def test_write_bottom_half(self):
+        # Write
+        fname = "test_write_bottom_half.tsv"
+        f = open(fname, "wb")
+        wg.write_bottom_half(f, self.row_metadata_df, self.data_df, "NaN", "%.f", "-666")
+        f.close()
+
+        # Compare what was written to what was expected
+        e_bottom_half = pd.DataFrame(
+            [["rid1", "Analyte 11", 11, "dp52", 1., 2., 3.],
+             ["rid2", "Analyte 12", 12, "dp52", 5., 7., np.nan],
+             ["rid3", "Analyte 13", 13, "dp53", 13., 17., -19.],
+             ["rid4", "Analyte 14", 14, "dp54", 0., 23., 29.]])
+        bottom_half = pd.read_csv(fname, sep="\t", header=None)
+        pd.util.testing.assert_frame_equal(bottom_half, e_bottom_half)
         os.remove(fname)
 
     def test_append_dims_and_file_extension(self):
@@ -107,11 +129,11 @@ class TestWriteGCT(unittest.TestCase):
         l1000_out_path = os.path.join(FUNCTIONAL_TESTS_PATH, "test_l1000_writing.gct")
 
         # Read in original gct file
-        l1000_in_gct = parse_gct.parse(l1000_in_path)
+        l1000_in_gct = pg.parse(l1000_in_path)
 
         # Read in new gct file
         wg.write(l1000_in_gct, l1000_out_path)
-        l1000_out_gct = parse_gct.parse(l1000_out_path)
+        l1000_out_gct = pg.parse(l1000_out_path)
 
         self.assertTrue(l1000_in_gct.data_df.equals(l1000_out_gct.data_df))
         self.assertTrue(l1000_in_gct.row_metadata_df.equals(l1000_out_gct.row_metadata_df))
@@ -125,11 +147,11 @@ class TestWriteGCT(unittest.TestCase):
         p100_out_path = os.path.join(FUNCTIONAL_TESTS_PATH, "test_p100_writing.gct")
 
         # Read in original gct file
-        p100_in_gct = parse_gct.parse(p100_in_path)
+        p100_in_gct = pg.parse(p100_in_path)
 
         # Read in new gct file
         wg.write(p100_in_gct, p100_out_path)
-        p100_out_gct = parse_gct.parse(p100_out_path)
+        p100_out_gct = pg.parse(p100_out_path)
 
         self.assertTrue(p100_in_gct.data_df.equals(p100_out_gct.data_df))
         self.assertTrue(p100_in_gct.row_metadata_df.equals(p100_out_gct.row_metadata_df))
