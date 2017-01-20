@@ -32,6 +32,25 @@ class TestConcatGCToo(unittest.TestCase):
         self.assertTrue(expected_gct.row_metadata_df.equals(concated_gct.row_metadata_df))
         self.assertTrue(expected_gct.col_metadata_df.equals(concated_gct.col_metadata_df))
 
+    def test_top_bottom(self):
+        # Verify that concatenation replicates the output file
+        top_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_top.gct")
+        bottom_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_bottom.gct")
+        expected_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merged_top_bottom.gct")
+
+        top_gct = pg.parse(top_gct_path)
+        bottom_gct = pg.parse(bottom_gct_path)
+        expected_gct = pg.parse(expected_gct_path)
+
+        # TODO: Merge top and bottom
+        concated_gct = cg.hstack([top_gct, bottom_gct], None, False, False)
+
+        self.assertTrue(expected_gct.data_df.equals(concated_gct.data_df), (
+            "\nconcated_gct.data_df:\n{}\nexpected_gct.data_df:\n{}".format(
+                concated_gct.data_df, expected_gct.data_df)))
+        self.assertTrue(expected_gct.row_metadata_df.equals(concated_gct.row_metadata_df))
+        self.assertTrue(expected_gct.col_metadata_df.equals(concated_gct.col_metadata_df))
+
     def test_concat_row_meta(self):
         meta1 = pd.DataFrame(
             [["r1_1", "r1_2", "r1_3"],
@@ -53,7 +72,7 @@ class TestConcatGCToo(unittest.TestCase):
             columns=["rhd1", "rhd2"])
 
         with self.assertRaises(AssertionError) as e:
-            out_meta_df = cg.concat_row_meta([meta1, meta2], None, False)
+            _ = cg.concat_row_meta([meta1, meta2], None, False)
         self.assertIn("rids are duplicated", str(e.exception))
 
         # happy path, using fields_to_remove
@@ -101,7 +120,7 @@ class TestConcatGCToo(unittest.TestCase):
             "\nout_concated:\n{}\ne_concated:\n{}".format(
                 out_concated, e_concated)))
 
-    def test_do_reset_sample_ids(self):
+    def test_do_reset_ids(self):
         col_df = pd.DataFrame(
             [[1, 2], [3, 4], [5, 6]],
             index=["s1", "s2", "s1"],
@@ -125,11 +144,11 @@ class TestConcatGCToo(unittest.TestCase):
 
         # Check the assert statement
         with self.assertRaises(AssertionError) as e:
-            (_, _) = cg.do_reset_sample_ids(col_df, inconsistent_data_df)
+            (_, _) = cg.do_reset_ids(col_df, inconsistent_data_df)
         self.assertIn("do not agree", str(e.exception))
 
         # Happy path
-        (out_col_df, out_data_df) = cg.do_reset_sample_ids(col_df, data_df)
+        (out_col_df, out_data_df) = cg.do_reset_ids(col_df, data_df)
         self.assertTrue(out_col_df.equals(e_col_df), (
             "\nout_col_df:\n:{}\ne_col_df:\n{}".format(out_col_df, e_col_df)))
         self.assertTrue(out_data_df.equals(e_data_df), (
