@@ -32,6 +32,7 @@ class TestConcatGCToo(unittest.TestCase):
         self.assertTrue(expected_gct.row_metadata_df.equals(concated_gct.row_metadata_df))
         self.assertTrue(expected_gct.col_metadata_df.equals(concated_gct.col_metadata_df))
 
+    @unittest.skip("until we implement vstack")
     def test_top_bottom(self):
         # Verify that concatenation replicates the output file
         top_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_top.gct")
