@@ -48,7 +48,7 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None, ridx=None, cidx=N
 	if file_path.endswith(".gct"):
 		curr = parse_gct.parse(file_path, convert_neg_666, rid, cid, make_multiindex)
 	elif file_path.endswith(".gctx"):
-		curr = parse_gctx.parse(file_path, convert_neg_666, rid, cid, ridx, cidx, meta_only, make_multiindex
+		curr = parse_gctx.parse(file_path, convert_neg_666, rid, cid, ridx, cidx, meta_only, make_multiindex)
 	else:
 		logger.error("File to parse must be .gct or .gctx!")
 	return curr 
