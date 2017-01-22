@@ -150,8 +150,8 @@ def slice_gctoo(gctoo, row_bool=None, col_bool=None, rid=None, cid=None, exclude
     ### COLUMNS
     # Use cid if provided
     if cid is not None:
-        cols_to_keep = [gctoo_col for gctoo_col in gctoo.data_df.columns if gctoo_col in cid]
-
+        cid = pd.Series(cid)
+        cols_to_keep = cid[cid.isin(gctoo.data_df.columns)]
     else:
         # Use col_bool if provided
         if col_bool is not None:
