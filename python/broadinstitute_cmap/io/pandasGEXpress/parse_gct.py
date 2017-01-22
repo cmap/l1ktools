@@ -77,6 +77,7 @@ row_index_name = "rid"
 column_index_name = "cid"
 row_header_name = "rhd"
 column_header_name = "chd"
+DATA_TYPE = np.float32
 
 
 def parse(file_path, convert_neg_666=True, rid=None, cid=None, make_multiindex=False):
@@ -226,6 +227,7 @@ def assemble_row_metadata(full_df, num_col_metadata, num_data_rows, num_row_meta
 
     return row_metadata
 
+
 def assemble_col_metadata(full_df, num_col_metadata, num_row_metadata, num_data_cols):
 
     # Extract values
@@ -266,16 +268,16 @@ def assemble_data(full_df, num_col_metadata, num_data_rows, num_row_metadata, nu
 
     # Convert from str to float
     try:
-        data = data.astype(np.float32)
+        data = data.astype(DATA_TYPE)
     except:
         # If that fails, return the first value that could not be converted
         for col in data:
             try:
-                data[col].astype(np.float32)
+                data[col].astype(DATA_TYPE)
             except:
                 for row_idx, val in enumerate(data[col]):
                     try:
-                        np.float32(val)
+                        DATA_TYPE(val)
                     except:
                         bad_row_label = data[col].index[row_idx]
                         err_msg = ("First instance of value that could not be converted: " +

@@ -1,25 +1,33 @@
 """
 concat_gctoo.py
 
-This function is for concatenating gct(x) files together. You can tell it to find
-gct files using the file_wildcard argument, or you can tell it exactly which
-files you want to concatenate using the list_of_gct_paths argument. The meat of
-this function is the hstack method (i.e. horizontal concatenation of
-gct). Vertical concatenation has not yet been implemented but is very
-analogous to what has been done here.
+This function is for concatenating gct(x) files together. You can tell it to
+find gct files using the file_wildcard argument, or you can tell it exactly
+which files you want to concatenate using the list_of_gct_paths argument. The
+meat of this function are the hstack (i.e. horizontal concatenation of gcts)
+and vstack (i.e. vertical concatenation).
+
+Terminology: 'Common' metadata refers to the metadata that is shared between
+the gcts. For example, if horizontally concatenating, the 'common' metadata is
+the row metadata. 'New' metadata is the other one; it's the 'new' metadata that
+each gct brings. For example, if horizontally concatenating, the 'new' metadata
+is the column metadata.
 
 There are 3 arguments that allow you to work around certain obstacles
 of concatenation.
 
-1) If the row metadata contains headers with values that are not the same in
-all files, then you can remove these headers using the fields_to_remove argument.
+1) If the 'common' metadata contains fields that are not the same in
+all files, then you can remove these fields using the fields_to_remove argument.
 
-2) If the row metadata headers are the same between different files but not in
-the same order, you can sort them using the sort_headers argument.
+2) If the 'common' metadata fields are all the same between different files but
+not in the same order, you will have to sort them using the sort_headers
+argument.
 
-3) If the sample ids are not unique between different files, you can use the
-reset_sample_ids argument. This will move the cids to a new metadata field
-and assign a unique integer index for each sample.
+3) If the 'new' metadata ids are not unique between different files, and you
+try to concatenate the files, an invalid GCToo would be formed (duplicate ids).
+To overcome this, use the reset_sample_ids argument. This will move the 'new'
+metadata ids to a new metadata field and replace the original ids with unique
+integers.
 
 """
 
@@ -46,6 +54,7 @@ def build_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     # Required args
+    parser.add_argument("--concat_")
     mutually_exclusive_group = parser.add_mutually_exclusive_group()
     mutually_exclusive_group.add_argument("--list_of_gct_paths", "-lop", nargs="+",
         help="full paths to gct files to be concatenated")
@@ -62,11 +71,10 @@ def build_parser():
     parser.add_argument("--full_out_name", "-o", type=str, default="concated.gctx",
         help="what to name the output file (full path)")
     parser.add_argument("--fields_to_remove", "-ftr", nargs="+",
-        help="fields to remove from the row metadata headers before concatenating")
+        help="fields to remove from the common metadata")
     parser.add_argument("--sort_headers", "-sh", action="store_true", default=False,
-        help=("whether to sort the headers of row metadata dfs (use this flag " +
-              "if row metadata headers are not in the same order in different files)"))
-    parser.add_argument("--reset_sample_ids", "-rsi", action="store_true", default=False,
+        help="whether to sort the common metadata headers")
+    parser.add_argument("--reset_ids", "-rsi", action="store_true", default=False,
         help="whether to reset sample ids (use this flag if sample ids are not unique)")
 
     parser.add_argument("-data_null", type=str, default="NA",
@@ -100,7 +108,7 @@ def main(args):
         gctoos.append(parse.parse(f))
 
     # Create concatenated gctoo object
-    out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_sample_ids, args.sort_headers)
+    out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_ids, args.sort_headers)
 
     # Write out_gctoo to file
     logger.info("Write to file...")
@@ -124,13 +132,13 @@ def get_file_list(wildcard):
     return files
 
 
-def hstack(gctoos, fields_to_remove=None, reset_sample_ids=False, sort_headers=False):
+def hstack(gctoos, fields_to_remove=None, reset_ids=False, sort_headers=False):
     """Horizontally concatenate gctoos.
     Args:
         gctoos (list of gctoo objects)
         fields_to_remove (list of strings): can specify certain fields to remove
             from row metadata in order to allow rows to line up
-        reset_sample_ids (bool): set to True if sample ids are not unique
+        reset_ids (bool): set to True if sample ids are not unique
         sort_headers (bool): set to True in order to sort the headers of each
             row_metadata_df
     Return:
@@ -161,8 +169,8 @@ def hstack(gctoos, fields_to_remove=None, reset_sample_ids=False, sort_headers=F
     
     # If requested, assign unique integer as new sample id and move old sample
     # id into the column metadata
-    if reset_sample_ids:
-        (all_col_metadata_df, all_data_df) = do_reset_sample_ids(
+    if reset_ids:
+        (all_col_metadata_df, all_data_df) = do_reset_ids(
             all_col_metadata_df, all_data_df)
 
     logger.info("build GCToo of all...")
@@ -258,13 +266,13 @@ def concat_data(data_dfs):
     return all_data_df_sorted
 
 
-def do_reset_sample_ids(all_col_metadata_df, all_data_df):
+def do_reset_ids(all_col_metadata_df, all_data_df):
     """Rename sample ids in both metadata and data dfs to unique integers.
     Note that the dataframes are modified in-place.
     In order to save the output as a proper gct file, the sample ids need to be
     unique. If sample ids are not unique, then this function will error out.
     However, if you want to concatenate files anyway, you can use the flag
-    reset_sample_ids to move the cids to a new metadata field and assign a unique
+    reset_ids to move the cids to a new metadata field and assign a unique
     integer index for each sample.
     Args:
         all_col_metadata_df (pandas df)

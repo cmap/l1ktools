@@ -17,7 +17,7 @@ __author__ = 'Oana Enache'
 __email__ = 'oana@broadinstitute.org'
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
-setup_logger.setup(verbose = True)
+
 
 def make():
 	"""

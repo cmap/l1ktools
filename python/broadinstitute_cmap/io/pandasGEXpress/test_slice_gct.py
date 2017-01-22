@@ -9,7 +9,6 @@ import slice_gct
 import parse_gct as pg
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
-setup_logger.setup(verbose=True)
 
 DATA_DF = pd.DataFrame([[1, 2, 3], [5, 7, 11], [13, 17, 19], [23, 29, 31]],
                        index=["a", "b", "c", "d"], columns=["e", "f", "g"])
@@ -22,7 +21,7 @@ IN_GCT = GCToo.GCToo(DATA_DF, ROW_METADATA_DF, COL_METADATA_DF)
 FUNCTIONAL_TESTS_DIR = "functional_tests"
 
 
-class TestDsSlice(unittest.TestCase):
+class TestSliceGCT(unittest.TestCase):
 
     def test_read_arg(self):
         arg_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_slice_rid.grp")
