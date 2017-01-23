@@ -39,7 +39,7 @@ N.B. rids, cids, rhds, and chds must be:
 - unique
 - matching in both content & order everywhere they're found 
 """
-
+import pdb
 import numpy as np
 import pandas as pd
 import logging
@@ -85,9 +85,12 @@ class GCToo(object):
         if "_initialized" in self.__dict__:
             if name in ["data_df", "row_metadata_df", "col_metadata_df"]:
                 if self.check_df(value):
-                    if ((name == "row_metadata_df" and self.id_match_check(self.data_df, value, "row"))
-                        or (name == "col_metadata_df" and self.id_match_check(self.data_df, value, "col"))):
+                    if (name == "row_metadata_df" and self.id_match_check(self.data_df, value, "row")):
                         value = value.reindex(self.data_df.index)
+                        super(GCToo, self).__setattr__(names, value)
+                    elif (name == "col_metadata_df" and self.id_match_check(self.data_df, value, "col")):
+                        value = value.reindex(self.data_df.columns)
+                        super(GCToo, self).__setattr__(name, value)
                     elif (name == "data_df" and (self.id_match_check(value, self.row_metadata_df, "row")
                                                 and self.id_match_check(value, self.col_metadata_df, "col"))):
                         # in this case we need to reindex both row/col metadata so that indexes are ordered

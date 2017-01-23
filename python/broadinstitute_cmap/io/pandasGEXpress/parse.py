@@ -18,8 +18,8 @@ __email__ = "oana@broadinstitute.org"
 # instantiate logger
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-def parse(file_path, convert_neg_666=True, rid=None, cid=None,
-		  meta_only=None, make_multiindex=False):
+def parse(file_path, convert_neg_666=True, rid=None, cid=None, ridx=None, cidx=None,
+		  meta_only=False, make_multiindex=False):
 	""" 
 	Identifies whether file_path corresponds to a .gct or .gctx file and calls the
 	correct corresponding parse method.
@@ -48,7 +48,7 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None,
 	if file_path.endswith(".gct"):
 		curr = parse_gct.parse(file_path, convert_neg_666, rid, cid, make_multiindex)
 	elif file_path.endswith(".gctx"):
-		curr = parse_gctx.parse(file_path, convert_neg_666, rid, cid, meta_only, make_multiindex)
+		curr = parse_gctx.parse(file_path, convert_neg_666, rid, cid, ridx, cidx, meta_only, make_multiindex)
 	else:
 		logger.error("File to parse must be .gct or .gctx!")
 	return curr 

@@ -111,9 +111,9 @@ def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 		logger.error("'dim' argument must be either 'row' or 'col'!")
 
 	# write id field to expected node
-	hdf5_out.create_dataset(metadata_node_name + "/id", data=list(metadata_df.index))
+	hdf5_out.create_dataset(metadata_node_name + "/id", data=list(metadata_df.index.copy()))
 
-	metadata_fields = list(metadata_df.columns)
+	metadata_fields = list(metadata_df.columns.copy())
 
 	# if specified, convert numpy.nans in metadata back to -666
 	if convert_back_to_neg_666:
@@ -123,9 +123,9 @@ def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 	# write metadata columns to their own arrays 
 	for field in [entry for entry in metadata_fields if entry != "ind"]:
 		hdf5_out.create_dataset(metadata_node_name + "/" + field, 
-			data=numpy.array(list(metadata_df[field])))
+			data=numpy.array(list(metadata_df.loc[:,field])))
 
-		# TODO: try metadata_df[field].values 
+	
 
 
 
