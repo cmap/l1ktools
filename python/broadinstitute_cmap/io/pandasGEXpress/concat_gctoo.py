@@ -55,7 +55,8 @@ def build_parser():
         description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     # Required args
-    parser.add_argument("--concat_direction", "-d", choices=["horz", "vert"],
+    parser.add_argument("--concat_direction", "-d", required=True,
+                        choices=["horz", "vert"],
                         help="which direction to concatenate")
 
     mutually_exclusive_group = parser.add_mutually_exclusive_group()
@@ -156,7 +157,7 @@ def get_file_list(wildcard):
     return files
 
 
-def hstack(gctoos, fields_to_remove, reset_ids):
+def hstack(gctoos, fields_to_remove=[], reset_ids=False):
     """ Horizontally concatenate gctoos.
 
     Args:
@@ -203,7 +204,7 @@ def hstack(gctoos, fields_to_remove, reset_ids):
     return concated
 
 
-def vstack(gctoos, fields_to_remove, reset_ids):
+def vstack(gctoos, fields_to_remove=[], reset_ids=False):
     """ Vertically concatenate gctoos.
 
     Args:

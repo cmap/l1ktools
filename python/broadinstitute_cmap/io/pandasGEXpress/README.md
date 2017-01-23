@@ -226,24 +226,24 @@ python gctx2gct.py -filename some_thing.gctx -outname something_else -outpath my
 
 ### Use Case 8: From the command line, concatenate a bunch of .gct or .gctx files 
 
-A. You have a bunch of files that start with 'LINCS_GCP' in your Downloads folder that you want to concatenate. Type the following in your command line:
+A. You have a bunch of files that start with 'LINCS_GCP' in your Downloads folder that you want to concatenate horizontally. Type the following in your command line:
 
 ```
-python /Users/some_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo/concat_gctoo.py --file_wildcard '/Users/some_name/Downloads/LINCS_GCP*'
+python /Users/some_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo/concat_gctoo.py --file_wildcard '/Users/some_name/Downloads/LINCS_GCP*' --concat_direction horz
 ```
 
-This will save a file called `concated.gct` in your current directory.  Make sure that the wildcard is in quotes!
+This will save a file called `concated.gctx` in your current directory.  Make sure that the wildcard is in quotes!
 
 B. You have 2 files that you want to concatenate: /Users/some_name/file_to_concatenate1.gct and /Users/some_name/file_to_concatenate2.gct. Type the following in your command line:
 
 ```
-python /Users/some_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo/concat_gctoo.py --list_of_gct_paths /Users/some_name/file_to_concatenate1.gct /Users/some_name/file_to_concatenate2.gct
+python /Users/some_name/code/l1ktools/python/broadinstitute_cmap/io/GCToo/concat_gctoo.py --list_of_gct_paths /Users/some_name/file_to_concatenate1.gct /Users/some_name/file_to_concatenate2.gct --concat_direction horz 
 ```
 
-C. You have 2 GCToo objects in memory that you want to concatenate. hstack is the method in concat_gctoo.py that actually does the concatenation. From within the Python console or script where you have your 2 GCToos (gct1 & gct2), type the following:
+C. You have 2 GCToo objects in memory that you want to concatenate vertically. hstack and vstack are the methods in concat_gctoo.py that actually do the concatenation. From within the Python console or script where you have your 2 GCToos (gct1 & gct2), type the following:
 
 ```python
 from broadinstitute_cmap.io.GCToo import concat_gctoo as cg
-concated = cg.hstack([gct1, gct2])
+concated = cg.vstack([gct1, gct2])
 ```
 
