@@ -8,3 +8,4 @@ data/python_example.gctx
 .gitignore
 *.idea
 *.egg-info
+*.ipynb_checkpoints
