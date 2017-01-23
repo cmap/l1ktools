@@ -87,7 +87,7 @@ class GCToo(object):
                 if self.check_df(value):
                     if (name == "row_metadata_df" and self.id_match_check(self.data_df, value, "row")):
                         value = value.reindex(self.data_df.index)
-                        super(GCToo, self).__setattr__(names, value)
+                        super(GCToo, self).__setattr__(name, value)
                     elif (name == "col_metadata_df" and self.id_match_check(self.data_df, value, "col")):
                         value = value.reindex(self.data_df.columns)
                         super(GCToo, self).__setattr__(name, value)
