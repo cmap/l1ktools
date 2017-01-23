@@ -9,25 +9,25 @@ and vstack (i.e. vertical concatenation).
 
 Terminology: 'Common' metadata refers to the metadata that is shared between
 the gcts. For example, if horizontally concatenating, the 'common' metadata is
-the row metadata. 'New' metadata is the other one; it's the 'new' metadata that
-each gct brings. For example, if horizontally concatenating, the 'new' metadata
-is the column metadata.
+the row metadata. 'Concatenated' metadata is the other one; it's the metadata
+for the entries being concatenated together. For example, if horizontally
+concatenating, the 'concatenated' metadata is the column metadata because
+columns are being concatenated together.
 
-There are 3 arguments that allow you to work around certain obstacles
+There are 2 arguments that allow you to work around certain obstacles
 of concatenation.
 
 1) If the 'common' metadata contains fields that are not the same in
-all files, then you can remove these fields using the fields_to_remove argument.
+all files, then you will need to remove these fields using the
+fields_to_remove argument.
 
-2) If the 'common' metadata fields are all the same between different files but
-not in the same order, you will have to sort them using the sort_headers
-argument.
+2) If the 'concatenated' metadata ids are not unique between different files,
+and you try to concatenate the files, an invalid GCToo would be formed
+(duplicate ids). To overcome this, use the reset_sample_ids argument. This will
+move the 'new' metadata ids to a new metadata field and replace the original ids
+with unique integers.
 
-3) If the 'new' metadata ids are not unique between different files, and you
-try to concatenate the files, an invalid GCToo would be formed (duplicate ids).
-To overcome this, use the reset_sample_ids argument. This will move the 'new'
-metadata ids to a new metadata field and replace the original ids with unique
-integers.
+N.B. This script sorts everything!
 
 """
 
@@ -51,31 +51,28 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
 def build_parser():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     # Required args
-    parser.add_argument("--concat_")
+    parser.add_argument("--concat_direction", "-d", choices=["horz", "vert"],
+                        help="which direction to concatenate")
+
     mutually_exclusive_group = parser.add_mutually_exclusive_group()
     mutually_exclusive_group.add_argument("--list_of_gct_paths", "-lop", nargs="+",
         help="full paths to gct files to be concatenated")
     mutually_exclusive_group.add_argument("--file_wildcard", "-w", type=str,
         help=("wildcard specifying where files should be found " +
               "(make sure to surround in quotes if calling from command line!)"))
+    parser.add_argument("--out_type", "-ot", default="gctx", choices=["gct", "gctx"],
+                        help="whether to save output as a gct or gctx")
 
-    # Optional args
-    out_type_group = parser.add_mutually_exclusive_group()
-    out_type_group.add_argument('-gctx', action='store_const', dest='out_type', const="gctx")
-    out_type_group.add_argument('-gct', action='store_const', dest='out_type', const="gct")
-    parser.set_defaults(out_type="gctx")
-
-    parser.add_argument("--full_out_name", "-o", type=str, default="concated.gctx",
-        help="what to name the output file (full path)")
-    parser.add_argument("--fields_to_remove", "-ftr", nargs="+",
+    parser.add_argument("--out_name", "-o", type=str, default="concated.gctx",
+        help="what to name the output file")
+    parser.add_argument("--fields_to_remove", "-ftr", nargs="+", default=[],
         help="fields to remove from the common metadata")
-    parser.add_argument("--sort_headers", "-sh", action="store_true", default=False,
-        help="whether to sort the common metadata headers")
     parser.add_argument("--reset_ids", "-rsi", action="store_true", default=False,
-        help="whether to reset sample ids (use this flag if sample ids are not unique)")
+        help="whether to reset ids (use this flag if ids are not unique)")
 
     parser.add_argument("-data_null", type=str, default="NA",
         help="how to represent missing values in the data")
@@ -99,52 +96,78 @@ def main(args):
     else:
         files = get_file_list(args.file_wildcard)
 
-    assert len(files) > 0, "No files were found. args.file_wildcard: {}".format(
-        args.file_wildcard)
+    # No files found
+    if len(files) == 0:
+        msg = "No files were found. args.file_wildcard: {}".format(args.file_wildcard)
+        logger.error(msg)
+        raise Exception(msg)
 
-    # Parse each file and append to a list
-    gctoos = []
-    for f in files:
-        gctoos.append(parse.parse(f))
+    # Only 1 file found
+    elif len(files == 1):
+        msg = "Only 1 file found. No concatenation needs to be done."
+        logger.warning(msg)
+        pass
 
-    # Create concatenated gctoo object
-    out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_ids, args.sort_headers)
+    # More than 1 file found
+    else:
+        # Parse each file and append to a list
+        gctoos = []
+        for f in files:
+            gctoos.append(parse.parse(f))
+
+        # Create concatenated gctoo object
+        if args.concat_direction == "horz":
+            out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_ids)
+
+        elif args.concat_direction == "vert":
+            out_gctoo = vstack(gctoos, args.fields_to_remove, args.reset_ids)
+
+        else:
+            msg = ("args.concat_direction must be horz or vert. " +
+                   "args.concat_direction: {}").format(args.concat_direction)
+            logger.error(msg)
+            raise Exception(msg)
 
     # Write out_gctoo to file
     logger.info("Write to file...")
+
     if args.out_type == "gctx":
-        write_gctx.write(out_gctoo, args.full_out_name)    
+        write_gctx.write(out_gctoo, args.out_name)
+
     elif args.out_type == "gct":
-        write_gct.write(out_gctoo, args.full_out_name,
+        write_gct.write(out_gctoo, args.out_name,
                           filler_null=args.filler_null,
-                          metadata_null= args.metadata_null,
+                          metadata_null=args.metadata_null,
                           data_null=args.data_null)
 
+
 def get_file_list(wildcard):
-    """Search for files to be concatenated. Currently very basic, but could
+    """ Search for files to be concatenated. Currently very basic, but could
     expand to be more sophisticated.
+
     Args:
         wildcard (regular expression string)
+
     Returns:
         files (list of full file paths)
+
     """
     files = glob.glob(os.path.expanduser(wildcard))
     return files
 
 
-def hstack(gctoos, fields_to_remove=None, reset_ids=False, sort_headers=False):
-    """Horizontally concatenate gctoos.
+def hstack(gctoos, fields_to_remove, reset_ids):
+    """ Horizontally concatenate gctoos.
+
     Args:
         gctoos (list of gctoo objects)
-        fields_to_remove (list of strings): can specify certain fields to remove
-            from row metadata in order to allow rows to line up
+        fields_to_remove (list of strings): fields to be removed from the
+            common metadata because they don't agree across files
         reset_ids (bool): set to True if sample ids are not unique
-        sort_headers (bool): set to True in order to sort the headers of each
-            row_metadata_df
+
     Return:
         concated (gctoo object)
     """
-
     # Separate each gctoo into its component dfs
     row_meta_dfs = []
     col_meta_dfs = []
@@ -155,163 +178,246 @@ def hstack(gctoos, fields_to_remove=None, reset_ids=False, sort_headers=False):
         data_dfs.append(g.data_df)
 
     # Concatenate row metadata
-    all_row_metadata_df = concat_row_meta(row_meta_dfs, fields_to_remove, sort_headers)
+    all_row_metadata_df = assemble_common_meta(row_meta_dfs, fields_to_remove)
 
     # Concatenate col metadata
-    all_col_metadata_df = concat_col_meta(col_meta_dfs)
+    all_col_metadata_df = assemble_concatenated_meta(col_meta_dfs)
 
     # Concatenate the data_dfs
-    all_data_df = concat_data(data_dfs)
+    all_data_df = assemble_data(data_dfs, "horz")
 
     # Make sure df shapes are correct
     assert all_data_df.shape[0] == all_row_metadata_df.shape[0], "Number of rows is incorrect."
     assert all_data_df.shape[1] == all_col_metadata_df.shape[0], "Number of columns is incorrect."
     
-    # If requested, assign unique integer as new sample id and move old sample
-    # id into the column metadata
+    # If requested, reset sample ids to be unique integers and move old sample
+    # ids into column metadata
     if reset_ids:
-        (all_col_metadata_df, all_data_df) = do_reset_ids(
-            all_col_metadata_df, all_data_df)
+        do_reset_ids(all_col_metadata_df, all_data_df, "horz")
 
-    logger.info("build GCToo of all...")
+    logger.info("Build GCToo of all...")
     concated = GCToo.GCToo(row_metadata_df=all_row_metadata_df,
                            col_metadata_df=all_col_metadata_df,
                            data_df=all_data_df)
 
     return concated
 
-def concat_row_meta(row_meta_dfs, fields_to_remove, sort_headers):
-    """Concatenate the row metadata dfs together and sort the index.
+
+def vstack(gctoos, fields_to_remove, reset_ids):
+    """ Vertically concatenate gctoos.
+
     Args:
-        row_meta_dfs (list of pandas dfs)
-        fields_to_remove (list of strings): metadata fields to drop from all dfs
-            before concatenating
-        sort_headers (bool): set to True in order to sort the headers of each
-            row_metadata_df
-    Returns:
-        all_row_meta_df (pandas df)
+        gctoos (list of gctoo objects)
+        fields_to_remove (list of strings): fields to be removed from the
+            common metadata because they don't agree across files
+        reset_ids (bool): set to True if row ids are not unique
+
+    Return:
+        concated (gctoo object)
     """
-    # Remove any metadata columns that will prevent probes from being identical between plates
-    if fields_to_remove is not None:
-        for df in row_meta_dfs:
-            df.drop(fields_to_remove, axis=1, inplace=True)
+    # Separate each gctoo into its component dfs
+    row_meta_dfs = []
+    col_meta_dfs = []
+    data_dfs = []
+    for g in gctoos:
+        row_meta_dfs.append(g.row_metadata_df)
+        col_meta_dfs.append(g.col_metadata_df)
+        data_dfs.append(g.data_df)
 
-    # Sort metadata headers in case the order is different between dfs
-    if sort_headers:
-        for df in row_meta_dfs:
-            df.sort_index(axis=1, inplace=True)
+    # Concatenate col metadata
+    all_col_metadata_df = assemble_common_meta(col_meta_dfs, fields_to_remove)
 
-    # Concat all row_meta_df and then remove duplicate rows (slow...but it works)
-    all_row_meta_df_dups = pd.concat(row_meta_dfs, axis=0)
-    logger.debug("all_row_meta_df_dups.shape: {}".format(all_row_meta_df_dups.shape))
-    all_row_meta_df = all_row_meta_df_dups.drop_duplicates()
-    logger.debug("all_row_meta_df.shape: {}".format(all_row_meta_df.shape))
+    # Concatenate col metadata
+    all_row_metadata_df = assemble_concatenated_meta(row_meta_dfs)
 
-    # Verify that there are no longer any duplicate rids
-    duplicate_rids = all_row_meta_df.index.duplicated(keep=False)
-    assert all_row_meta_df.index.is_unique, (
-        ("The following rids are duplicated because the metadata between " +
-         "different files does not agree.\nTry excluding more metadata " +
-         "fields using the fields_to_remove argument.\n"
-         "all_row_meta_df.index[duplicate_rids]:\n{}").format(
-            all_row_meta_df.index[duplicate_rids]))
+    # Concatenate the data_dfs
+    all_data_df = assemble_data(data_dfs, "vert")
 
-    # Finally, re-sort the index
-    all_row_metadata_df_sorted = all_row_meta_df.sort_index()
+    # Make sure df shapes are correct
+    assert all_data_df.shape[0] == all_row_metadata_df.shape[0], "Number of rows is incorrect."
+    assert all_data_df.shape[1] == all_col_metadata_df.shape[0], "Number of columns is incorrect."
 
-    return all_row_metadata_df_sorted
+    # If requested, reset sample ids to be unique integers and move old sample
+    # ids into column metadata
+    if reset_ids:
+        do_reset_ids(all_row_metadata_df, all_data_df, "vert")
 
-def concat_col_meta(col_meta_dfs):
-    """Concatenate the column metadata dfs together.
+    logger.info("Build GCToo of all...")
+    concated = GCToo.GCToo(row_metadata_df=all_row_metadata_df,
+                           col_metadata_df=all_col_metadata_df,
+                           data_df=all_data_df)
+
+    return concated
+
+
+def assemble_common_meta(common_meta_dfs, fields_to_remove):
+    """ Assemble the common metadata dfs together. Both indices are sorted.
+
     Args:
-        col_meta_dfs (list of pandas dfs)
-    Returns:
-        all_col_meta_df (pandas df)
-    """
-    # Concatenate the col_meta_dfs
-    all_col_meta_df = pd.concat(col_meta_dfs, axis=0)
+        common_meta_dfs (list of pandas dfs)
+        fields_to_remove (list of strings): fields to be removed from the
+            common metadata because they don't agree across files
 
-    # Sanity check: the number of rows in all_col_metadata_df should correspond
+    Returns:
+        all_meta_df_sorted (pandas df)
+
+    """
+    # Remove any column headers that will prevent dfs from being identical
+    for df in common_meta_dfs:
+        df.drop(fields_to_remove, axis=1, inplace=True)
+
+    # Remove any column headers that are not present in all dfs (and sort)
+    shared_column_headers = sorted(set.intersection(*[set(df.columns) for df in common_meta_dfs]))
+    common_meta_dfs = [df[shared_column_headers] for df in common_meta_dfs]
+
+    # Concatenate all dfs and then remove duplicate rows
+    all_meta_df_with_dups = pd.concat(common_meta_dfs, axis=0)
+    all_meta_df = all_meta_df_with_dups.drop_duplicates()
+
+    logger.debug("all_meta_df_with_dups.shape: {}".format(all_meta_df_with_dups.shape))
+    logger.debug("all_meta_df.shape: {}".format(all_meta_df.shape))
+
+    # If there are still duplicate ids, then their metadata didn't align
+    # in different gcts
+    duplicate_ids = all_meta_df.index[all_meta_df.index.duplicated(keep=False)]
+
+    assert all_meta_df.index.is_unique, (
+        ("There are inconsistencies in common_metadata_df between " +
+         "different files.\nTry excluding metadata fields " +
+         "using the fields_to_remove argument.\n"
+         "duplicate_ids[0]: {id}\n" +
+         "all_meta_df.loc[{id}, :]:\n{df}").format(id=duplicate_ids[0],
+            df=all_meta_df.loc[duplicate_ids[0], :]))
+
+    # Finally, sort the index
+    all_meta_df_sorted = all_meta_df.sort_index(axis=0)
+
+    return all_meta_df_sorted
+
+
+def assemble_concatenated_meta(concated_meta_dfs):
+    """ Assemble the concatenated metadata dfs together. For example,
+    if horizontally concatenating, the concatenated metadata dfs are the
+    column metadata dfs. Both indices are sorted.
+
+    Args:
+        concated_meta_dfs (list of pandas dfs)
+
+    Returns:
+        all_concated_meta_df_sorted (pandas df)
+
+    """
+    # Concatenate the concated_meta_dfs
+    all_concated_meta_df = pd.concat(concated_meta_dfs, axis=0)
+
+    # Sanity check: the number of rows in all_concated_meta_df should correspond
     # to the sum of the number of rows in the input dfs
-    n_rows = all_col_meta_df.shape[0]
-    n_rows_cumulative = sum([df.shape[0] for df in col_meta_dfs])
+    n_rows = all_concated_meta_df.shape[0]
+    logger.debug("all_concated_meta_df.shape[0]: {}".format(n_rows))
+    n_rows_cumulative = sum([df.shape[0] for df in concated_meta_dfs])
     assert n_rows == n_rows_cumulative
 
-    logger.debug("all_col_meta_df.shape[0]: {}".format(n_rows))
+    # Sort the index and columns
+    all_concated_meta_df_sorted = all_concated_meta_df.sort_index(axis=0).sort_index(axis=1)
 
-    return all_col_meta_df
+    return all_concated_meta_df_sorted
 
 
-def concat_data(data_dfs):
-    """Concatenate the data dfs together.
+def assemble_data(data_dfs, concat_direction):
+    """ Assemble the data dfs together. Both indices are sorted.
+
     Args:
         data_dfs (list of pandas dfs)
+        concat_direction (string): 'horz' or 'vert'
+
     Returns:
         all_data_df_sorted (pandas df)
+
     """
-    # Concatenate the data_dfs
-    all_data_df = pd.concat(data_dfs, axis=1)
+    if concat_direction == "horz":
+        # Concatenate the data_dfs horizontally
+        all_data_df = pd.concat(data_dfs, axis=1)
 
-    # Sort the index
-    all_data_df_sorted = all_data_df.sort_index()
+        # Sanity check: the number of columns in all_data_df should
+        # correspond to the sum of the number of columns in the input dfs
+        n_cols = all_data_df.shape[1]
+        logger.debug("all_data_df.shape[1]: {}".format(n_cols))
+        n_cols_cumulative = sum([df.shape[1] for df in data_dfs])
+        assert n_cols == n_cols_cumulative
 
-    # Sanity check: the number of columns in all_data_df_sorted should correspond
-    # to the sum of the number of columns in the input dfs
-    n_cols = all_data_df_sorted.shape[1]
-    n_cols_cumulative = sum([df.shape[1] for df in data_dfs])
-    assert n_cols == n_cols_cumulative
+    elif concat_direction == "vert":
 
-    logger.debug("all_data_df_sorted.shape[1]: {}".format(n_cols))
+        # Concatenate the data_dfs vertically
+        all_data_df = pd.concat(data_dfs, axis=0)
+
+        # Sanity check: the number of rows in all_data_df should
+        # correspond to the sum of the number of rows in the input dfs
+        n_rows = all_data_df.shape[0]
+        logger.debug("all_data_df.shape[0]: {}".format(n_rows))
+        n_rows_cumulative = sum([df.shape[0] for df in data_dfs])
+        assert n_rows == n_rows_cumulative
+
+    # Sort both indices
+    all_data_df_sorted = all_data_df.sort_index(axis=0).sort_index(axis=1)
 
     return all_data_df_sorted
 
 
-def do_reset_ids(all_col_metadata_df, all_data_df):
-    """Rename sample ids in both metadata and data dfs to unique integers.
+def do_reset_ids(concatenated_meta_df, data_df, concat_direction):
+    """ Reset ids in concatenated metadata and data dfs to unique integers and
+    save the old ids in a metadata column.
+
     Note that the dataframes are modified in-place.
-    In order to save the output as a proper gct file, the sample ids need to be
-    unique. If sample ids are not unique, then this function will error out.
-    However, if you want to concatenate files anyway, you can use the flag
-    reset_ids to move the cids to a new metadata field and assign a unique
-    integer index for each sample.
+
     Args:
-        all_col_metadata_df (pandas df)
-        all_data_df (pandas df)
+        concatenated_meta_df (pandas df)
+        data_df (pandas df)
+        concat_direction (string): 'horz' or 'vert'
+
     Returns:
-        all_col_metadata_df (pandas df): updated
-        all_data_df (pandas df): updated
+        None (dfs modified in-place)
+
     """
-    # See how many samples are repeated before resetting
-    logger.debug("num samples: {}".format(all_col_metadata_df.shape[0]))
-    logger.debug("num unique samples before reset: {}".format(
-        len(all_col_metadata_df.index.unique())))
+    if concat_direction == "horz":
 
-    # First, make sure sample ids agree between data df and col_meta_df
-    assert all_col_metadata_df.index.equals(all_data_df.columns), (
-        "Sample ids in all_col_metadata_df do not agree with the sample ids in data_df.")
+        # Make sure cids agree between data_df and concatenated_meta_df
+        assert concatenated_meta_df.index.equals(data_df.columns), (
+            "cids in concatenated_meta_df do not agree with cids in data_df.")
 
-    # Change index name so that the column that it becomes will be
-    # appropriately named
-    all_col_metadata_df.index.name = "old_cid"
+        # Reset cids in concatenated_meta_df
+        reset_ids_in_meta_df(concatenated_meta_df)
+
+        # Replace cids in data_df with the new ones from concatenated_meta_df
+        # (just an array of unique integers, zero-indexed)
+        data_df.columns = pd.Index(concatenated_meta_df.index.values)
+
+    elif concat_direction == "vert":
+
+        # Make sure rids agree between data_df and concatenated_meta_df
+        assert concatenated_meta_df.index.equals(data_df.index), (
+            "rids in concatenated_meta_df do not agree with rids in data_df.")
+
+        # Reset rids in concatenated_meta_df
+        reset_ids_in_meta_df(concatenated_meta_df)
+
+        # Replace rids in data_df with the new ones from concatenated_meta_df
+        # (just an array of unique integers, zero-indexed)
+        data_df.index = pd.Index(concatenated_meta_df.index.values)
+
+
+def reset_ids_in_meta_df(meta_df):
+    """ Meta_df is modified inplace. """
+
+    # Record original index name, and then change it so that the column that it
+    # becomes will be appropriately named
+    original_index_name = meta_df.index.name
+    meta_df.index.name = "old_id"
 
     # Reset index
-    all_col_metadata_df = all_col_metadata_df.reset_index()
+    meta_df.reset_index(inplace=True)
 
-    # Change the index name back to cid
-    all_col_metadata_df.index.name = "cid"
-
-    # Replace sample ids in data_df with the new ones from col_meta_df (just an
-    # array of unique integers, zero-indexed)
-    all_data_df.columns = pd.Index(all_col_metadata_df.index.values)
-
-    # Assert that the number of unique samples now equals the number of samples
-    logger.debug("num unique samples after reset: {}".format(
-        len(all_col_metadata_df.index.unique())))
-    assert all_col_metadata_df.shape[0] == len(all_col_metadata_df.index.unique()), (
-        "The sample ids in all_col_metadata_df still are not unique! Not good! " +
-        "\nall_col_metadata_df.index.values:\n{}").format(all_col_metadata_df.index.values)
-
-    return all_col_metadata_df, all_data_df
+    # Change the index name back to what it was
+    meta_df.index.name = original_index_name
 
 
 if __name__ == "__main__":

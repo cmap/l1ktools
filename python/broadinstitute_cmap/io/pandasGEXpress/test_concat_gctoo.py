@@ -9,12 +9,11 @@ import concat_gctoo as cg
 import parse_gct as pg
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
-
 FUNCTIONAL_TESTS_DIR = "functional_tests"
+
 
 class TestConcatGCToo(unittest.TestCase):
     def test_left_right(self):
-        # Verify that concatenation replicates the output file
         left_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_left.gct")
         right_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_right.gct")
         expected_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merged_left_right.gct")
@@ -24,17 +23,13 @@ class TestConcatGCToo(unittest.TestCase):
         expected_gct = pg.parse(expected_gct_path)
 
         # Merge left and right
-        concated_gct = cg.hstack([left_gct, right_gct], None, False, False)
+        concated_gct = cg.hstack([left_gct, right_gct], [], False)
 
-        self.assertTrue(expected_gct.data_df.equals(concated_gct.data_df), (
-            "\nconcated_gct.data_df:\n{}\nexpected_gct.data_df:\n{}".format(
-                concated_gct.data_df, expected_gct.data_df)))
-        self.assertTrue(expected_gct.row_metadata_df.equals(concated_gct.row_metadata_df))
-        self.assertTrue(expected_gct.col_metadata_df.equals(concated_gct.col_metadata_df))
+        pd.util.testing.assert_frame_equal(expected_gct.data_df, concated_gct.data_df, check_names=False)
+        pd.util.testing.assert_frame_equal(expected_gct.row_metadata_df, concated_gct.row_metadata_df, check_names=False)
+        pd.util.testing.assert_frame_equal(expected_gct.col_metadata_df, concated_gct.col_metadata_df, check_names=False)
 
-    @unittest.skip("until we implement vstack")
     def test_top_bottom(self):
-        # Verify that concatenation replicates the output file
         top_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_top.gct")
         bottom_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_bottom.gct")
         expected_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merged_top_bottom.gct")
@@ -43,46 +38,94 @@ class TestConcatGCToo(unittest.TestCase):
         bottom_gct = pg.parse(bottom_gct_path)
         expected_gct = pg.parse(expected_gct_path)
 
-        # TODO: Merge top and bottom
-        concated_gct = cg.hstack([top_gct, bottom_gct], None, False, False)
+        # Merge top and bottom
+        concated_gct = cg.vstack([top_gct, bottom_gct], [], False)
 
-        self.assertTrue(expected_gct.data_df.equals(concated_gct.data_df), (
-            "\nconcated_gct.data_df:\n{}\nexpected_gct.data_df:\n{}".format(
-                concated_gct.data_df, expected_gct.data_df)))
-        self.assertTrue(expected_gct.row_metadata_df.equals(concated_gct.row_metadata_df))
-        self.assertTrue(expected_gct.col_metadata_df.equals(concated_gct.col_metadata_df))
+        pd.util.testing.assert_frame_equal(expected_gct.data_df, concated_gct.data_df, check_names=False)
+        pd.util.testing.assert_frame_equal(expected_gct.row_metadata_df, concated_gct.row_metadata_df, check_names=False)
+        pd.util.testing.assert_frame_equal(expected_gct.col_metadata_df, concated_gct.col_metadata_df, check_names=False)
 
-    def test_concat_row_meta(self):
+    def test_assemble_common_meta(self):
+        # rhd3 header needs to be removed
         meta1 = pd.DataFrame(
             [["r1_1", "r1_2", "r1_3"],
-            ["r2_1", "r2_2", "r2_3"],
-            ["r3_1", "r3_2", "r3_3"]],
+             ["r2_1", "r2_2", "r2_3"],
+             ["r3_1", "r3_2", "r3_3"]],
             index=["r1", "r2", "r3"],
             columns=["rhd1", "rhd2", "rhd3"])
         meta2 = pd.DataFrame(
             [["r1_1", "r1_2", "r1_3"],
-            ["r2_1", "r2_2", "r2_3"],
-            ["r3_1", "r3_2", "r3_33"]],
+             ["r2_1", "r2_2", "r2_3"],
+             ["r3_1", "r3_2", "r3_33"]],
             index=["r1", "r2", "r3"],
             columns=["rhd1", "rhd2", "rhd3"])
-        e_meta = pd.DataFrame(
+        e_meta1 = pd.DataFrame(
             [["r1_1", "r1_2"],
-            ["r2_1", "r2_2"],
-            ["r3_1", "r3_2"]],
+             ["r2_1", "r2_2"],
+             ["r3_1", "r3_2"]],
             index=["r1", "r2", "r3"],
             columns=["rhd1", "rhd2"])
 
+        logger.debug("meta1:\n{}".format(meta1))
+        logger.debug("meta2:\n{}".format(meta2))
+        logger.debug("e_meta:\n{}".format(e_meta1))
+
         with self.assertRaises(AssertionError) as e:
-            _ = cg.concat_row_meta([meta1, meta2], None, False)
-        self.assertIn("rids are duplicated", str(e.exception))
+            _ = cg.assemble_common_meta([meta1.copy(), meta2.copy()], [])
+        self.assertIn("r3", str(e.exception))
 
-        # happy path, using fields_to_remove
-        out_meta_df = cg.concat_row_meta([meta1, meta2], ["rhd3"], False)
+        out_meta1 = cg.assemble_common_meta([meta1.copy(), meta2.copy()], ["rhd3"])
+        logger.debug("out_meta1:\n{}".format(out_meta1))
+        pd.util.testing.assert_frame_equal(out_meta1, e_meta1)
 
-        self.assertTrue(out_meta_df.equals(e_meta), (
-            "\nout_meta_df:\n{}\ne_meta:\n{}".format(out_meta_df, e_meta)))
+        # Order of indices and columns are different
+        meta3 = pd.DataFrame(
+            [["r3_1", "r3_3", "r3_2"],
+             ["r1_1", "r1_3", "r1_2"],
+             ["r2_1", "r2_3", "r2_2"]],
+            index=["r3", "r1", "r2"],
+            columns=["rhd1", "rhd3", "rhd2"])
+        e_meta2 = pd.DataFrame(
+            [["r1_1", "r1_2", "r1_3"],
+             ["r2_1", "r2_2", "r2_3"],
+             ["r3_1", "r3_2", "r3_3"]],
+            index=["r1", "r2", "r3"],
+            columns=["rhd1", "rhd2", "rhd3"])
 
-    def test_concat_col_meta(self):
+        logger.debug("meta3:\n{}".format(meta3))
+        logger.debug("e_meta2:\n{}".format(e_meta2))
+        out_meta2 = cg.assemble_common_meta([meta1.copy(), meta3.copy()], [])
+        pd.util.testing.assert_frame_equal(out_meta2, e_meta2)
+
+        # Some ids not present in both dfs
+        meta4 = pd.DataFrame(
+            [["r1_1", "r1_22", "r1_5"],
+             ["r4_1", "r4_22", "r4_5"],
+             ["r3_1", "r3_22", "r3_5"]],
+            index=["r1", "r4", "r3"],
+            columns=["rhd1", "rhd2", "rhd5"])
+        e_meta3 = pd.DataFrame(
+            [["r1_1"],
+             ["r2_1"],
+             ["r3_1"],
+             ["r4_1"]],
+            index=["r1", "r2", "r3", "r4"],
+            columns=["rhd1"])
+
+        logger.debug("meta1:\n{}".format(meta1))
+        logger.debug("meta4:\n{}".format(meta4))
+        logger.debug("e_meta3:\n{}".format(e_meta3))
+
+        with self.assertRaises(AssertionError) as e:
+            _ = cg.assemble_common_meta([meta1.copy(), meta4.copy()], [])
+        self.assertIn("r1", str(e.exception))
+
+        out_meta3 = cg.assemble_common_meta([meta1.copy(), meta4.copy()], ["rhd2"])
+        logger.debug("out_meta3:\n{}".format(out_meta3))
+        pd.util.testing.assert_frame_equal(out_meta3, e_meta3)
+
+    def test_assemble_concatenated_meta(self):
+        # Happy path
         meta1 = pd.DataFrame(
             [["a", "b"], ["c", "d"]],
             index=["c1", "c2"],
@@ -92,37 +135,52 @@ class TestConcatGCToo(unittest.TestCase):
             index=["c2", "c3"],
             columns=["hd1", "hd2", "hd3"])
         e_concated = pd.DataFrame(
-            [["a", "b", np.nan], ["c", "d", np.nan],
-             ["e", "f", "g"], ["h", "i", "j"]],
+            [["a", "b", np.nan], ["e", "f", "g"],
+             ["c", "d", np.nan], ["h", "i", "j"]],
             index=["c1", "c2", "c2", "c3"],
             columns=["hd1", "hd2", "hd3"])
 
-        out_concated = cg.concat_col_meta([meta1, meta2])
-        self.assertTrue(out_concated.equals(e_concated), (
-            "\nout_concated:\n{}\ne_concated:\n{}".format(
-                out_concated, e_concated)))
+        logger.debug("meta1:\n{}".format(meta1))
+        logger.debug("meta2:\n{}".format(meta2))
+        logger.debug("e_concated:\n{}".format(e_concated))
 
-    def test_concat_data(self):
+        concated = cg.assemble_concatenated_meta([meta2, meta1])
+        pd.util.testing.assert_frame_equal(e_concated, concated)
+
+    def test_assemble_data(self):
+        # Horizontal concat
         df1 = pd.DataFrame(
             [[1, 2, 3], [4, 5, 6]],
             index=["a", "b"],
             columns=["s1", "s2", "s3"])
         df2 = pd.DataFrame(
-            [[7, 8, 9], [10, 11, 12]],
-            index=["a", "b"],
+            [[10, 11, 12], [7, 8, 9]],
+            index=["b", "a"],
             columns=["s4", "s5", "s6"])
-        e_concated = pd.DataFrame(
+        e_horz_concated = pd.DataFrame(
             [[1, 2, 3, 7, 8, 9], [4, 5, 6, 10, 11, 12]],
             index=["a", "b"],
             columns=["s1", "s2", "s3", "s4", "s5", "s6"])
 
-        out_concated = cg.concat_data([df1, df2])
-        self.assertTrue(out_concated.equals(e_concated), (
-            "\nout_concated:\n{}\ne_concated:\n{}".format(
-                out_concated, e_concated)))
+        horz_concated = cg.assemble_data([df1, df2], "horz")
+        pd.util.testing.assert_frame_equal(horz_concated, e_horz_concated)
+
+        # Vertical concat, df3 has s4 instead of s3
+        df3 = pd.DataFrame(
+            [[8, 2, 5], [-1, 2, 4]],
+            index=["c", "e"],
+            columns=["s1", "s2", "s4"])
+        e_vert_concated = pd.DataFrame(
+            [[1, 2, 3, np.nan], [4, 5, 6, np.nan],
+             [8, 2, np.nan, 5], [-1, 2, np.nan, 4]],
+            index=["a", "b", "c", "e"],
+            columns=["s1", "s2", "s3", "s4"])
+
+        vert_concated = cg.assemble_data([df3, df1], "vert")
+        pd.util.testing.assert_frame_equal(vert_concated, e_vert_concated)
 
     def test_do_reset_ids(self):
-        col_df = pd.DataFrame(
+        meta_df = pd.DataFrame(
             [[1, 2], [3, 4], [5, 6]],
             index=["s1", "s2", "s1"],
             columns=["hd1", "hd2"])
@@ -134,10 +192,10 @@ class TestConcatGCToo(unittest.TestCase):
             [[1, 2, 3], [4, 5, 6]],
             index=["a", "b"],
             columns=["s1", "s2", "s3"])
-        e_col_df = pd.DataFrame(
+        e_meta_df = pd.DataFrame(
             [["s1", 1, 2], ["s2", 3, 4], ["s1", 5, 6]],
             index=[0, 1, 2],
-            columns=["old_cid", "hd1", "hd2"])
+            columns=["old_id", "hd1", "hd2"])
         e_data_df = pd.DataFrame(
             [[1, 2, 3], [4, 5, 6]],
             index=["a", "b"],
@@ -145,16 +203,13 @@ class TestConcatGCToo(unittest.TestCase):
 
         # Check the assert statement
         with self.assertRaises(AssertionError) as e:
-            (_, _) = cg.do_reset_ids(col_df, inconsistent_data_df)
-        self.assertIn("do not agree", str(e.exception))
+            cg.do_reset_ids(meta_df.copy(), inconsistent_data_df, "horz")
+        self.assertIn("do not agree with cids", str(e.exception))
 
         # Happy path
-        (out_col_df, out_data_df) = cg.do_reset_ids(col_df, data_df)
-        self.assertTrue(out_col_df.equals(e_col_df), (
-            "\nout_col_df:\n:{}\ne_col_df:\n{}".format(out_col_df, e_col_df)))
-        self.assertTrue(out_data_df.equals(e_data_df), (
-            "\nout_data_df:\n:{}\ne_data_df:\n{}".format(out_data_df, e_data_df)))
-
+        cg.do_reset_ids(meta_df, data_df, "horz")
+        pd.util.testing.assert_frame_equal(meta_df, e_meta_df)
+        pd.util.testing.assert_frame_equal(data_df, e_data_df)
 
 if __name__ == "__main__":
     setup_logger.setup(verbose=True)
