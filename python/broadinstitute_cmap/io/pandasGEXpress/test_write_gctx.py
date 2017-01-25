@@ -17,24 +17,10 @@ FUNCTIONAL_TESTS_PATH = "functional_tests"
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 # instance of mini_gctoo for testing
-mini_gctoo = mini_gctoo_for_testing.make()
-
-version_node = "version"
-src_node = "src"
-rid_node = "/0/META/ROW/id"
-cid_node = "/0/META/COL/id"
-data_node = "/0/DATA/0/matrix"
-row_meta_group_node = "/0/META/ROW"
-col_meta_group_node = "/0/META/COL"
+mini_gctoo = None
 
 
-metadata_prefix = "/0/META" 
-row_metadata_suffix = "ROW" 
-col_metadata_suffix = "COL"
-cid_suffix = "id" 
-rid_suffix = "id"
-
-class TestWriteGCTX(unittest.TestCase):
+class TestWriteGctx(unittest.TestCase):
 	def test_add_gctx_to_out_name(self):
 		name1 = "my_cool_file"
 		name2 = "my_other_cool_file.gctx"
@@ -55,7 +41,7 @@ class TestWriteGCTX(unittest.TestCase):
 		mini1.src = None 
 		write_gctx.write(mini1, "no_src_example")
 		hdf5_file = h5py.File("no_src_example.gctx")
-		hdf5_src1 = hdf5_file.attrs[src_node]
+		hdf5_src1 = hdf5_file.attrs[write_gctx.src_attr]
 		hdf5_file.close()
 		self.assertEqual(hdf5_src1, "no_src_example.gctx")
 		os.remove("no_src_example.gctx")
@@ -64,31 +50,34 @@ class TestWriteGCTX(unittest.TestCase):
 		mini2 = mini_gctoo_for_testing.make()
 		write_gctx.write(mini2, "with_src_example.gctx")
 		hdf5_file = h5py.File("with_src_example.gctx")
-		hdf5_src2 = hdf5_file.attrs[src_node]
+		hdf5_src2 = hdf5_file.attrs[write_gctx.src_attr]
 		hdf5_file.close()
 		self.assertEqual(hdf5_src2, "mini_gctoo.gctx")
 		os.remove("with_src_example.gctx")
 
 	def test_write_version(self):
+		#TODO @oana refactor this test so it just calls the write_version method
 		# case 1: gctoo obj doesn't have version
 		mini1 = mini_gctoo_for_testing.make()
 		mini1.version = None 
-		write_gctx.write(mini1, "no_version_example")
-		hdf5_file = h5py.File("no_version_example.gctx")
-		hdf5_v1 = hdf5_file.attrs[version_node]
+		fn = "no_version_provided_example.gctx"
+		write_gctx.write(mini1, fn)
+		hdf5_file = h5py.File(fn)
+		hdf5_v1 = hdf5_file.attrs[write_gctx.version_attr]
 		hdf5_file.close()
-		self.assertEqual(hdf5_v1, "GCTX1.0")
-		os.remove("no_version_example.gctx")
+		self.assertEqual(hdf5_v1, write_gctx.version_number)
+		os.remove(fn)
 
-		# case 2: gctoo obj does have version
+		# case 2: gctoo obj does have version, but it is not used when writing
 		mini2 = mini_gctoo_for_testing.make()
 		mini2.version = "MY_VERSION"
-		write_gctx.write(mini2, "with_version_example")
-		hdf5_file = h5py.File("with_version_example.gctx")
-		hdf5_v2 = hdf5_file.attrs[version_node]
+		fn = "with_version_provided_example.gctx"
+		write_gctx.write(mini2, fn)
+		hdf5_file = h5py.File(fn)
+		hdf5_v2 = hdf5_file.attrs[write_gctx.version_attr]
 		hdf5_file.close()
-		self.assertEqual(hdf5_v2, "MY_VERSION")
-		os.remove("with_version_example.gctx")
+		self.assertEqual(hdf5_v2, write_gctx.version_number)
+		os.remove(fn)
 
 	def test_write_metadata(self):
 		"""
@@ -176,4 +165,7 @@ class TestWriteGCTX(unittest.TestCase):
 
 if __name__ == "__main__":
 	setup_logger.setup(verbose=True)
+	
+	mini_gctoo = mini_gctoo_for_testing.make()
+	
 	unittest.main()

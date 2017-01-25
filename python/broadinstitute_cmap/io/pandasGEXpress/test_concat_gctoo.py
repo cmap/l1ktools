@@ -12,7 +12,7 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 FUNCTIONAL_TESTS_DIR = "functional_tests"
 
 
-class TestConcatGCToo(unittest.TestCase):
+class TestConcatGctoo(unittest.TestCase):
     def test_left_right(self):
         left_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_left.gct")
         right_gct_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_merge_right.gct")

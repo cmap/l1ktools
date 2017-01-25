@@ -9,11 +9,13 @@ __email__ = "oana@broadinstitute.org"
 
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-version_attr = "version"
 src_attr = "src"
 data_matrix_node = "/0/DATA/0/matrix"
 row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
+version_attr = "version"
+version_number = "GCTX1.0"
+
 
 def write(gctoo_object, out_file_name, convert_back_to_neg_666 = True):
 	"""
@@ -30,7 +32,7 @@ def write(gctoo_object, out_file_name, convert_back_to_neg_666 = True):
 	hdf5_out = h5py.File(gctx_out_name, "w")
 
 	# write version
-	write_version(hdf5_out, gctoo_object)
+	write_version(hdf5_out)
 
 	# write src 
 	write_src(hdf5_out, gctoo_object, gctx_out_name)
@@ -76,19 +78,14 @@ def write_src(hdf5_out, gctoo_object, out_file_name):
 	else:
 		hdf5_out.attrs[src_attr] = gctoo_object.src
 
-def write_version(hdf5_out, gctoo_object, version_number = "GCTX1.0"):
+def write_version(hdf5_out):
 	"""
 	Writes version as attribute of gctx out file. 
 
 	Input:
 		- hdf5_out (h5py): hdf5 file to write to 
-		- gctoo_object (GCToo): GCToo instance to be written to .gctx 
-		- version_number (str; default = "GCTX1.0"): version of .gctx file 
 	"""
-	if gctoo_object.version is None:
-		hdf5_out.attrs[version_attr] = numpy.string_(version_number)
-	else:
-		hdf5_out.attrs[version_attr] = numpy.string_(gctoo_object.version) 
+	hdf5_out.attrs[version_attr] = numpy.string_(version_number)
 
 def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 	"""
@@ -124,12 +121,4 @@ def write_metadata(hdf5_out, dim, metadata_df, convert_back_to_neg_666):
 	for field in [entry for entry in metadata_fields if entry != "ind"]:
 		hdf5_out.create_dataset(metadata_node_name + "/" + field, 
 			data=numpy.array(list(metadata_df.loc[:,field])))
-
-	
-
-
-
-
-
-
 

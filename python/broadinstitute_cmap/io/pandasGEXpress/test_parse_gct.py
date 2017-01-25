@@ -11,7 +11,7 @@ FUNCTIONAL_TESTS_PATH = "functional_tests"
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
-class TestParseGCT(unittest.TestCase):
+class TestParseGct(unittest.TestCase):
     def test_read_version_and_dims(self):
         ### v1.3 case 
         version1 = "1.3"

@@ -21,7 +21,7 @@ IN_GCT = GCToo.GCToo(DATA_DF, ROW_METADATA_DF, COL_METADATA_DF)
 FUNCTIONAL_TESTS_DIR = "functional_tests"
 
 
-class TestSliceGCT(unittest.TestCase):
+class TestSliceGct(unittest.TestCase):
 
     def test_read_arg(self):
         arg_path = os.path.join(FUNCTIONAL_TESTS_DIR, "test_slice_rid.grp")

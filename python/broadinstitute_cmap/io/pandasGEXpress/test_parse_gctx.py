@@ -24,7 +24,7 @@ data_node = "/0/DATA/0/matrix"
 row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
 
-class TestParseGCToox(unittest.TestCase):
+class TestParseGctx(unittest.TestCase):
 	def test_check_id_inputs(self):
 		ridx = [0,1,2]
 		cidx = [4, 6, 8, 9]

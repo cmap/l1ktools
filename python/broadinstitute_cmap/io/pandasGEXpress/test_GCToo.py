@@ -8,7 +8,7 @@ from random import shuffle
 
 logger = logging.getLogger(setup_GCToo_logger.LOGGER_NAME)
 
-class TestGCToo(unittest.TestCase):
+class TestGctoo(unittest.TestCase):
 
     def test_init(self):
         # Create test data

@@ -12,7 +12,7 @@ FUNCTIONAL_TESTS_PATH = "functional_tests"
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
-class TestWriteGCT(unittest.TestCase):
+class TestWriteGct(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):
