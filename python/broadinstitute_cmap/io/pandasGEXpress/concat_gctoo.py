@@ -2,13 +2,13 @@
 concat_gctoo.py
 
 This function is for concatenating gct(x) files together. You can tell it to
-find gct files using the file_wildcard argument, or you can tell it exactly
-which files you want to concatenate using the list_of_gct_paths argument. The
-meat of this function are the hstack (i.e. horizontal concatenation of gcts)
+find files using the file_wildcard argument, or you can tell it exactly
+which files you want to concatenate using the input_filepaths argument. The
+meat of this function are the hstack (i.e. horizontal concatenation of GCToo objects)
 and vstack (i.e. vertical concatenation).
 
 Terminology: 'Common' metadata refers to the metadata that is shared between
-the gcts. For example, if horizontally concatenating, the 'common' metadata is
+the loaded GCToo's. For example, if horizontally concatenating, the 'common' metadata is
 the row metadata. 'Concatenated' metadata is the other one; it's the metadata
 for the entries being concatenated together. For example, if horizontally
 concatenating, the 'concatenated' metadata is the column metadata because
@@ -56,12 +56,12 @@ def build_parser():
 
     # Required args
     parser.add_argument("--concat_direction", "-d", required=True,
-                        choices=["horz", "vert"],
+                        choices=["horiz", "vert"],
                         help="which direction to concatenate")
 
     mutually_exclusive_group = parser.add_mutually_exclusive_group()
-    mutually_exclusive_group.add_argument("--list_of_gct_paths", "-lop", nargs="+",
-        help="full paths to gct files to be concatenated")
+    mutually_exclusive_group.add_argument("--input_filepaths", "-if", nargs="+",
+        help="full paths to gct(x) files to be concatenated")
     mutually_exclusive_group.add_argument("--file_wildcard", "-w", type=str,
         help=("wildcard specifying where files should be found " +
               "(make sure to surround in quotes if calling from command line!)"))
@@ -75,12 +75,12 @@ def build_parser():
     parser.add_argument("--reset_ids", "-rsi", action="store_true", default=False,
         help="whether to reset ids (use this flag if ids are not unique)")
 
-    parser.add_argument("-data_null", type=str, default="NA",
+    parser.add_argument("-data_null", type=str, default="NaN",
         help="how to represent missing values in the data")
-    parser.add_argument("-metadata_null", type=str, default="NA",
+    parser.add_argument("-metadata_null", type=str, default="-666",
         help="how to represent missing values in the metadata")
-    parser.add_argument("-filler_null", type=str, default="NA",
-        help="what value to use for filling the top-left filler block of a .gct")
+    parser.add_argument("-filler_null", type=str, default="-666",
+        help="what value to use for filling the top-left filler block if output is a .gct")
     parser.add_argument("-verbose", "-v", action="store_true", default=False,
         help="whether to print a bunch of output")
 
@@ -90,24 +90,24 @@ def build_parser():
 def main(args):
 
     # Get files directly
-    if args.list_of_gct_paths is not None:
-        files = args.list_of_gct_paths
+    if args.input_filepaths is not None:
+        files = args.input_filepaths
 
     # Or find them
     else:
         files = get_file_list(args.file_wildcard)
-
-    # No files found
-    if len(files) == 0:
-        msg = "No files were found. args.file_wildcard: {}".format(args.file_wildcard)
-        logger.error(msg)
-        raise Exception(msg)
+        
+        # No files found
+        if len(files) == 0:
+            msg = "No files were found. args.file_wildcard: {}".format(args.file_wildcard)
+            logger.error(msg)
+            raise Exception(msg)
 
     # Only 1 file found
-    elif len(files == 1):
-        msg = "Only 1 file found. No concatenation needs to be done."
-        logger.warning(msg)
-        pass
+    if len(files) == 1:
+        logger.warning("Only 1 file found. No concatenation needs to be done, exiting")
+        #@lev: might consider throwing an exception here, since that is what happens if no files are found by the wildcard method.  Your call!
+        return
 
     # More than 1 file found
     else:
@@ -117,20 +117,14 @@ def main(args):
             gctoos.append(parse.parse(f))
 
         # Create concatenated gctoo object
-        if args.concat_direction == "horz":
+        if args.concat_direction == "horiz":
             out_gctoo = hstack(gctoos, args.fields_to_remove, args.reset_ids)
 
         elif args.concat_direction == "vert":
             out_gctoo = vstack(gctoos, args.fields_to_remove, args.reset_ids)
 
-        else:
-            msg = ("args.concat_direction must be horz or vert. " +
-                   "args.concat_direction: {}").format(args.concat_direction)
-            logger.error(msg)
-            raise Exception(msg)
-
     # Write out_gctoo to file
-    logger.info("Write to file...")
+    logger.info("Writing to output file args.out_name:  {}".format(args.out_name))
 
     if args.out_type == "gctx":
         write_gctx.write(out_gctoo, args.out_name)
@@ -185,7 +179,7 @@ def hstack(gctoos, fields_to_remove=[], reset_ids=False):
     all_col_metadata_df = assemble_concatenated_meta(col_meta_dfs)
 
     # Concatenate the data_dfs
-    all_data_df = assemble_data(data_dfs, "horz")
+    all_data_df = assemble_data(data_dfs, "horiz")
 
     # Make sure df shapes are correct
     assert all_data_df.shape[0] == all_row_metadata_df.shape[0], "Number of rows is incorrect."
@@ -194,7 +188,7 @@ def hstack(gctoos, fields_to_remove=[], reset_ids=False):
     # If requested, reset sample ids to be unique integers and move old sample
     # ids into column metadata
     if reset_ids:
-        do_reset_ids(all_col_metadata_df, all_data_df, "horz")
+        do_reset_ids(all_col_metadata_df, all_data_df, "horiz")
 
     logger.info("Build GCToo of all...")
     concated = GCToo.GCToo(row_metadata_df=all_row_metadata_df,
@@ -329,13 +323,13 @@ def assemble_data(data_dfs, concat_direction):
 
     Args:
         data_dfs (list of pandas dfs)
-        concat_direction (string): 'horz' or 'vert'
+        concat_direction (string): 'horiz' or 'vert'
 
     Returns:
         all_data_df_sorted (pandas df)
 
     """
-    if concat_direction == "horz":
+    if concat_direction == "horiz":
         # Concatenate the data_dfs horizontally
         all_data_df = pd.concat(data_dfs, axis=1)
 
@@ -373,13 +367,13 @@ def do_reset_ids(concatenated_meta_df, data_df, concat_direction):
     Args:
         concatenated_meta_df (pandas df)
         data_df (pandas df)
-        concat_direction (string): 'horz' or 'vert'
+        concat_direction (string): 'horiz' or 'vert'
 
     Returns:
         None (dfs modified in-place)
 
     """
-    if concat_direction == "horz":
+    if concat_direction == "horiz":
 
         # Make sure cids agree between data_df and concatenated_meta_df
         assert concatenated_meta_df.index.equals(data_df.columns), (

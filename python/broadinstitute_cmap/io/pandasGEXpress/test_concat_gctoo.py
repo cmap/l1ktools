@@ -157,13 +157,13 @@ class TestConcatGctoo(unittest.TestCase):
             [[10, 11, 12], [7, 8, 9]],
             index=["b", "a"],
             columns=["s4", "s5", "s6"])
-        e_horz_concated = pd.DataFrame(
+        e_horiz_concated = pd.DataFrame(
             [[1, 2, 3, 7, 8, 9], [4, 5, 6, 10, 11, 12]],
             index=["a", "b"],
             columns=["s1", "s2", "s3", "s4", "s5", "s6"])
 
-        horz_concated = cg.assemble_data([df1, df2], "horz")
-        pd.util.testing.assert_frame_equal(horz_concated, e_horz_concated)
+        horiz_concated = cg.assemble_data([df1, df2], "horiz")
+        pd.util.testing.assert_frame_equal(horiz_concated, e_horiz_concated)
 
         # Vertical concat, df3 has s4 instead of s3
         df3 = pd.DataFrame(
@@ -203,13 +203,35 @@ class TestConcatGctoo(unittest.TestCase):
 
         # Check the assert statement
         with self.assertRaises(AssertionError) as e:
-            cg.do_reset_ids(meta_df.copy(), inconsistent_data_df, "horz")
+            cg.do_reset_ids(meta_df.copy(), inconsistent_data_df, "horiz")
         self.assertIn("do not agree with cids", str(e.exception))
 
         # Happy path
-        cg.do_reset_ids(meta_df, data_df, "horz")
+        cg.do_reset_ids(meta_df, data_df, "horiz")
         pd.util.testing.assert_frame_equal(meta_df, e_meta_df)
         pd.util.testing.assert_frame_equal(data_df, e_data_df)
+
+    def test_main(self):
+        args_list = ["-d", "vert", "-if", "my_fake_file"]
+	args = cg.build_parser().parse_args(args_list)
+	logger.debug("unhappy path - input file list only contains 1 entry - args:  {}".format(args))
+	cg.main(args)
+
+	args_list[2] = "--file_wildcard"
+	args_list[3] = "not_going_to_find_this_file_3874873784378389"
+        args = cg.build_parser().parse_args(args_list)
+	logger.debug("unhappy path - file_wildcard does not match any files - args:  {}".format(args))
+	with self.assertRaises(Exception) as context:
+            cg.main(args)
+        self.assertIsNotNone(context.exception)
+	logger.debug("context.exception:  {}".format(context.exception))
+	self.assertIn("No files were found", str(context.exception), "the expected exception was not thrown")
+
+        args_list[3] = "functional_tests/test_concat_gctoo_test_main_fake_empty_file.gct"
+        args = cg.build_parser().parse_args(args_list)
+	logger.debug("unhappy path - file_wildcard matches just 1 file - args:  {}".format(args))
+        cg.main(args)
+
 
 if __name__ == "__main__":
     setup_logger.setup(verbose=True)
