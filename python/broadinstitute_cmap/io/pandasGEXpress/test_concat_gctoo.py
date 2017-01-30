@@ -124,6 +124,12 @@ class TestConcatGctoo(unittest.TestCase):
         logger.debug("out_meta3:\n{}".format(out_meta3))
         pd.util.testing.assert_frame_equal(out_meta3, e_meta3)
 
+        # Empty metadata
+        empty_meta = pd.DataFrame([], index=["a", "b", "c"])
+        logger.debug("empty_meta.empty: {}".format(empty_meta.empty))
+        out_meta4 = cg.assemble_common_meta([empty_meta, empty_meta], [])
+        pd.util.testing.assert_frame_equal(out_meta4, empty_meta)
+
     def test_assemble_concatenated_meta(self):
         # Happy path
         meta1 = pd.DataFrame(

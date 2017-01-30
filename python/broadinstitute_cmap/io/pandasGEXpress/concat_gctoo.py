@@ -267,7 +267,15 @@ def assemble_common_meta(common_meta_dfs, fields_to_remove):
 
     # Concatenate all dfs and then remove duplicate rows
     all_meta_df_with_dups = pd.concat(common_meta_dfs, axis=0)
-    all_meta_df = all_meta_df_with_dups.drop_duplicates()
+
+    # If all metadata dfs were empty, df will be empty
+    if all_meta_df_with_dups.empty:
+
+        # Simply return unique ids
+        all_meta_df = pd.DataFrame(index=all_meta_df_with_dups.index.unique())
+
+    else:
+        all_meta_df = all_meta_df_with_dups.drop_duplicates()
 
     logger.debug("all_meta_df_with_dups.shape: {}".format(all_meta_df_with_dups.shape))
     logger.debug("all_meta_df.shape: {}".format(all_meta_df.shape))
