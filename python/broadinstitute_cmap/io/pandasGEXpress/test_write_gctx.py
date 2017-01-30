@@ -16,11 +16,9 @@ FUNCTIONAL_TESTS_PATH = "functional_tests"
 # instantiate logger
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
-# instance of mini_gctoo for testing
-mini_gctoo = None
-
 
 class TestWriteGctx(unittest.TestCase):
+
 	def test_add_gctx_to_out_name(self):
 		name1 = "my_cool_file"
 		name2 = "my_other_cool_file.gctx"
@@ -38,7 +36,7 @@ class TestWriteGctx(unittest.TestCase):
 	def test_write_src(self):
 		# case 1: gctoo obj doesn't have src
 		mini1 = mini_gctoo_for_testing.make()
-		mini1.src = None 
+		mini1.src = None
 		write_gctx.write(mini1, "no_src_example")
 		hdf5_file = h5py.File("no_src_example.gctx")
 		hdf5_src1 = hdf5_file.attrs[write_gctx.src_attr]
@@ -85,6 +83,7 @@ class TestWriteGctx(unittest.TestCase):
 			- write metadata (has '-666') to file, do not convert -666
 			- parse in written metadata, don't convert -666 
 		"""
+		mini_gctoo = mini_gctoo_for_testing.make()
 		hdf5_writer = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", "w")
 		write_gctx.write_metadata(hdf5_writer, "row", mini_gctoo.row_metadata_df, False)
 		write_gctx.write_metadata(hdf5_writer, "col", mini_gctoo.col_metadata_df, False)
@@ -165,7 +164,5 @@ class TestWriteGctx(unittest.TestCase):
 
 if __name__ == "__main__":
 	setup_logger.setup(verbose=True)
-	
-	mini_gctoo = mini_gctoo_for_testing.make()
 	
 	unittest.main()
