@@ -82,7 +82,7 @@ class GCToo(object):
         self._initialized = True
 
     def __setattr__(self, name, value):
-        if "_initialized" in self.__dict__:
+        if "_initialized" in self.__dict__ and self._intialized == True:
             if name in ["data_df", "row_metadata_df", "col_metadata_df"]:
                 if self.check_df(value):
                     if (name == "row_metadata_df" and self.id_match_check(self.data_df, value, "row")):
