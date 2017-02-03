@@ -65,9 +65,9 @@ def build_parser():
     mutually_exclusive_group.add_argument("--file_wildcard", "-w", type=str,
         help=("wildcard specifying where files should be found " +
               "(make sure to surround in quotes if calling from command line!)"))
+
     parser.add_argument("--out_type", "-ot", default="gctx", choices=["gct", "gctx"],
                         help="whether to save output as a gct or gctx")
-
     parser.add_argument("--out_name", "-o", type=str, default="concated.gctx",
         help="what to name the output file")
     parser.add_argument("--fields_to_remove", "-ftr", nargs="+", default=[],
@@ -106,7 +106,6 @@ def main(args):
     # Only 1 file found
     if len(files) == 1:
         logger.warning("Only 1 file found. No concatenation needs to be done, exiting")
-        #@lev: might consider throwing an exception here, since that is what happens if no files are found by the wildcard method.  Your call!
         return
 
     # More than 1 file found
