@@ -13,7 +13,7 @@ logger = logging.getLogger(setup_logger.LOGGER_NAME)
 VERSION = "1.3"
 
 
-def write(gctoo, out_fname, data_null="NaN", metadata_null="-666", filler_null="-666", data_float_format=None):
+def write(gctoo, out_fname, data_null="NaN", metadata_null="-666", filler_null="-666", data_float_format=":.4f"):
     """Write a gctoo object to a gct file.
 
     Args:
@@ -22,7 +22,8 @@ def write(gctoo, out_fname, data_null="NaN", metadata_null="-666", filler_null="
         data_null (string): how to represent missing values in the data (default = "NaN")
         metadata_null (string): how to represent missing values in the metadata (default = "-666")
         filler_null (string): what value to fill the top-left filler block with (default = "-666")
-        data_float_format (string): how many decimal points to keep in representing data (default = None will keep all digits)
+        data_float_format (string): how many decimal points to keep in representing data
+            (default = 4 digits; None will keep all digits)
 
     Returns:
         None
