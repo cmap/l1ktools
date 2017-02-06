@@ -6,6 +6,7 @@ import pandas as pd
 import h5py
 import GCToo
 
+
 __author__ = "Oana Enache"
 __email__ = "oana@broadinstitute.org"
 
@@ -48,9 +49,6 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 		including those for filtering nan's etc) we provide the option of converting these 
 		into numpy.NaN values, the pandas default. 
 	"""
-	# validate optional input ids 
-	(row_id_list, col_id_list) = check_id_inputs(rid, ridx, cid, cidx)
-
 	full_path = os.path.expanduser(gctx_file_path)
 	# open file 
 	gctx_file = h5py.File(full_path, "r")
@@ -63,19 +61,19 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 	col_dset = gctx_file[col_meta_group_node]
 	col_meta = parse_metadata_df("col", col_dset, convert_neg_666)
 
-	# get idx values to actually use 
-	ridx = get_ordered_idx(row_id_list, row_meta)
-	cidx = get_ordered_idx(col_id_list, col_meta)
+	# validate optional input ids & get indexes to subset by
+	(sorted_ridx, sorted_cidx) = check_and_order_id_inputs(rid, ridx, cid, cidx, row_meta, col_meta)
 
 	if meta_only:
-		data_df = pd.DataFrame(index = row_meta.index[ridx], columns = col_meta.index[cidx])
+		data_df = pd.DataFrame(index = row_meta.index[sorted_ridx], 
+			columns = col_meta.index[sorted_cidx])
 	else:
 		data_dset = gctx_file[data_node]
-		data_df = parse_data_df(data_dset, ridx, cidx, row_meta, col_meta)
+		data_df = parse_data_df(data_dset, sorted_ridx, sorted_cidx, row_meta, col_meta)
 
 	# (if slicing) slice metadata 
-	row_meta = row_meta.iloc[ridx]
-	col_meta = col_meta.iloc[cidx]
+	row_meta = row_meta.iloc[sorted_ridx]
+	col_meta = col_meta.iloc[sorted_cidx]
 
 	# get version
 	my_version = gctx_file.attrs[version_node]
@@ -89,7 +87,7 @@ def parse(gctx_file_path, convert_neg_666=True, rid=None, cid=None,
 		src=full_path, version=my_version, make_multiindex=make_multiindex)
 	return my_gctoo
 
-def check_id_inputs(rid, ridx, cid, cidx):
+def check_and_order_id_inputs(rid, ridx, cid, cidx, row_meta_df, col_meta_df):
 	"""
 	Makes sure that (if entered) id inputs entered are of one type (string id or index)
 
@@ -100,16 +98,15 @@ def check_id_inputs(rid, ridx, cid, cidx):
 		- cidx (list or None): if not None, a list of indexes 
 
 	Output:
-		- a tuple of either the (rid/x, cid/x) specified or None for either field that's not
+		- a tuple of the ordered ridx and cidx 
 	"""
-	row_list = check_id_idx_exclusivity(rid, ridx)
-	col_list = check_id_idx_exclusivity(cid, cidx)
-	if ((len(row_list) != 0 and len(col_list) != 0) and type(row_list[0]) != type(col_list[0])):
-		msg = "Please specify ids to subset in a consistent manner"
-		logger.error(msg)
-		raise Exception("parse_gctx.id_inputs_ok: " + msg)
-	else:
-		return (row_list, col_list) 
+	(row_type, row_ids) = check_id_idx_exclusivity(rid, ridx)
+	(col_type, col_ids) = check_id_idx_exclusivity(cid, cidx)
+
+	ordered_ridx = get_ordered_idx(row_type, row_ids, row_meta_df)
+	ordered_cidx = get_ordered_idx(col_type, col_ids, col_meta_df)
+
+	return (ordered_ridx, ordered_cidx)
 
 def check_id_idx_exclusivity(id, idx):
 	"""
@@ -120,7 +117,7 @@ def check_id_idx_exclusivity(id, idx):
 		- idx (list or None): if not None, a list of integer id indexes 
 
 	Output: 
-		- a list: Either id, idx, or [] depending on input 
+		- a tuple: first element is subset type, second is subset content
 	"""
 	if (id != None and idx != None):
 		msg = ("'id' and 'idx' fields can't both not be None," +
@@ -128,11 +125,29 @@ def check_id_idx_exclusivity(id, idx):
 		logger.error(msg)
 		raise Exception("parse_gctx.check_id_idx_exclusivity: " + msg)
 	elif id != None:
-		return id 
+		return ("id", id) 
 	elif idx != None:
-		return idx 
+		return ("idx", idx) 
 	else: 
-		return [] 
+		return (None, [])
+
+def get_ordered_idx(id_type, id_list, meta_df):
+	"""
+	Gets index values corresponding to ids to subset and orders them.
+
+	Input:
+		- id_type (str): either "id", "idx" or None
+		- id_list (list): either a list of indexes or id names 
+
+	Output:
+		- a sorted list of indexes to subset a dimension by
+	"""
+	if id_type == None:
+		id_list = range(0, len(list(meta_df.index)))
+	elif id_type == "id":
+		id_list = [list(meta_df.index).index(i) for i in id_list]
+
+	return sorted(id_list)
 	
 def parse_metadata_df(dim, meta_group, convert_neg_666):
 	"""
@@ -158,15 +173,15 @@ def parse_metadata_df(dim, meta_group, convert_neg_666):
 		header_values[str(k)] = temp_array
 		array_index = array_index + 1
 	# need to temporarily make dtype of all values str so that to_numeric
-	# works consistently with gct vs gctx parser. Also, from_dict requires an "index" arg
+	# works consistently with gct vs gctx parser. 
 	meta_df = pd.DataFrame.from_dict(header_values).astype(str)
-	meta_df.set_index("id", inplace = True)
-	# set index and columns appropriately 
-	set_metadata_index_and_column_names(dim, meta_df)
 	# Convert metadata to numeric if possible, after converting everything to string first 
 	# Note: This conversion first to string is to ensure consistent behavior between
 	#	the gctx and gct parser (which by default reads the entire text file into a string)
 	meta_df = meta_df.apply(lambda x: pd.to_numeric(x, errors="ignore"))
+	meta_df.set_index("id", inplace = True)
+	# set index and columns appropriately 
+	set_metadata_index_and_column_names(dim, meta_df)
 	# if specified, convert "-666" to np.nan
 	if convert_neg_666:
 		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
@@ -192,13 +207,6 @@ def set_metadata_index_and_column_names(dim, meta_df):
 	elif dim == "col":
 		meta_df.index.name = "cid"
 		meta_df.columns.name = "chd"
-
-def get_ordered_idx(id_list, meta_df):
-	if len(id_list) == 0:
-		id_list = range(0, len(list(meta_df.index)))
-	elif type(id_list[0]) == str:
-		id_list = [list(meta_df.index).index(i) for i in id_list]
-	return sorted(id_list)
 
 def parse_data_df(data_dset, ridx, cidx, row_meta, col_meta):
 	"""

@@ -8,6 +8,8 @@ import GCToo
 import h5py
 import parse_gctx
 import mini_gctoo_for_testing
+import slice_gct
+import write_gctx 
 from pandas.util.testing import assert_frame_equal
 
 __author__ = "Oana Enache"
@@ -25,25 +27,115 @@ row_meta_group_node = "/0/META/ROW"
 col_meta_group_node = "/0/META/COL"
 
 class TestParseGctx(unittest.TestCase):
-	def test_check_id_inputs(self):
-		ridx = [0,1,2]
-		cidx = [4, 6, 8, 9]
+	def test_parse(self):
+		
+		# parse whole thing 
+		mg1 = mini_gctoo_for_testing.make()
+		mg2 = parse_gctx.parse("functional_tests/mini_gctoo_for_testing.gctx")
+
+		assert_frame_equal(mg1.data_df, mg2.data_df)
+		assert_frame_equal(mg1.row_metadata_df, mg2.row_metadata_df)
+		assert_frame_equal(mg1.col_metadata_df, mg2.col_metadata_df)
+
+		# test with string rid/cid 
+		test_rids = ['LJP007_MCF10A_24H:TRT_CP:BRD-K93918653:3.33','LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666']
+		test_cids = ['LJP007_MCF7_24H:TRT_POSCON:BRD-A61304759:10']
+		mg3 = slice_gct.slice_gctoo(mg1, rid=test_rids, cid=test_cids)
+		mg4 = parse_gctx.parse("functional_tests/mini_gctoo_for_testing.gctx",
+			rid = test_rids, cid = test_cids)
+		assert_frame_equal(mg3.data_df, mg4.data_df)
+		assert_frame_equal(mg3.row_metadata_df, mg4.row_metadata_df)
+		assert_frame_equal(mg3.col_metadata_df, mg4.col_metadata_df)
+
+		# first, make & write out temp version of mini_gctoo with int rids/cids 
+		new_mg = mini_gctoo_for_testing.make(convert_neg_666=False)
+		int_indexed_data_df = new_mg.data_df.copy()
+		int_indexed_data_df.index = range(0,6)
+		int_indexed_data_df.columns = range(10,16)
+
+		int_indexed_row_meta = new_mg.row_metadata_df.copy()
+		int_indexed_row_meta.index = range(0,6)
+
+		int_indexed_col_meta = new_mg.col_metadata_df.copy()
+		int_indexed_col_meta.index = range(10,16)
+
+		int_indexed_gctoo = GCToo.GCToo(data_df = int_indexed_data_df, row_metadata_df = int_indexed_row_meta,
+			col_metadata_df = int_indexed_col_meta)
+
+		write_gctx.write(int_indexed_gctoo, "int_indexed_mini_gctoo.gctx")
+
+		# test with numeric (repr as string) rid/cid
+		mg5 = GCToo.GCToo(data_df = int_indexed_data_df, row_metadata_df = int_indexed_row_meta, 
+			col_metadata_df = int_indexed_col_meta)
+		mg5 = slice_gct.slice_gctoo(mg5, row_bool = [True, False, True, False, True, False],
+			col_bool = [True, False, False, True, True, True])
+
+		mg5.data_df.index.name = "rid"
+		mg5.data_df.columns.name = "cid"
+
+		mg5.row_metadata_df.index.name = "rid"
+		mg5.row_metadata_df.columns.name = "rhd"
+
+		mg5.col_metadata_df.index.name = "cid"
+		mg5.col_metadata_df.columns.name = "chd"
+
+		mg6 = parse_gctx.parse("int_indexed_mini_gctoo.gctx", rid = [0, 2, 4], 
+			cid = [10,13,14,15], convert_neg_666=False)
+
+		os.remove("int_indexed_mini_gctoo.gctx")
+
+		assert_frame_equal(mg5.data_df, mg6.data_df)
+		assert_frame_equal(mg5.row_metadata_df, mg6.row_metadata_df)
+		assert_frame_equal(mg5.col_metadata_df, mg6.col_metadata_df)		
+
+		# test with ridx/cidx
+		mg7 = slice_gct.slice_gctoo(mg1, rid=['LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666'], 
+			cid='LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666')
+		mg8 = parse_gctx.parse("functional_tests/mini_gctoo_for_testing.gctx", ridx=[4], cidx=[4])
+
+		assert_frame_equal(mg7.data_df, mg8.data_df)
+		assert_frame_equal(mg7.row_metadata_df, mg8.row_metadata_df)
+		assert_frame_equal(mg7.col_metadata_df, mg8.col_metadata_df)			
+
+		# test with rid/cidx
+		mg9 = parse_gctx.parse("functional_tests/mini_gctoo_for_testing.gctx", rid=['LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666'],
+			cidx = [4])
+
+		assert_frame_equal(mg7.data_df, mg9.data_df)
+		assert_frame_equal(mg7.row_metadata_df, mg9.row_metadata_df)
+		assert_frame_equal(mg7.col_metadata_df, mg9.col_metadata_df)			
+
+		# test with ridx/cid
+		mg10 = parse_gctx.parse("functional_tests/mini_gctoo_for_testing.gctx", ridx=[4],
+			cid = ['LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666'])
+
+		assert_frame_equal(mg7.data_df, mg10.data_df)
+		assert_frame_equal(mg7.row_metadata_df, mg10.row_metadata_df)
+		assert_frame_equal(mg7.col_metadata_df, mg10.col_metadata_df)			
+
+	def test_check_and_order_id_inputs(self):
+		ridx = [0,1]
+		cidx = [2,1]
 		rid = ["a", "b", "c"]
 		cid = ["l", "m", "n", "o"]
+		row_meta = pd.DataFrame(index=["b", "c", "a", "d"])
+		col_meta = pd.DataFrame(index=["l", "m", "n", "o", "p", "q"])
 
 		# case 1: row and col lists are populated and same type
-		self.assertEqual((ridx, cidx), parse_gctx.check_id_inputs(ridx, None, cidx, None))
+		self.assertEqual((sorted(ridx), sorted(cidx)), 
+			parse_gctx.check_and_order_id_inputs(None, ridx, None, cidx, row_meta, col_meta))
 
-		# case 2: row list and col lists are populated different types
-		with self.assertRaises(Exception) as context:
-			parse_gctx.check_id_inputs(None, ridx, cid, None)
-		self.assertTrue("Please specify ids to subset in a consistent manner" in str(context.exception))
+		# case 2: row & col lists are populated, but of different types
+		self.assertEqual((sorted(ridx), [0,1,2,3]), 
+			parse_gctx.check_and_order_id_inputs(None,ridx, cid, None, row_meta, col_meta))
 
 		# case 3: row list and col lists are both None 
-		self.assertEqual(([], []), parse_gctx.check_id_inputs(None, None, None, None))
+		self.assertEqual(([0,1,2,3], [0,1,2,3,4,5]), 
+			parse_gctx.check_and_order_id_inputs(None, None, None, None, row_meta, col_meta))
 
 		# case 4: row list is populated, col list is None 
-		self.assertEqual((rid, []), parse_gctx.check_id_inputs(rid, None, None, None))
+		self.assertEqual(([0,1,2], [0,1,2,3,4,5]), 
+			parse_gctx.check_and_order_id_inputs(rid, None, None, None, row_meta, col_meta))
 
 	def test_check_id_idx_exclusivity(self):
 		ids = ["a", "b", "c"]
@@ -55,13 +147,13 @@ class TestParseGctx(unittest.TestCase):
 		self.assertTrue("'id' and 'idx' fields can't both not be None" in str(context.exception))
 
 		# case 2: id != None
-		self.assertEqual(ids, parse_gctx.check_id_idx_exclusivity(ids, None))
+		self.assertEqual(("id", ids), parse_gctx.check_id_idx_exclusivity(ids, None))
 
 		# case 3: idx != None
-		self.assertEqual(idx, parse_gctx.check_id_idx_exclusivity(None, idx))
+		self.assertEqual(("idx", idx), parse_gctx.check_id_idx_exclusivity(None, idx))
 
 		# case 4: id == None & idx == None 	
-		self.assertEqual([], parse_gctx.check_id_idx_exclusivity(None, None))	
+		self.assertEqual((None, []), parse_gctx.check_id_idx_exclusivity(None, None))	
 
 	def test_parse_metadata_df(self):
 		mini_gctoo = mini_gctoo_for_testing.make()
@@ -78,8 +170,9 @@ class TestParseGctx(unittest.TestCase):
 		assert_frame_equal(mini_row_meta, row_df)
 
 		# no convert_neg_666
+		mini_gctoo_with_neg_666 = mini_gctoo_for_testing.make(convert_neg_666=False)
 		col_df = parse_gctx.parse_metadata_df("col", col_dset, False)
-		assert_frame_equal(mini_gctoo.col_metadata_df, col_df)
+		assert_frame_equal(mini_gctoo_with_neg_666.col_metadata_df, col_df)
 
 	def test_set_metadata_index_and_column_names(self):
 		mini_gctoo = mini_gctoo_for_testing.make()
@@ -99,33 +192,24 @@ class TestParseGctx(unittest.TestCase):
 		self.assertEqual(mini_gctoo.col_metadata_df.columns.name, "chd")
 
 	def test_get_ordered_idx(self):
-		mini_gctoo = mini_gctoo_for_testing.make()
+		mg = mini_gctoo_for_testing.make()
 
-		# case 1 : len(id_list) == 0
-		id_list1 = []
-		expected_sorted_idx_list1 = range(0, len(list(mini_gctoo.col_metadata_df.index)))
-		sorted_idx_list1 = parse_gctx.get_ordered_idx(id_list1, mini_gctoo.col_metadata_df)
-		self.assertEqual(expected_sorted_idx_list1, sorted_idx_list1, 
-			"Expected idx list {} but found {}".format(expected_sorted_idx_list1, 
-				sorted_idx_list1))
+		# case 1: id_type == None
+		case1 = parse_gctx.get_ordered_idx(None, [], mg.row_metadata_df)
+		self.assertEqual(case1, range(0,6), 
+			"Expected oredered idx to be {} but got {}".format(range(0,6), case1))
 
-		# case 2: type(id_list[0]) == str 
-		# aka ids are supplied instead of idx
-		id_list2 = ["LJP007_MCF10A_24H:TRT_CP:BRD-K93918653:3.33", 
-			"MISC003_A375_24H:TRT_CP:BRD-K93918653:3.33"]
-		expected_sorted_idx_list2 = [list(mini_gctoo.col_metadata_df.index).index(i) for i in id_list2]
-		sorted_idx_list2 = parse_gctx.get_ordered_idx(id_list2, mini_gctoo.col_metadata_df)
-		self.assertEqual(expected_sorted_idx_list2, sorted_idx_list2, 
-			"Expected idx list {} but found {}".format(expected_sorted_idx_list2, 
-				sorted_idx_list2))
+		# case 2: id_type == "id"
+		case2 = parse_gctx.get_ordered_idx("id", 
+			['LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666'], mg.col_metadata_df)
+		self.assertEqual(case2, [4], 
+			"Expected oredered idx to be {} but got {}".format([4], case2))
 
-		# case 3: idx list is supplied 
-		id_list3 = [1,0]
-		expected_sorted_idx_list3 = [0, 1]
-		sorted_idx_list3 = parse_gctx.get_ordered_idx(id_list3, mini_gctoo.col_metadata_df)
-		self.assertEqual(expected_sorted_idx_list3, sorted_idx_list3, 
-			"Expected idx list {} but found {}".format(expected_sorted_idx_list3, 
-				sorted_idx_list3))
+		# case 3: id_type == ridx 
+		case3 = parse_gctx.get_ordered_idx("idx", 
+			[5,1,3], mg.col_metadata_df)
+		self.assertEqual(case3, [1,3,5], 
+			"Expected oredered idx to be {} but got {}".format([1,3,5], case3))		
 
 	def test_parse_data_df(self):
 		mini_data_df = pd.DataFrame([[-0.283359, 0.011270],[0.304119, 1.921061],[0.398655, -0.144652]], 
