@@ -83,7 +83,7 @@ class TestWriteGctx(unittest.TestCase):
 			- write metadata (has '-666') to file, do not convert -666
 			- parse in written metadata, don't convert -666 
 		"""
-		mini_gctoo = mini_gctoo_for_testing.make()
+		mini_gctoo = mini_gctoo_for_testing.make(convert_neg_666=False)
 		hdf5_writer = h5py.File(FUNCTIONAL_TESTS_PATH + "/mini_gctoo_metadata.gctx", "w")
 		write_gctx.write_metadata(hdf5_writer, "row", mini_gctoo.row_metadata_df, False)
 		write_gctx.write_metadata(hdf5_writer, "col", mini_gctoo.col_metadata_df, False)
