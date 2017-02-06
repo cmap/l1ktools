@@ -19,13 +19,17 @@ __email__ = 'oana@broadinstitute.org'
 logger = logging.getLogger(setup_logger.LOGGER_NAME)
 
 
-def make():
+def make(convert_neg_666=True):
 	"""
 	Creates a small GCToo instance (with representative examples of typically found fields); can use for testing.
 	"""
 	# metadata examples; should be one of each type reasonable to find
-	id_vals = ["LJP007_MCF10A_24H:TRT_CP:BRD-K93918653:3.33", "MISC003_A375_24H:TRT_CP:BRD-K93918653:3.33" ,"LJP007_MCF7_24H:TRT_POSCON:BRD-K81418486:10", "LJP007_MCF7_24H:TRT_POSCON:BRD-A61304759:10", "LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666", "LJP007_MCF7_24H:TRT_CP:BRD-K64857848:10"]
-	count_cv = ["14|15|14","13|14|13", "13|15|14|14|15|14|14|13|14|15|15|14|14|15|14|15|14|14|15|14|15|14|14|14|14|14|14|15|14|14|15|14|14|14|14|13|14|14|14|14|14|14|15|14|13|13|15|14|14|15|14|14|14|15|13|13|15|13|14|13|13|14|14|14|14|13", "13", "13", "14"]
+	id_vals = ["LJP007_MCF10A_24H:TRT_CP:BRD-K93918653:3.33", "MISC003_A375_24H:TRT_CP:BRD-K93918653:3.33" ,
+		"LJP007_MCF7_24H:TRT_POSCON:BRD-K81418486:10", "LJP007_MCF7_24H:TRT_POSCON:BRD-A61304759:10", 
+		"LJP007_MCF7_24H:CTL_VEHICLE:DMSO:-666", "LJP007_MCF7_24H:TRT_CP:BRD-K64857848:10"]
+	count_cv = ["14|15|14","13|14|13", 
+		"13|15|14|14|15|14|14|13|14|15|15|14|14|15|14|15|14|14|15|14|15|14|14|14|14|14|14|15|14|14|15|14|14|14|14|13|14|14|14|14|14|14|15|14|13|13|15|14|14|15|14|14|14|15|13|13|15|13|14|13|13|14|14|14|14|13", 
+		"13", "13", "14"]
 	distil_ss = [9.822065353, 6.8915205, 1.35840559, 5.548898697, 3.355231762, 4.837643147]
 	zmad_ref = ["population", "population", "population", "population", "population", "population"]
 	distil_nsample = [3,3,66,2, 9, 111111]
@@ -39,9 +43,14 @@ def make():
 	mini_meta_dict["zmad_ref"] = zmad_ref
 	mini_meta_dict["distil_nsample"] = distil_nsample
 	mini_meta_dict["mfc_plate_id"] = mfc_plate_id
-	mini_row_metadata = pandas.DataFrame.from_dict(mini_meta_dict)
+	mini_row_metadata = pandas.DataFrame.from_dict(mini_meta_dict).astype(str)
+	mini_row_metadata = mini_row_metadata.apply(lambda x: pandas.to_numeric(x, errors="ignore"))
+	if convert_neg_666:
+		mini_row_metadata = mini_row_metadata.replace([-666, "-666", -666.0], [numpy.nan, numpy.nan, numpy.nan])
+	else:
+		mini_row_metadata = mini_row_metadata.replace([-666, -666.0], ["-666", "-666"]) 
 	# for now (at least) col and row metadata are the same
-	mini_col_metadata = pandas.DataFrame.from_dict(mini_meta_dict)
+	mini_col_metadata = mini_row_metadata.copy()
 
 	# data example values
 	r1 = [1,2,3,4,5,6]
@@ -52,7 +61,7 @@ def make():
 	r6 = [1,-2,3,-4,5,-6]
 
 	# build data dataframe
-	mini_data_mat = pandas.DataFrame([r1,r2,r3,r4,r5,r6])
+	mini_data_mat = pandas.DataFrame([r1,r2,r3,r4,r5,r6], dtype=numpy.float32)
 	mini_data_mat.index = id_vals
 	mini_data_mat.columns = id_vals
 
