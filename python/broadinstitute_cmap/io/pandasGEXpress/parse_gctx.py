@@ -103,6 +103,9 @@ def check_and_order_id_inputs(rid, ridx, cid, cidx, row_meta_df, col_meta_df):
 	(row_type, row_ids) = check_id_idx_exclusivity(rid, ridx)
 	(col_type, col_ids) = check_id_idx_exclusivity(cid, cidx)
 
+	row_ids = check_and_convert_ids(row_type, row_ids, row_meta_df)
+	col_ids = check_and_convert_ids(col_type, col_ids, col_meta_df)
+
 	ordered_ridx = get_ordered_idx(row_type, row_ids, row_meta_df)
 	ordered_cidx = get_ordered_idx(col_type, col_ids, col_meta_df)
 
@@ -119,17 +122,52 @@ def check_id_idx_exclusivity(id, idx):
 	Output: 
 		- a tuple: first element is subset type, second is subset content
 	"""
-	if (id != None and idx != None):
+	if (id is not None and idx is not None):
 		msg = ("'id' and 'idx' fields can't both not be None," +
 			" please specify slice in only one of these fields")
 		logger.error(msg)
 		raise Exception("parse_gctx.check_id_idx_exclusivity: " + msg)
-	elif id != None:
+	elif id is not None:
 		return ("id", id) 
-	elif idx != None:
+	elif idx is not None:
 		return ("idx", idx) 
 	else: 
 		return (None, [])
+
+def check_and_convert_ids(id_type, id_list, meta_df):
+	if id_type == "id":
+		id_list = convert_ids_to_meta_type(id_list, meta_df)
+		check_id_validity(id_list, meta_df)
+	else:
+		check_idx_validity(id_list, meta_df)
+	
+	return id_list
+
+def check_id_validity(id_list, meta_df):
+	id_set = set(id_list)
+	meta_set = set(meta_df.index)
+	mismatch_ids = id_set - meta_set
+	if len(mismatch_ids) > 0:
+		msg = "some of the ids being used to subset the data are not present in the metadata for the file being parsed - mismatch_ids:  {}".format(mismatch_ids)
+		logger.error(msg)
+		raise Exception("parse_gctx check_id_validity " + msg)
+
+def check_idx_validity(id_list, meta_df):
+	N = meta_df.shape[0]
+	out_of_range_ids = [my_id for my_id in id_list if my_id < 0 or my_id >= N]
+	if len(out_of_range_ids):
+		msg = "some of indexes being used to subset the data are not valid max N:  {}  out_of_range_ids:  {}".format(N, out_of_range_ids)
+		logger.error(msg)
+		raise Exception("parse_gctx check_idx_validity " + msg)
+
+def convert_ids_to_meta_type(id_list, meta_df):
+	try:
+		return pd.Series(id_list).astype(meta_df.index.dtype).values
+	except ValueError as ve:
+		id_list_types = set([type(x) for x in id_list])
+		msg = "The type of the id_list (rid or cid) being used to subset the data is not compatible with the metadata id's in the file.  Types found - meta_df.index.dtype:  {}  id_list_types:  {}".format(meta_df.index.dtype, id_list_types)
+		logger.error(msg)
+		raise Exception("parse_gctx check_if_ids_in_meta " + msg + "  ValueError ve:  {}".format(ve))
 
 def get_ordered_idx(id_type, id_list, meta_df):
 	"""
@@ -142,7 +180,7 @@ def get_ordered_idx(id_type, id_list, meta_df):
 	Output:
 		- a sorted list of indexes to subset a dimension by
 	"""
-	if id_type == None:
+	if id_type is None:
 		id_list = range(0, len(list(meta_df.index)))
 	elif id_type == "id":
 		id_list = [list(meta_df.index).index(i) for i in id_list]

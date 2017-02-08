@@ -28,7 +28,6 @@ col_meta_group_node = "/0/META/COL"
 
 class TestParseGctx(unittest.TestCase):
 	def test_parse(self):
-		
 		# parse whole thing 
 		mg1 = mini_gctoo_for_testing.make()
 		mg2 = parse_gctx.parse("functional_tests/mini_gctoo_for_testing.gctx")
@@ -112,6 +111,23 @@ class TestParseGctx(unittest.TestCase):
 		assert_frame_equal(mg7.data_df, mg10.data_df)
 		assert_frame_equal(mg7.row_metadata_df, mg10.row_metadata_df)
 		assert_frame_equal(mg7.col_metadata_df, mg10.col_metadata_df)			
+
+	def test_parse_rid_as_entrez_id(self):
+		input_file = "functional_tests/test_parse_gctx_rid_entrez_id.gctx"
+		g = parse_gctx.parse(input_file)
+		self.assertEqual((5,5), g.data_df.shape)
+		logger.debug("g.data_df.index:  {}".format(g.data_df.index))
+
+		my_rids = [5720, 55847, 7416]
+		g = parse_gctx.parse(input_file, rid=my_rids)
+		self.assertEqual((3,5), g.data_df.shape)
+		logger.debug("g.data_df.index:  {}".format(g.data_df.index))
+
+		my_rids = [str(x) for x in my_rids]
+		logger.debug("using rid as str (mismatched type) - my_rids:  {}".format(my_rids))
+		g = parse_gctx.parse(input_file, rid=my_rids)
+		self.assertEqual((3,5), g.data_df.shape)
+		logger.debug("g.data_df.index:  {}".format(g.data_df.index))
 
 	def test_check_and_order_id_inputs(self):
 		ridx = [0,1]
@@ -248,8 +264,63 @@ class TestParseGctx(unittest.TestCase):
 		assert_frame_equal(mini_data_df.iloc[[0,1,2],[0]], data_df4, 
 			check_exact=False, check_less_precise = True)
 	
-
 		mini_gctx.close()
+
+	def test_convert_ids_to_meta_type(self):
+		#happy path
+		id_list = range(3)
+		self.assertEqual(int, type(id_list[0]))
+		df = pd.DataFrame({}, index=pd.Series(range(1,4)).astype(np.int64))
+		r = parse_gctx.convert_ids_to_meta_type(id_list, df)
+		logger.debug("conversion from regular int to numpy int64 - type(r[0]):  {}".format(type(r[0])))
+		self.assertEqual(np.int64, type(r[0]))
+
+		id_list = [str(i) for i in xrange(3)]
+		r = parse_gctx.convert_ids_to_meta_type(id_list, df)
+		logger.debug("conversion from str to numpy int64 - type(r[0]):  {}".format(type(r[0])))
+		self.assertEqual(np.int64, type(r[0]))
+
+		#unhappy path 
+		id_list[0] = "a"
+		with self.assertRaises(Exception) as context:
+			parse_gctx.convert_ids_to_meta_type(id_list, df)
+		logger.debug("context.exception:  {}".format(context.exception))
+		self.assertIn("The type of the id_list (rid or cid) being used to subset the data is not compatible with the metadata id's in the file",
+			str(context.exception))
+
+	def test_check_idx_validity(self):
+		id_list = range(3)
+		df = pd.DataFrame({}, index=range(5))
+		logger.debug("df.shape:  {}".format(df.shape))
+		parse_gctx.check_idx_validity(id_list, df)
+
+		id_list[0] = -1
+		with self.assertRaises(Exception) as context:
+			parse_gctx.check_idx_validity(id_list, df)
+		logger.debug("context.exception:  {}".format(context.exception))
+		self.assertIn("some of indexes being used to subset the data are not valid", str(context.exception))
+		self.assertIn("[-1]", str(context.exception))
+
+		invalid_high = df.shape[0] + 1
+		id_list[0] = invalid_high
+		with self.assertRaises(Exception) as context:
+			parse_gctx.check_idx_validity(id_list, df)
+		logger.debug("context.exception:  {}".format(context.exception))
+		self.assertIn("some of indexes being used to subset the data are not valid", str(context.exception))
+		self.assertIn("[{}]".format(invalid_high), str(context.exception))
+
+	def test_check_id_validity(self):
+		id_list = ["a", "b", "c"]
+		df = pd.DataFrame({}, index=["a", "b", "c", "d"])
+		parse_gctx.check_id_validity(id_list, df)
+		
+		id_list[0] = "z"
+		with self.assertRaises(Exception) as context:
+			parse_gctx.check_id_validity(id_list, df)
+		logger.debug("context.exception:  {}".format(context.exception))
+		self.assertIn("some of the ids being used to subset the data are not present in the metadata for the file being parsed",
+			str(context.exception))
+
 
 if __name__ == "__main__":
 	setup_logger.setup(verbose=True)
