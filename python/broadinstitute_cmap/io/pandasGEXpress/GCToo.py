@@ -204,6 +204,7 @@ class GCToo(object):
         self.logger.debug("Data df shape: {}".format(self.data_df.shape))
         self.multi_index_df = pd.DataFrame(data=self.data_df.values, index=row_index, columns=col_index)
 
+
 def multi_index_df_to_component_dfs(multi_index_df, rid="rid", cid="cid"):
     """ Convert a multi-index df into 3 component dfs. """
 
@@ -211,17 +212,40 @@ def multi_index_df_to_component_dfs(multi_index_df, rid="rid", cid="cid"):
     rids = list(multi_index_df.index.get_level_values(rid))
     cids = list(multi_index_df.columns.get_level_values(cid))
 
-    # Drop rid and cid because they won't go into the body of the metadata
-    mi_df_index = multi_index_df.index.droplevel(rid)
-    mi_df_columns = multi_index_df.columns.droplevel(cid)
+    # It's possible that the index and/or columns of multi_index_df are not
+    # actually multi-index; need to check for this
+    if isinstance(multi_index_df.index, pd.core.index.MultiIndex):
 
-    # Names of the multiindex become the headers
-    rhds = list(mi_df_index.names)
-    chds = list(mi_df_columns.names)
+        # If so, drop rid because it won't go into the body of the metadata
+        mi_df_index = multi_index_df.index.droplevel(rid)
 
-    # Assemble metadata values
-    row_metadata = np.array([mi_df_index.get_level_values(level).values for level in list(rhds)]).T
-    col_metadata = np.array([mi_df_columns.get_level_values(level).values for level in list(chds)]).T
+        # Names of the multiindex levels become the headers
+        rhds = list(mi_df_index.names)
+
+        # Assemble metadata values
+        row_metadata = np.array([mi_df_index.get_level_values(level).values for level in list(rhds)]).T
+
+    # If the index is not multi-index, then rhds and row metadata should be empty
+    else:
+        rhds = []
+        row_metadata = []
+
+    # Check if columns of multi_index_df are in fact multi-index
+    if isinstance(multi_index_df.columns, pd.core.index.MultiIndex):
+
+        # If so, drop cid because it won't go into the body of the metadata
+        mi_df_columns = multi_index_df.columns.droplevel(cid)
+
+        # Names of the multiindex levels become the headers
+        chds = list(mi_df_columns.names)
+
+        # Assemble metadata values
+        col_metadata = np.array([mi_df_columns.get_level_values(level).values for level in list(chds)]).T
+
+    # If the columns are not multi-index, then rhds and row metadata should be empty
+    else:
+        chds = []
+        col_metadata = []
 
     # Create component dfs
     row_metadata_df = pd.DataFrame.from_records(row_metadata, index=pd.Index(rids, name="rid"), columns=pd.Index(rhds, name="rhd"))
@@ -229,6 +253,3 @@ def multi_index_df_to_component_dfs(multi_index_df, rid="rid", cid="cid"):
     data_df = pd.DataFrame(multi_index_df.values, index=pd.Index(rids, name="rid"), columns=pd.Index(cids, name="cid"))
 
     return data_df, row_metadata_df, col_metadata_df
-
-
-
