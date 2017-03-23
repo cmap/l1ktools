@@ -174,8 +174,7 @@ class TestParseGctx(unittest.TestCase):
 	def test_parse_metadata_df(self):
 		mini_gctoo = mini_gctoo_for_testing.make()
 		# convert row_metadata to np.nan
-		mini_row_meta = mini_gctoo.row_metadata_df.replace([-666, "-666", -666.0], 
-			[np.nan, np.nan, np.nan])
+		mini_row_meta = mini_gctoo.row_metadata_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
 
 		gctx_file = h5py.File("functional_tests/mini_gctoo_for_testing.gctx", "r")
 		row_dset = gctx_file[row_meta_group_node]
@@ -189,6 +188,29 @@ class TestParseGctx(unittest.TestCase):
 		mini_gctoo_with_neg_666 = mini_gctoo_for_testing.make(convert_neg_666=False)
 		col_df = parse_gctx.parse_metadata_df("col", col_dset, False)
 		assert_frame_equal(mini_gctoo_with_neg_666.col_metadata_df, col_df)
+
+	def test_replace_666(self):
+		# convert_neg_666 is True
+		row_df = pd.DataFrame([[3, "a"], [-666, "c"], ["-666", -666.0]],
+							  index=["r1", "r2", "r3"], columns=["rhd1", "rhd2"])
+		e_df = pd.DataFrame([[3, "a"], [np.nan, "c"], [np.nan, np.nan]],
+							  index=["r1", "r2", "r3"], columns=["rhd1", "rhd2"])
+		out_df = parse_gctx.replace_666(row_df, convert_neg_666=True)
+		self.assertTrue(e_df.equals(out_df))
+
+		# convert_neg_666 is False
+		e_df2 = pd.DataFrame([[3, "a"], ["-666", "c"], ["-666", "-666"]],
+							  index=["r1", "r2", "r3"], columns=["rhd1", "rhd2"])
+		out_df2 = parse_gctx.replace_666(row_df, convert_neg_666=False)
+		self.assertTrue(e_df2.equals(out_df2))
+
+		# edge case: if row meta is 1 column of floats
+		row_df3 = pd.DataFrame([[3], [-666], [-666.0]],
+							   index=["r1", "r2", "r3"], columns=["rhd3"])
+		e_df3 = pd.DataFrame([[3], [np.nan], [np.nan]],
+							   index=["r1", "r2", "r3"], columns=["rhd3"])
+		out_df3 = parse_gctx.replace_666(row_df3, convert_neg_666=True)
+		self.assertTrue(e_df3.equals(out_df3))
 
 	def test_set_metadata_index_and_column_names(self):
 		mini_gctoo = mini_gctoo_for_testing.make()
