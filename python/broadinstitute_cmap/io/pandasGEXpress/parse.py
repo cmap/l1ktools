@@ -50,7 +50,9 @@ def parse(file_path, convert_neg_666=True, rid=None, cid=None, ridx=None, cidx=N
 	elif file_path.endswith(".gctx"):
 		curr = parse_gctx.parse(file_path, convert_neg_666, rid, cid, ridx, cidx, meta_only, make_multiindex)
 	else:
-		logger.error("File to parse must be .gct or .gctx!")
+		msg="File to parse must be .gct or .gctx! file_path: {}".format(file_path)
+		logger.error(msg)
+		raise(Exception(msg))
 	return curr 
 
 
