@@ -244,6 +244,23 @@ class TestGctoo(unittest.TestCase):
         self.assertTrue(row_df.equals(e_row_metadata_df))
         self.assertTrue(data_df.equals(e_data_df))
 
+        # edge case: if the index (or column) of the multi-index has only one
+        # level, it becomes a regular index
+        mi_df_index_plain = pd.MultiIndex.from_arrays(
+            [["D", "E"]], names=["rid"])
+        mi_df2 = pd.DataFrame(
+            [[1, 3, 5], [7, 11, 13]],
+            index=mi_df_index_plain, columns=mi_df_columns)
+
+        # row df should be empty
+        e_row_df2 = pd.DataFrame(index=["D", "E"])
+
+        (data_df2, row_df2, col_df2) = GCToo.multi_index_df_to_component_dfs(mi_df2)
+        self.assertTrue(row_df2.equals(e_row_df2))
+        self.assertTrue(col_df2.equals(e_col_metadata_df))
+        self.assertTrue(data_df2.equals(e_data_df))
+
+
 if __name__ == "__main__":
     setup_GCToo_logger.setup(verbose=True)
 

@@ -220,12 +220,29 @@ def parse_metadata_df(dim, meta_group, convert_neg_666):
 	meta_df.set_index("id", inplace = True)
 	# set index and columns appropriately 
 	set_metadata_index_and_column_names(dim, meta_df)
-	# if specified, convert "-666" to np.nan
+
+	# Replace -666 and -666.0 with NaN; also replace "-666" if convert_neg_666 is True
+	meta_df = replace_666(meta_df, convert_neg_666)
+
+	return meta_df
+
+def replace_666(meta_df, convert_neg_666):
+	""" Replace -666, -666.0, and optionally "-666".
+
+	Args:
+	    meta_df (pandas df):
+	    convert_neg_666 (bool):
+
+	Returns:
+	    out_df (pandas df): updated meta_df
+
+	"""
 	if convert_neg_666:
-		meta_df = meta_df.replace([-666, "-666", -666.0], [np.nan, np.nan, np.nan])
+		out_df = meta_df.replace([-666, "-666", -666.0], np.nan)
 	else:
-		meta_df = meta_df.replace([-666, -666.0], ["-666", "-666"])
-	return meta_df 
+		out_df = meta_df.replace([-666, -666.0], "-666")
+
+	return out_df
 
 def set_metadata_index_and_column_names(dim, meta_df):	
 	"""
