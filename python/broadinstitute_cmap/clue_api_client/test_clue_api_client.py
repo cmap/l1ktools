@@ -22,18 +22,18 @@ test_status = "my fake status"
 class TestClueApiClient(unittest.TestCase):
     def test_run_query(self):
         #get one gene
-        r = cao.run_filter_query("genes", {"where":{"pr_gene_id":5720}})
+        r = cao.run_filter_query("cells", {"where":{"cell_id":"A375"}})
         self.assertIsNotNone(r)
         logger.debug("len(r):  {}".format(len(r)))
         logger.debug("r:  {}".format(r))
-        self.assertEqual(1, len(r))
+        self.assertLess(0, len(r))
 
         #get multiple genes
-        r = cao.run_filter_query("genes", {"where":{"pr_gene_id":{"inq":[5720,207]}}})
+        r = cao.run_filter_query("cells", {"where":{"cell_id":{"inq":["A375", "A549"]}}})
         self.assertIsNotNone(r)
         logger.debug("len(r):  {}".format(len(r)))
         logger.debug("r:  {}".format(r))
-        self.assertEqual(2, len(r))
+        self.assertLess(1, len(r))
 
         r = cao.run_filter_query("perts", {"where":{"pert_id":"BRD-K12345678"}})
         self.assertIsNotNone(r)
