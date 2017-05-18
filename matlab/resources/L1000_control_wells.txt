@@ -1,5 +1,0 @@
-rna_well	pert_type	pert_mfc_desc	pert_id
-A01	lma_x	BO	CMAP-001
-A02	lma_x	RMCF7	CMAP-002
-B01	lma_x	PMCF7	CMAP-003
-B02	lma_x	RMCF7	CMAP-002
